@@ -13,10 +13,10 @@ public class User {
 	private Gender gender;
 	private LocalDate birthDate;	
 	private Role role;
-	private ArrayList<String> customerOrders;	//sve porudzbine za kupca
+	private ArrayList<Order> customerOrders;	//sve porudzbine za kupca
 	private Basket basket;  //za kupca
 	private Restaurant restaurant; //za menadzera
-	private ArrayList<String> deliveryOrders; //za dostavljaca
+	private ArrayList<Order> deliveryOrders; //za dostavljaca
 	private int customerPoints; //za kupca
 	private UserType userType;
 	

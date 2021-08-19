@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Basket {
 
-	private ArrayList<String> basketArticles;
+	private ArrayList<Article> basketArticles;
 	private User user;
 	private double basketPrice;
 	
