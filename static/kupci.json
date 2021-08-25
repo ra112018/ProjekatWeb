@@ -1,0 +1,18 @@
+[
+	{
+		"userName": "maja",
+		"password": "123",
+		"name": "Maja",
+		"surname": "Marković",
+		"gender": "Female",
+		"role": "Customer"
+	},
+	{
+		"userName": "pera",
+		"password": "1234",
+		"name": "Petar",
+		"surname": "Petrović",
+		"gender": "Male",
+		"role": "Customer"
+	}
+]

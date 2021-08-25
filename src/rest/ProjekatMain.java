@@ -24,8 +24,9 @@ public class ProjekatMain {
 		port(8080);
 		
 		String sr;
-		staticFiles.externalLocation(sr=new File("./static/html").getCanonicalPath()); 
+		staticFiles.externalLocation(sr=new File("./static").getCanonicalPath()); 
 		System.out.println(sr);
+		
 		get("/test", (req, res) -> {
 			return "Works";
 		});
