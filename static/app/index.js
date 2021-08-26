@@ -5,8 +5,12 @@ Vue.component("home-page", {
 		    }
 	},
 	template: ` 
-	<div><a href="#/login">Prijavi se</a></div>
-	  
+	<div>
+	&nbsp;
+		<a href="#/login">Prijavi se</a>
+		&nbsp;&nbsp;
+		<a href="#/register">Registruj se</a>
+	</div>
 `
 	, 
 	methods : {
