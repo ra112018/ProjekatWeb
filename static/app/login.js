@@ -1,26 +1,30 @@
-<html>
-    <head>
-        <title>Brzi - Dostava hrane iz najboljih restorana</title>
-        <meta charset="utf-8">
-	<link href="css/prijava.css" rel="stylesheet" type="text/css" />
-
-        
-    </head>
-
-    <body>
-        <header>
-            <span>
-            <a href="prva.html">
-                  <img class="logo" src="img/foodD.png"/></a>
-                  <h1 class="title"> Brzi - Dostava hrane iz najboljih restorana </h1> 
-                 
-            </span> 
-       </header>
-
-       <p class="naslov"><b>Prijavite se na svoj nalog</b></p>
-       <p class="napomena"> *Sva polja su obavezna</p>
-        
-            <form id="prijava">
+Vue.component("login", {
+	name: "login",
+	data: function(){
+		return {
+			userName: null,
+			password: null
+		};
+	},
+	methods: {
+		login(e){
+			axios
+				.post('/login',{},{params:{username: this.userName, password:this.passWord}})
+				.then(function(response){
+					if(JSON.parse(JSON.stringify(response.data))[0]===" "){
+						alert("Pogresan unos korisnickog imena ili lozinke");
+					}else{
+						localStorage.setItem("name", JSON.parse(JSON.stringify(response.data))[0]);
+						localStorage.setItem("role", JSON.parse(JSON.stringify(response.data))[1]);
+					}
+				})
+		}
+	},
+	template:`
+	<p class="naslov"><b>Prijavite se na svoj nalog</b></p>
+    <p class="napomena"> *Sva polja su obavezna</p>
+       
+		<form id="login">
                 <table>
                     
                     <tbody>
@@ -46,9 +50,6 @@
                         
                     </tbody>
                 </table>
-            </form>
-      
-
-
-    </body>
-</html>
+            </form>`,
+		
+});

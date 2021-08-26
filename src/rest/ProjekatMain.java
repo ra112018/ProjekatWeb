@@ -33,10 +33,10 @@ public class ProjekatMain {
 		
 		
 
-		get("/prijava", (req, res) -> {
+	/*	get("/login", (req, res) -> {
 			res.redirect("/prijava.html");
 			return "Works";
-		});
+		});*/
 		
 		
 		
