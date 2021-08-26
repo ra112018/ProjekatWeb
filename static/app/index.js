@@ -5,12 +5,12 @@ Vue.component("home-page", {
 		    }
 	},
 	template: ` 
-	<div><button onclick="#/login">Prijavi se</button></div>
+	<div><a href="#/login">Prijavi se</a></div>
 	  
 `
 	, 
 	methods : {
 		},
 	mounted () {
-            },
+            }
 });

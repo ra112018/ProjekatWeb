@@ -20,11 +20,11 @@ Vue.component("login", {
 				})
 		}
 	},
-	template:`
+	template: `<div>
 	<p class="naslov"><b>Prijavite se na svoj nalog</b></p>
-    <p class="napomena"> *Sva polja su obavezna</p>
+	<p class="napomena"> *Sva polja su obavezna</p>
        
-		<form id="login">
+		<form>
                 <table>
                     
                     <tbody>
@@ -50,6 +50,6 @@ Vue.component("login", {
                         
                     </tbody>
                 </table>
-            </form>`,
+            </form></div> `
 		
 });
