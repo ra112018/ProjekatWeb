@@ -9,7 +9,7 @@ public class Order {
 	private String idOrder;
 	private ArrayList<Article> articles;
 	private Restaurant restaurant;
-	private LocalDateTime timeOfOrder; 
+	private String timeOfOrder; 
 	private double price;
 	private User user; //samo ime i prezime treba  // misli se samo na kupca
 	private OrderStatus orderStatus;

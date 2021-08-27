@@ -39,7 +39,7 @@ private HashMap<String,Buyer> buyers;
 	public Buyer findBuyer(String name, String pass) {
 		// TODO Auto-generated method stub
 		 for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
-	            if(entry.getValue().getUsername().equals(name) && entry.getValue().getPassword().equals(pass) ) {
+	            if(entry.getValue().getUserName().equals(name) && entry.getValue().getPassword().equals(pass) ) {
 	            	System.out.println("Nasao");
 	                return entry.getValue();
 	            }

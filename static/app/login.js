@@ -2,14 +2,16 @@ Vue.component("login", {
 	name: "login",
 	data: function(){
 		return {
-			userName: null,
-			password: null,
+			usName: null,
+			usPass: null,
 			showErrorMessage: false,
 
 		};
 	},
 	methods: {
-		login(e){
+		login: function (e){ 
+    	  e.preventDefault();
+     		 this.errors = null;
 			axios
 				.post('/login',{},{params:{userName: this.usName, password:this.usPass}})
 				.then(function(response){
@@ -18,6 +20,8 @@ Vue.component("login", {
 					}else{
 						localStorage.setItem("name", JSON.parse(JSON.stringify(response.data))[0]);
 						localStorage.setItem("role", JSON.parse(JSON.stringify(response.data))[1]);
+						router.replace({ path: `/success` })
+						
 					}
 				})
 		}
@@ -26,7 +30,7 @@ Vue.component("login", {
 	<p class="naslov"><b>Prijavite se na svoj nalog</b></p>
 	<p class="napomena"> *Sva polja su obavezna</p>
        
-		<form @submit="login" action="#/success">
+		<form @submit="login">
                 <table>
                     
                     <tbody>

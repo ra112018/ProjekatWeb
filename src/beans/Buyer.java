@@ -12,16 +12,7 @@ public class Buyer extends User {
 	public Buyer() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return userName;
-	}
-
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return password;
-	}
+	
 
 
 }
