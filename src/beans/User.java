@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class User {
+public abstract class User {
 
 	public String userName;
 	public String password;

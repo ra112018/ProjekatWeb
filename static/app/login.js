@@ -37,11 +37,11 @@ Vue.component("login", {
                             
                             <tr>
                                 <td> Korisničko ime: </td>
-                                <td> <input type="text" required v-model="usName"/> </td>
+                                <td> <input type="text" placeholder="Unesite korisničko ime" required v-model="usName"/> </td>
                             </tr>
                             <tr>
                                 <td> Lozinka: </td>
-                                <td> <input type="password"  required v-model="usPass"/> </td>
+                                <td> <input type="password" placeholder="Unesite lozinku" required v-model="usPass"/> </td>
                             </tr>
 
                             <tr>

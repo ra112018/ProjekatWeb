@@ -1,7 +1,7 @@
 body {
                 background-color: lightyellow;
             }
-#prijava{
+.prijava{
                 margin-top: 2%;
                 margin-left: 2%;
             }
@@ -79,4 +79,7 @@ input {
 .tabela{
                 margin-left: 2%;
             }
-
+.tabelaKorpe, th,td{
+				border:1px solid orange;
+                margin-left: 2%;
+	}
