@@ -39,3 +39,44 @@ input {
                 margin-top: 2%;
                 margin-left: 2%;
             }
+ body {
+                background-color: lightyellow;
+            }
+
+.naslov{
+                text-align: left;
+                font-size: x-large;
+                color:rgb(85, 85, 85);
+                margin-left: 2%;
+            }
+.vertical-menu {
+                float: right;
+                width: 30%; 
+            }
+
+.vertical-menu a {
+                
+                background-color: rgba(238, 238, 238, 0.719); /* Grey background color */
+                color: black; /* Black text color */
+                display: block; /* Make the links appear below each other */
+                padding: 12px; /* Add some padding */
+                text-decoration: none; /* Remove underline from links */
+            }
+
+.vertical-menu a:hover {
+                background-color: #ccc; /* Dark grey background on mouse-over */
+            }
+
+.vertical-menu a.active {
+                background-color: rgba(247, 81, 21, 0.767); /* Add a green color to the "active/current" link */
+                color: white;
+            }
+            
+.p1{
+                text-align: left;
+                margin-left: 2%;
+            }
+.tabela{
+                margin-left: 2%;
+            }
+

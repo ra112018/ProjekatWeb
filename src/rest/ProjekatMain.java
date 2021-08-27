@@ -35,18 +35,15 @@ public class ProjekatMain {
 		});
 		
 		post("/login", (req, res)-> {
-            String name  = req.queryParams("username");
+            String name  = req.queryParams("userName");
             String pass = req.queryParams("password");
             BuyerDao buyer=new BuyerDao();
             Gson g=new Gson();
-            String userN = " ";
+            System.out.println("Ne otvara");
             ArrayList<String> response = new ArrayList<String>();
             if(buyer.findBuyer(name, pass) != null) {
-                    userN = name;
-                    response.add(userN);
-                    response.add("buyer");
+                    response.add(name);
             }
-            response.add(userN);
             return g.toJson(response);
         });
 		

@@ -3,13 +3,15 @@ Vue.component("login", {
 	data: function(){
 		return {
 			userName: null,
-			password: null
+			password: null,
+			showErrorMessage: false,
+
 		};
 	},
 	methods: {
 		login(e){
 			axios
-				.post('/login',{},{params:{username: this.userName, password:this.passWord}})
+				.post('/login',{},{params:{userName: this.usName, password:this.usPass}})
 				.then(function(response){
 					if(JSON.parse(JSON.stringify(response.data))[0]===" "){
 						alert("Pogresan unos korisnickog imena ili lozinke");
@@ -24,7 +26,7 @@ Vue.component("login", {
 	<p class="naslov"><b>Prijavite se na svoj nalog</b></p>
 	<p class="napomena"> *Sva polja su obavezna</p>
        
-		<form>
+		<form @submit="login" action="#/success">
                 <table>
                     
                     <tbody>
@@ -39,7 +41,7 @@ Vue.component("login", {
                             </tr>
                             <tr>
                                 <td> Lozinka: </td>
-                                <td> <input type="password" required v-model="usPass"/> </td>
+                                <td> <input type="password"  required v-model="usPass"/> </td>
                             </tr>
 
                             <tr>

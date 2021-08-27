@@ -1,4 +1,4 @@
-[
+{ "maja":
 	{
 		"userName": "maja",
 		"password": "123",
@@ -7,6 +7,7 @@
 		"gender": "Female",
 		"role": "Customer"
 	},
+	"pera":
 	{
 		"userName": "pera",
 		"password": "1234",
@@ -15,4 +16,5 @@
 		"gender": "Male",
 		"role": "Customer"
 	}
-]
+
+}

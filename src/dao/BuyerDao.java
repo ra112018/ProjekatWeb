@@ -13,8 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import beans.Buyer;
 
 public class BuyerDao {
-	private static Gson g = new Gson();
-    private static BuyerDao buyerD = new BuyerDao();
+
 private HashMap<String,Buyer> buyers;
 
     public BuyerDao() {
@@ -32,6 +31,7 @@ private HashMap<String,Buyer> buyers;
         Type token = new TypeToken<HashMap<String,Buyer>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/kupci.json"));
         this.buyers = gson.fromJson(br, token);
+        System.out.println(this.buyers);
     }
 
    
@@ -40,6 +40,7 @@ private HashMap<String,Buyer> buyers;
 		// TODO Auto-generated method stub
 		 for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
 	            if(entry.getValue().getUsername().equals(name) && entry.getValue().getPassword().equals(pass) ) {
+	            	System.out.println("Nasao");
 	                return entry.getValue();
 	            }
 	        }
