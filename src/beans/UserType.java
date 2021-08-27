@@ -6,5 +6,8 @@ public class UserType {
 	private double percentage;
 	private int pointsNeeded;
 	
-	public UserType() {}
+	public UserType() {
+		userTypeName=UserTypeName.Bronze;
+	}
+
 }

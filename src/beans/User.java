@@ -15,7 +15,6 @@ public abstract class User {
 	private Role role;
 	private Restaurant restaurant; //za menadzera
 	private ArrayList<Order> deliveryOrders; //za dostavljaca
-	private UserType userType;
 	
 	public User() {}
 
@@ -91,11 +90,5 @@ public abstract class User {
 		this.deliveryOrders = deliveryOrders;
 	}
 
-	public UserType getUserType() {
-		return userType;
-	}
-
-	public void setUserType(UserType userType) {
-		this.userType = userType;
-	}
+	
 }

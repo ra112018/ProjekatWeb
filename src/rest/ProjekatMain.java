@@ -10,7 +10,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import beans.Buyer;
 import dao.BuyerDao;
 import spark.Request;
 import spark.Service.StaticFiles;
@@ -33,10 +35,8 @@ public class ProjekatMain {
 		});
 		
 		post("/login", (req, res)-> {
-            System.out.println("Nece");
             String name  = req.queryParams("userName");
             String pass = req.queryParams("password");
-            System.out.println("Ne otvara");
 			String korisnicko = " ";
 
             ArrayList<String> response = new ArrayList<String>();
@@ -50,6 +50,17 @@ public class ProjekatMain {
             response.add(korisnicko);
             return g.toJson(response);
         });
+		
+		post("/register", (req, res)-> {
+			String reqBody = req.body();
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			Buyer buyerReg = gsonReg.fromJson(reqBody, Buyer.class);
+			buyer.addBuyer(buyerReg);
+			return true;
+			
+		});
+		
 		
 		
 		
