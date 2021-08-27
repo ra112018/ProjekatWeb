@@ -8,7 +8,12 @@ Vue.component("basket", {
 	methods: {
 		
 	},
-	template: `<div>	 <div class="vertical-menu">
+	template: `<div>
+	 <div class="maliHeder">
+		<a href="#/">
+		<button style="font-size: 100%;">Odjavi se</button></a>
+	</div>
+	 <div class="vertical-menu">
         <a href="#/buyerProfile">Moj profil</a>
         <a href="#">Restorani</a>
         <a href="#/orders">Porudžbine</a>

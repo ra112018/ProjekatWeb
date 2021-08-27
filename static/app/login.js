@@ -30,7 +30,7 @@ Vue.component("login", {
 	<p class="naslov"><b>Prijavite se na svoj nalog</b></p>
 	<p class="napomena"> *Sva polja su obavezna</p>
        
-		<form @submit="login">
+		<form @submit="login" class="prijava">
                 <table>
                     
                     <tbody>

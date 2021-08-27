@@ -26,16 +26,15 @@ body {
                 margin-left: 2%;
 }
             
-input {
-                margin-left: 2%;
-  }
+
+               
 .napomena {
                 text-align: left;
                 margin-left: 2%;
                 color: rgba(247, 81, 21, 0.767);  
                 margin-top: -1.25%;
             }
-.registracija{
+.registracija {
                 margin-top: 2%;
                 margin-left: 2%;
             }
@@ -78,8 +77,31 @@ input {
             }
 .tabela{
                 margin-left: 2%;
+               
             }
 .tabelaKorpe, th,td{
 				border:1px solid orange;
                 margin-left: 2%;
+                
 	}
+.tabelaPorudzbine{
+		display: block;
+		margin-left:2%;
+}
+.maliHeder	{
+		padding: 1%;
+  		text-align: right;
+  		background: lightgray;
+  		margin-bottom: 1%;
+	
+	}
+.pretraga {
+		
+		margin-left:1%;
+		
+}
+.pretragaRegistracija {
+		margin-left: 1%;
+		color: black;
+		font-size: large;
+}

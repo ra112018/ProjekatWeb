@@ -9,6 +9,10 @@ Vue.component("updateProfile", {
 		
 	},
 	template: `<div>
+	<div class="maliHeder">
+		<a href="#/">
+		<button style="font-size: 100%;">Odjavi se</button></a>
+	</div>
 	<div class="vertical-menu">
         <a href="#/buyerProfile" class="active">Moj profil</a>
         <a href="#">Restorani</a>
