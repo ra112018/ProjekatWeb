@@ -19,7 +19,7 @@ import beans.UserType;
 
 public class BuyerDao {
 
-private HashMap<String,Buyer> buyers;
+private static HashMap<String,Buyer> buyers;
 
     public BuyerDao() {
 
@@ -35,8 +35,8 @@ private HashMap<String,Buyer> buyers;
         Gson gson = new Gson();
         Type token = new TypeToken<HashMap<String,Buyer>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/kupci.json"));
-        this.buyers = gson.fromJson(br, token);
-        System.out.println(this.buyers);
+        BuyerDao.buyers = gson.fromJson(br, token);
+        System.out.println(BuyerDao.buyers);
     }
 
    
@@ -45,7 +45,6 @@ private HashMap<String,Buyer> buyers;
 		// TODO Auto-generated method stub
 		 for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
 	            if(entry.getValue().getUserName().equals(name) && entry.getValue().getPassword().equals(pass) ) {
-	            	System.out.println("Nasao");
 	                return entry.getValue();
 	            }
 	        }
@@ -67,13 +66,38 @@ private HashMap<String,Buyer> buyers;
 		}
 		return buyer;
 	}
-	public void addAccount() throws IOException{
+	public static void addAccount() throws IOException{
 		Gson gson = new Gson();
 		FileWriter fw = new FileWriter("static/kupci.json");
-		gson.toJson(this.buyers, fw);
+		gson.toJson(BuyerDao.buyers, fw);
 		fw.flush();
 		fw.close();
 	}
+	public static Buyer findBuyerByUsername(String uName) {
+		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(uName) ) {
+	        	return entry.getValue();
+	        }
+	    }
+		return null;
+	}
+	public static void updateBuyer(String usname, Buyer buyer) {
+		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(usname) ) {
+	        	entry.getValue().setName(buyer.getName());
+	        	entry.getValue().setSurname(buyer.getSurname());
+	        	entry.getValue().setGender(buyer.getGender());
+	        	entry.getValue().setPassword(buyer.getPassword());
+	        }
+	    }
+		try {
+			addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 
 	
 }

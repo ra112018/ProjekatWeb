@@ -2,11 +2,15 @@ Vue.component("success", {
 	name: "success",
 	data: function(){
 		return {
-			
+		username:"",
+        role:""
 		};
 	},
 	methods: {
-		
+		mounted: function(){
+              this.username = window.localStorage.getItem('username');
+              this.role = window.localStorage.getItem('role');
+            },
 	},
 	template: `<div>	 
 	<div class="maliHeder">

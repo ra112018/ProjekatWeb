@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import beans.Buyer;
+import beans.User;
 import dao.BuyerDao;
 import spark.Request;
 import spark.Service.StaticFiles;
@@ -60,7 +61,32 @@ public class ProjekatMain {
 			return true;
 			
 		});
+		get("/account", (req, res)-> {
+			String uName =  req.queryParams("userName");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			User us = null;
+			us = BuyerDao.findBuyerByUsername(uName);
+			if(us != null) {
+				return gsonReg.toJson(us);
+			}
+			return gsonReg.toJson(us);
 		
+		});
+
+		post("/updateProfile", (req, res)-> {
+			String uName =  req.queryParams("userName");
+			String reqBody = req.body();
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			User us = null;
+			us = BuyerDao.findBuyerByUsername(uName);
+			System.out.println(us.getName());
+			if(us != null) {
+				Buyer buyer = gsonReg.fromJson(reqBody, Buyer.class);
+				BuyerDao.updateBuyer(uName,buyer);
+			}
+			return true;
+			
+		});
 		
 		
 		

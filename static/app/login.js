@@ -18,7 +18,7 @@ Vue.component("login", {
 					if(JSON.parse(JSON.stringify(response.data))[0]===" "){
 						alert("Pogresan unos korisnickog imena ili lozinke");
 					}else{
-						localStorage.setItem("name", JSON.parse(JSON.stringify(response.data))[0]);
+						localStorage.setItem("username", JSON.parse(JSON.stringify(response.data))[0]);
 						localStorage.setItem("role", JSON.parse(JSON.stringify(response.data))[1]);
 						router.replace({ path: `/success` })
 						

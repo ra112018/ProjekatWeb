@@ -3,10 +3,41 @@ Vue.component("buyerProfile", {
 	data: function(){
 		return {
 			
+        password:null,
+        name: null,
+        lastName:null,
+        date:null,
+        gender:null,
+        showErrorMessage: false,
+        usName: null,
+        backup: {},
 		};
 	},
+	mounted: function(){
+        this.usName = window.localStorage.getItem('username');
+        axios.get('/account?userName='+this.usName)
+		.then(response => {
+            this.name = response.data.name;
+            this.usPass = response.data.password;
+            this.lastName = response.data.surname;
+            if(response.data.gender == "Male"){
+                this.gender = "Male";
+            }else{
+                this.gender = "Female";
+            }
+            this.date = response.data.birthDate;
+
+        });
+},
 	methods: {
+		update : function (e){
+			
+		localStorage.setItem("name", JSON.parse(JSON.stringify(response.data))[2]);
+		localStorage.setItem("lastName", JSON.parse(JSON.stringify(response.data))[3]);
+		router.replace({ path: `/update-profile` })
 		
+		}
+
 	},
 	template: `<div>
 	<div class="maliHeder">
@@ -27,33 +58,33 @@ Vue.component("buyerProfile", {
                 	<tr> </tr>
                     <tr>
                         <td> Korisničko ime: </td>
-                        <td> <input type="text" value="Mika123" disabled /> </td>
+                        <td> <input type="text" v-model="usName" disabled /> </td>
                     </tr>
                     <tr>
                         <td> Lozinka: </td>
-                        <td> <input type="password" value="12345" disabled/> </td>
+                        <td> <input type="password" v-model="usPass" disabled/> </td>
                     </tr>
                     <tr>
                         <td> Ime: </td>
-                        <td> <input type="text" value="Mika" disabled/> </td>
+                        <td> <input type="text" v-model="name" disabled/> </td>
                     </tr>
                     <tr>
                         <td> Prezime: </td>
-                        <td> <input type="text" value="Mikic" disabled/> </td>
+                        <td> <input type="text" v-model="lastName" disabled/> </td>
                     </tr>
                     <tr>
                         <td> Pol: </td>
-                        <td> <input type="radio"  name="pol" value="Muški" checked disabled/> <label>Muški</label> <input type="radio" name="pol" disabled /> <label> Ženski</label></td>
+                        <td> <input type="radio" value="Male" name="pol" v-model="gender" disabled/> <label>Muški</label> <input type="radio" value="Female" name="pol" v-model="gender" disabled /> <label> Ženski</label></td>
                     </tr>
                     <tr>
                         <td> Datum rođenja: </td>
-                        <td> <input type="date" value="2000-01-12" disabled/> </td>
+                        <td> <input type="date" v-model="date" disabled/> </td>
                     </tr>
 
                     <tr>
                         <td colspan="2" style="text-align: right;">
 						<a href="#/updateProfile">
-                        	<button> Izmeni</button>
+                        	<button v:on-click="update"> Izmeni</button>
 						</a>
                         </td>
                     </tr>
