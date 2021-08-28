@@ -11,6 +11,7 @@ Vue.component("buyerProfile", {
         showErrorMessage: false,
         usName: null,
         backup: {},
+		//decodeVar: null
 		};
 	},
 	mounted: function(){
@@ -38,7 +39,7 @@ Vue.component("buyerProfile", {
 
 	},
 	template: `<div>
-	<div class="maliHeder">
+		<div class="maliHeder">
 		<a href="#/">
 		<button style="font-size: 100%;">Odjavi se</button></a>
 	</div>

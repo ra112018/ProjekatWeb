@@ -45,6 +45,19 @@ Vue.component("home-page", {
 		</select>
 		
 		</div>
+	
+	<div class="grid">
+		
+			<img src="img/ciao.jpg" alt="Sample photo"/>
+		
+			<img src="img/milki-logo.png" alt="Sample photo"/>
+	
+			<img src="img/food1.jpg" alt="Sample photo"/>
+		
+			<img src="img/giros.jpg" alt="Sample photo"/>
+		
+	</div>
+	
 	</div>
 `
 	, 
