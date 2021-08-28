@@ -64,7 +64,7 @@ public class ProjekatMain {
 		get("/account", (req, res)-> {
 			String uName =  req.queryParams("userName");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			User us = null;
+			User us;
 			us = BuyerDao.findBuyerByUsername(uName);
 			if(us != null) {
 				return gsonReg.toJson(us);

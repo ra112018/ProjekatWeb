@@ -3,7 +3,7 @@ Vue.component("buyerProfile", {
 	data: function(){
 		return {
 			
-        password:null,
+        usPass:null,
         name: null,
         lastName:null,
         date:null,
@@ -26,15 +26,13 @@ Vue.component("buyerProfile", {
                 this.gender = "Female";
             }
             this.date = response.data.birthDate;
-
+			
         });
 },
 	methods: {
 		update : function (e){
 			
-		localStorage.setItem("name", JSON.parse(JSON.stringify(response.data))[2]);
-		localStorage.setItem("lastName", JSON.parse(JSON.stringify(response.data))[3]);
-		router.replace({ path: `/update-profile` })
+		router.replace({ path: `/updateProfile` })
 		
 		}
 

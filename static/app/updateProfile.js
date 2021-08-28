@@ -2,7 +2,7 @@ Vue.component("update-profile", {
 	name: "update-profile",
 	data: function(){
 		return {
-        password:null,
+        usPass:null,
         name: null,
         lastName:null,
         date:null,
@@ -14,14 +14,23 @@ Vue.component("update-profile", {
 	},
 	
     mounted: function(){
-        this.usName = window.localStorage.getItem('userName');
-        this.name = window.localStorage.getItem('name');
-
-
-        axios.get('/updateProfile?userName='+this.usName)
+        this.usName = window.localStorage.getItem('username');
+        axios.get('/account?userName='+this.usName)
 		.then(response => {
-            this.name = response.data.name;
             this.usPass = response.data.password;
+            this.name = response.data.name;
+            this.lastName = response.data.surname;
+            this.date = response.data.birthDate;
+            this.gender = response.data.gender;
+        });
+       
+		},
+	methods: {
+		update: function (e){
+		 axios.post('/updateProfile?userName='+this.usName)
+		.then(response => {
+            this.usPass = response.data.password;
+			this.name=response.data.name;
             this.lastName = response.data.surname;
             if(response.data.gender == "Male"){
                 this.gender = "Male";
@@ -31,9 +40,8 @@ Vue.component("update-profile", {
             this.date = response.data.birthDate;
 
         });
-},
-	methods: {
 		
+	}
 	},
 	template: `<div>
 	<div class="maliHeder">
@@ -85,7 +93,7 @@ Vue.component("update-profile", {
                     <tr>
                         <td colspan="2" style="text-align: right;">
 						<a href="#/buyerProfile">
-                        	<button>Sačuvaj</button>
+                        	<button v-on:click="update">Sačuvaj</button>
 						</a>
                       
                         </td>
