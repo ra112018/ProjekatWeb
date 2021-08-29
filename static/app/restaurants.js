@@ -2,12 +2,15 @@ Vue.component("restaurants", {
 	name:"restaurants",
 	data: function () {
 		    return {
+			restaurantList: [],
 			username:"",
       	    role:"",
 			user:localStorage.getItem('user')
 		    }
 	},
 	methods:{
+		
+	},
 	mounted: function(){
         
               this.username = window.localStorage.getItem('username');
@@ -19,16 +22,16 @@ Vue.component("restaurants", {
 			localStorage.setItem("restaurantName", "ciao");
 			router.replace({ path: `/selectedRestaurant` })
 	},
-},
-	template: ` 
+
+	template: ` </div>
 	<div>
 		<div class="maliHeder">
 		<a href="#/">
 		<button style="font-size: 100%;">Odjavi se</button></a>
 	</div>
 	<div class="vertical-menu">
-        <a href="#/buyerProfile" class="active">Moj profil</a>
-        <a href="#/restaurants">Restorani</a>
+        <a href="#/buyerProfile">Moj profil</a>
+        <a href="#/restaurants" class="active">Restorani</a>
         <a href="#/orders">Porudžbine</a>
         <a href="#/basket">Korpa</a>
         <a href="#">Utisci i komentari</a>
@@ -70,47 +73,46 @@ Vue.component("restaurants", {
 			
 		<a onClick="selected" >
 		<div class="restoran">
-		<img class="logo2" src="img/ciao.jpg" alt="Sample photo"/>
+			<a href="#/restaurant"><img class="logo2" src="img/ciao.jpg" alt="Sample photo"/></a>
 		<span class="opis"><em><strong>Ciao Pizzeria</strong></em><br>Pizza restoran<br><p class="open">Otvoreno </p> 09:00-23:00
 		</span>
 		</div></a>
 		<div class="restoran">
-		<img class="logo4" src="img/milki-logo.png" alt="Sample photo"/>
+			<a href="#/restaurant"><img class="logo4" src="img/milki-logo.png" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>Palačinkarnica Milki</strong></em><br>Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-24:00
 		</span>
 		</div>
 		<div class="restoran">
-		<img class="logo4" src="img/food1.jpg" alt="Sample photo"/>
+			<a href="#/restaurant"><img class="logo4" src="img/food1.jpg" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>Palačinkarnica Milki</strong></em><br>Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-24:00
 		</span>
 		</div>
 		<div class="restoran">
-		<img class="logo4" src="img/giros.jpg" alt="Sample photo"/>
+			<a href="#/restaurant"><img class="logo4" src="img/giros.jpg" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>Giros Master</strong></em><br>Giros<br><p class="open">Otvoreno</p> 08:00-21:00
 		</span>
 		</div>
 		<div class="restoran">
-		<img class="logo3" src="img/dizni-logo.jpg" alt="Sample photo"/>
+			<a href="#/restaurant"><img class="logo3" src="img/dizni-logo.jpg" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>Palačinkarnica Dizni</strong></em><br>Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-22:00
 		</span>
 		</div>
 		<div class="restoran">
-		<img class="logo4" src="img/logo_kineski.png" alt="Sample photo"/>
+			<a href="#/restaurant"><img class="logo4" src="img/logo_kineski.png" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>Kineski zid</strong></em><br>Restoran kineske hrane<br><p class="open">Otvoreno</p> 10:00-22:00
 		</span>
 		</div>
 		<div class="restoran">
-		<img class="logo5" src="img/mek.jpg" alt="Sample photo"/>
+			<a href="#/restaurant"><img class="logo5" src="img/mek.jpg" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>McDonald's</strong></em><br>Restoran brze hrane<br><p class="open">Otvoreno</p> 10:00-22:00
 		</span>
 		</div><div class="restoran">
-		<img class="logo6" src="img/logo.jpg" alt="Sample photo"/>
+			<a href="#/restaurant"><img class="logo6" src="img/logo.jpg" alt="Sample photo"/></a>
 		<span class="opis1"><br><br><br><em><strong>Grekos giros</strong></em><br>Giros<br><p class="open">Otvoreno</p> 10:00-22:00
 		</span>
 		</div>
 	</div>
 	
 	</div>
-`
-	
-});
+`,
+});	

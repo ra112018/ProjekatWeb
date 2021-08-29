@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import beans.Buyer;
 import beans.User;
 import dao.BuyerDao;
+import javaxt.http.Response;
 import spark.Request;
 import spark.Service.StaticFiles;
 import spark.Session;
@@ -43,11 +44,12 @@ public class ProjekatMain {
             ArrayList<String> response = new ArrayList<String>();
             if(buyer.findBuyer(name, pass) != null) {
 				korisnicko = name;
-
-                response.add(korisnicko);
-				response.add("kupac");
+				
+               response.add(korisnicko);
+			   response.add("kupac");
 
             }
+            response.add(korisnicko);
             return g.toJson(response);
         });
 		
