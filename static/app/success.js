@@ -4,7 +4,8 @@ Vue.component("success", {
 		return {
 		username:"",
         role:"",
-		user:localStorage.getItem('user')
+		user:localStorage.getItem('user'),
+		
 		};
 	},
 	methods: {

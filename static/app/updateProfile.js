@@ -87,7 +87,7 @@ Vue.component("update-profile", {
                     </tr>
                     <tr>
                         <td> Pol: </td>
-                        <td> <input type="radio"  name="pol" v-model="gender" checked/> <label>Muški</label> <input type="radio" name="pol" v-model="gender"  /> <label> Ženski</label></td>
+                        <td> <input type="radio"  name="pol" value="Male" v-model="gender"/> <label>Muški</label> <input type="radio" name="pol" value="Female" v-model="gender"  /> <label> Ženski</label></td>
                     </tr>
                     <tr>
                         <td> Datum rođenja: </td>
