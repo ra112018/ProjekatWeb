@@ -73,41 +73,41 @@ Vue.component("restaurants", {
 			
 		<a onClick="selected" >
 		<div class="restoran">
-			<a href="#/restaurant"><img class="logo2" src="img/ciao.jpg" alt="Sample photo"/></a>
+			<a href="#/selectedRestaurant"><img class="logo2" src="img/ciao.jpg" alt="Sample photo"/></a>
 		<span class="opis"><em><strong>Ciao Pizzeria</strong></em><br>Pizza restoran<br><p class="open">Otvoreno </p> 09:00-23:00
 		</span>
 		</div></a>
 		<div class="restoran">
-			<a href="#/restaurant"><img class="logo4" src="img/milki-logo.png" alt="Sample photo"/></a>
+			<a href="#/selectedRestaurant"><img class="logo4" src="img/milki-logo.png" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>Palačinkarnica Milki</strong></em><br>Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-24:00
 		</span>
 		</div>
 		<div class="restoran">
-			<a href="#/restaurant"><img class="logo4" src="img/food1.jpg" alt="Sample photo"/></a>
+			<a href="#/selectedRestaurant"><img class="logo4" src="img/food1.jpg" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>Palačinkarnica Milki</strong></em><br>Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-24:00
 		</span>
 		</div>
 		<div class="restoran">
-			<a href="#/restaurant"><img class="logo4" src="img/giros.jpg" alt="Sample photo"/></a>
+			<a href="#/selectedRestaurant"><img class="logo4" src="img/giros.jpg" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>Giros Master</strong></em><br>Giros<br><p class="open">Otvoreno</p> 08:00-21:00
 		</span>
 		</div>
 		<div class="restoran">
-			<a href="#/restaurant"><img class="logo3" src="img/dizni-logo.jpg" alt="Sample photo"/></a>
+			<a href="#/selectedRestaurant"><img class="logo3" src="img/dizni-logo.jpg" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>Palačinkarnica Dizni</strong></em><br>Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-22:00
 		</span>
 		</div>
 		<div class="restoran">
-			<a href="#/restaurant"><img class="logo4" src="img/logo_kineski.png" alt="Sample photo"/></a>
+			<a href="#/selectedRestaurant"><img class="logo4" src="img/logo_kineski.png" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>Kineski zid</strong></em><br>Restoran kineske hrane<br><p class="open">Otvoreno</p> 10:00-22:00
 		</span>
 		</div>
 		<div class="restoran">
-			<a href="#/restaurant"><img class="logo5" src="img/mek.jpg" alt="Sample photo"/></a>
+			<a href="#/selectedRestaurant"><img class="logo5" src="img/mek.jpg" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>McDonald's</strong></em><br>Restoran brze hrane<br><p class="open">Otvoreno</p> 10:00-22:00
 		</span>
 		</div><div class="restoran">
-			<a href="#/restaurant"><img class="logo6" src="img/logo.jpg" alt="Sample photo"/></a>
+			<a href="#/selectedRestaurant"><img class="logo6" src="img/logo.jpg" alt="Sample photo"/></a>
 		<span class="opis1"><br><br><br><em><strong>Grekos giros</strong></em><br>Giros<br><p class="open">Otvoreno</p> 10:00-22:00
 		</span>
 		</div>
