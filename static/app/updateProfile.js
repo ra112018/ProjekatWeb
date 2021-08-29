@@ -50,7 +50,7 @@ Vue.component("update-profile", {
 	</div>
 	<div class="vertical-menu">
         <a href="#/buyerProfile" class="active">Moj profil</a>
-        <a href="#">Restorani</a>
+        <a href="#/restaurants">Restorani</a>
         <a href="#/orders">Porudžbine</a>
         <a href="#/basket">Korpa</a>
         <a href="#">Utisci i komentari</a>

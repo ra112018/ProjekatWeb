@@ -48,7 +48,6 @@ public class ProjekatMain {
 				response.add("kupac");
 
             }
-            response.add(korisnicko);
             return g.toJson(response);
         });
 		
@@ -79,10 +78,12 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			User us = null;
 			us = BuyerDao.findBuyerByUsername(uName);
-			System.out.println(us.getName());
 			if(us != null) {
-				Buyer buyer = gsonReg.fromJson(reqBody, Buyer.class);
-				BuyerDao.updateBuyer(uName,buyer);
+				System.out.println(us.getName());
+
+				Buyer Gbuyer = gsonReg.fromJson(reqBody, Buyer.class);	//Ovde nesto ne cita kako treba
+				System.out.println(Gbuyer.getName());
+				BuyerDao.updateBuyer(uName,Gbuyer);
 			}
 			return true;
 			

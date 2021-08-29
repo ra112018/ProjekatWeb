@@ -3,7 +3,8 @@ Vue.component("success", {
 	data: function(){
 		return {
 		username:"",
-        role:""
+        role:"",
+		user:localStorage.getItem('user')
 		};
 	},
 	methods: {
@@ -20,7 +21,7 @@ Vue.component("success", {
 	
 	<div class="vertical-menu">
         <a href="#/buyerProfile">Moj profil</a>
-        <a href="#">Restorani</a>
+        <a href="#/restaurants">Restorani</a>
         <a href="#/orders">Porudžbine</a>
         <a href="#/basket">Korpa</a>
         <a href="#">Utisci i komentari</a> </div>

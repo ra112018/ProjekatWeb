@@ -20,6 +20,8 @@ Vue.component("login", {
 					}else{
 						localStorage.setItem("username", JSON.parse(JSON.stringify(response.data))[0]);
 						localStorage.setItem("role", JSON.parse(JSON.stringify(response.data))[1]);
+						localStorage.setItem("user", JSON.parse(JSON.stringify(response.data)));
+
 						router.replace({ path: `/success` })
 						
 					}

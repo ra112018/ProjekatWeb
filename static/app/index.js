@@ -2,13 +2,13 @@ Vue.component("home-page", {
 	name:"home-page",
 	data: function () {
 		    return {
-		      
+			user:null
 		    }
 	},
 	template: ` 
 	<div>
 	
-		<div class="pretragaRegistracija">
+		<div  class="pretragaRegistracija">
 			<a href="#/login">Prijavi se</a>
 			&nbsp;&nbsp;
 			<a href="#/register">Registruj se</a>

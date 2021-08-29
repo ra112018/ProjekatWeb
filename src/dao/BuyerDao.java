@@ -34,7 +34,7 @@ private static HashMap<String,Buyer> buyers;
     private void readBuyers() throws FileNotFoundException{
         Gson gson = new Gson();
         Type token = new TypeToken<HashMap<String,Buyer>>(){}.getType();
-        BufferedReader br = new BufferedReader(new FileReader("static/kupci.json"));
+        BufferedReader br = new BufferedReader(new FileReader("static/json/kupci.json"));
         BuyerDao.buyers = gson.fromJson(br, token);
         System.out.println(BuyerDao.buyers);
     }
@@ -68,7 +68,7 @@ private static HashMap<String,Buyer> buyers;
 	}
 	public static void addAccount() throws IOException{
 		Gson gson = new Gson();
-		FileWriter fw = new FileWriter("static/kupci.json");
+		FileWriter fw = new FileWriter("static/json/kupci.json");
 		gson.toJson(BuyerDao.buyers, fw);
 		fw.flush();
 		fw.close();

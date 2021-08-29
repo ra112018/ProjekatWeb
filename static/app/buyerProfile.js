@@ -1,5 +1,5 @@
-Vue.component("buyerProfile", {
-	name: "buyerProfile",
+Vue.component("buyer-profile", {
+	name: "buyer-profile",
 	data: function(){
 		return {
 			
@@ -10,6 +10,7 @@ Vue.component("buyerProfile", {
         gender:null,
         showErrorMessage: false,
         usName: null,
+		user:null,
         backup: {},
 		//decodeVar: null
 		};
@@ -27,6 +28,7 @@ Vue.component("buyerProfile", {
                 this.gender = "Female";
             }
             this.date = response.data.birthDate;
+			this.user=response.data.us;
 			
         });
 },
@@ -45,7 +47,7 @@ Vue.component("buyerProfile", {
 	</div>
 	<div class="vertical-menu">
         <a href="#/buyerProfile" class="active">Moj profil</a>
-        <a href="#">Restorani</a>
+        <a href="#/restaurants">Restorani</a>
         <a href="#/orders">Porudžbine</a>
         <a href="#/basket">Korpa</a>
         <a href="#">Utisci i komentari</a>

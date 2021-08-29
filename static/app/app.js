@@ -6,6 +6,9 @@ const BuyerProfile = { template: '<buyer-profile></buyer-profile>' }
 const Basket = {template: '<basket></basket>' }
 const Orders = {template: '<orders></orders>' }
 const UpdateProfile = {template: '<update-profile></update-profile>' }
+const Restaurants={template:'<restaurants></restaurants>'}
+const SelectedRestaurant={template:'<selected-restaurant></selected-restaurant>'}
+
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -17,7 +20,10 @@ const router = new VueRouter({
 		{ path: '/buyerProfile', component: BuyerProfile },
 		{ path: '/updateProfile', component: UpdateProfile },
 		{ path: '/basket', component: Basket },
-		{ path: '/orders', component: Orders }
+		{ path: '/orders', component: Orders },
+		{ path: '/restaurants',component:Restaurants},
+		{ path: '/selectedRestaurant',component:SelectedRestaurant}
+
 
 
 	  ]
