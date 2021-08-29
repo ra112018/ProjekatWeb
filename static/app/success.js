@@ -28,16 +28,21 @@ Vue.component("success", {
 	<div class="vertical-menu">
         <a href="#/buyerProfile" v-if="this.role==='kupac'">Moj profil</a>
         <a href="#/buyerProfile" v-if="this.role==='administrator'">Moj profil</a>
+		<a href="#/buyerProfile" v-if="this.role==='manager'">Moj profil</a>
 
         <a href="#/restaurants" v-if="this.role==='kupac'">Restorani</a>
         <a href="#/restaurants" v-if="this.role==='administrator'">Restorani</a>
+		<a href="#/restaurants" v-if="this.role==='manager'">Restorani</a>
 
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
-        <a href="#" v-if="this.role==='administrator'">Korisnici</a>
+ 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
+      	<a href="#" v-if="this.role==='administrator'">Korisnici</a>
+		<a href="#" v-if="this.role==='manager'">Kupci</a>
 
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
         <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
-        <a href="#" v-if="this.role==='administrator'">Utisci i komentari</a> </div>
+        <a href="#" v-if="this.role==='administrator'">Utisci i komentari</a> 
+		<a href="#" v-if="this.role==='manager'">Utisci i komentari</a> </div>
 
       <p class="naslov"><b>Uloga: {{this.role}} </b></p>
       <p class="p1">Uspešna prijava</p>

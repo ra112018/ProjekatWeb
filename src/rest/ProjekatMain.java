@@ -17,6 +17,7 @@ import beans.Restaurant;
 import beans.User;
 import dao.AdministratorDAO;
 import dao.BuyerDao;
+import dao.ManagerDAO;
 import dao.RestaurantDao;
 import spark.Request;
 import spark.Service.StaticFiles;
@@ -27,6 +28,7 @@ import spark.Spark;
 public class ProjekatMain {
 	private static BuyerDao buyer=new BuyerDao();
 	private static AdministratorDAO admin=new AdministratorDAO();
+	private static ManagerDAO manager = new ManagerDAO();
 	private static RestaurantDao restaurant=new RestaurantDao();
 
 
@@ -59,6 +61,10 @@ public class ProjekatMain {
             	korisnicko=name;
             	response.add(korisnicko);
             	response.add("administrator");
+            } else if(manager.findManager(name, pass)!=null) {
+            	korisnicko=name;
+            	response.add(korisnicko);
+            	response.add("manager");
             }
             response.add(korisnicko);
             return g.toJson(response);
@@ -84,6 +90,7 @@ public class ProjekatMain {
 			return gsonReg.toJson(us);
 		
 		});
+		
 
 		post("/updateProfile", (req, res)-> {
 			String uName =  req.queryParams("userName");

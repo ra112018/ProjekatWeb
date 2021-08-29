@@ -10,6 +10,9 @@ Vue.component("update-profile", {
         showErrorMessage: false,
         usName: null,
         backup: {},
+		role:localStorage.getItem('role'),
+		user:localStorage.getItem('user')
+     
 		};
 	},
 	
@@ -53,11 +56,23 @@ Vue.component("update-profile", {
 		<button style="font-size: 100%;">Odjavi se</button></a>
 	</div>
 	<div class="vertical-menu">
-        <a href="#/buyerProfile" class="active">Moj profil</a>
-        <a href="#/restaurants">Restorani</a>
-        <a href="#/orders">Porudžbine</a>
-        <a href="#/basket">Korpa</a>
-        <a href="#">Utisci i komentari</a>
+       <a href="#/buyerProfile" v-if="this.role==='kupac'" class="active">Moj profil</a>
+ 		<a href="#/buyerProfile" v-if="this.role==='administrator'" class="active">Moj profil</a>
+        <a href="#/buyerProfile" v-if="this.role==='manager'" class="active">Moj profil</a>
+       
+        <a href="#/restaurants" v-if="this.role==='kupac'">Restorani</a>
+		<a href="#/restaurants" v-if="this.role==='administrator'">Restorani</a>
+		<a href="#/restaurants" v-if="this.role==='manager'">Restorani</a>
+		
+		<a href="#" v-if="this.role==='administrator'">Korisnici</a>
+        <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
+		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
+        <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
+		<a href="#" v-if="this.role==='manager'">Kupci</a>
+
+        <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
+		<a href="#" v-if="this.role==='administrator'">Utisci i komentari</a>
+		<a href="#" v-if="this.role==='manager'">Utisci i komentari</a>
      </div>
        <p class="naslov"><b>Izmenite podatke</b></p>
       <div class="tabela">

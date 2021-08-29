@@ -4,8 +4,8 @@ Vue.component("restaurants", {
 		    return {
 			restaurantList: [],
 			username:"",
-      	    role:"",
-			user:localStorage.getItem('user'),
+      	   role:localStorage.getItem('role'),
+		   user:localStorage.getItem('user'),
 			restaurantName:""
 		    }
 	},
@@ -32,17 +32,24 @@ Vue.component("restaurants", {
 	</div>
 	<div class="vertical-menu">
         <a href="#/buyerProfile" v-if="this.role==='kupac'">Moj profil</a>
-        <a href="#/buyerProfile" v-if="this.role==='administrator'">Moj profil</a>
-
-        <a href="#/restaurants" v-if="this.role==='kupac'">Restorani</a>
-        <a href="#/restaurants" v-if="this.role==='administrator'">Restorani</a>
-
+ 		<a href="#/buyerProfile" v-if="this.role==='administrator'">Moj profil</a>
+        <a href="#/buyerProfile" v-if="this.role==='manager'">Moj profil</a>
+       
+        <a href="#/restaurants" v-if="this.role==='kupac'" class="active">Restorani</a>
+		<a href="#/restaurants" v-if="this.role==='administrator'" class="active">Restorani</a>
+		<a href="#/restaurants" v-if="this.role==='manager'" class="active">Restorani</a>
+		
+		<a href="#" v-if="this.role==='administrator'">Korisnici</a>
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
-        <a href="#" v-if="this.role==='administrator'">Korisnici</a>
-
+		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
+		<a href="#" v-if="this.role==='manager'">Kupci</a>
+
         <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
-        <a href="#" v-if="this.role==='administrator'">Utisci i komentari</a> </div>
+		<a href="#" v-if="this.role==='administrator'">Utisci i komentari</a>
+		<a href="#" v-if="this.role==='manager'">Utisci i komentari</a>
+ 
+	</div>
 
 	
 		<div class="pretraga">
