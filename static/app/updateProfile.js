@@ -21,7 +21,11 @@ Vue.component("update-profile", {
             this.name = response.data.name;
             this.lastName = response.data.surname;
             this.date = response.data.birthDate;
-            this.gender = response.data.gender;
+			if(response.data.gender == "Male"){
+				  this.gender = "Male";
+            }else{
+                this.gender = "Female";
+            }
         });
        
 		},
