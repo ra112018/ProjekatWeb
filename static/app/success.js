@@ -29,6 +29,7 @@ Vue.component("success", {
         <a href="#/buyerProfile" v-if="this.role==='kupac'">Moj profil</a>
         <a href="#/buyerProfile" v-if="this.role==='administrator'">Moj profil</a>
 		<a href="#/buyerProfile" v-if="this.role==='manager'">Moj profil</a>
+		<a href="#/buyerProfile" v-if="this.role==='deliverer'">Moj profil</a>
 
         <a href="#/restaurants" v-if="this.role==='kupac'">Restorani</a>
         <a href="#/restaurants" v-if="this.role==='administrator'">Restorani</a>
@@ -36,6 +37,8 @@ Vue.component("success", {
 
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
  		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
+	    <a href="#/orders" v-if="this.role==='deliverer'">Porudžbine</a>
+
       	<a href="#" v-if="this.role==='administrator'">Korisnici</a>
 		<a href="#" v-if="this.role==='manager'">Kupci</a>
 

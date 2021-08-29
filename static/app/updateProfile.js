@@ -59,6 +59,7 @@ Vue.component("update-profile", {
        <a href="#/buyerProfile" v-if="this.role==='kupac'" class="active">Moj profil</a>
  		<a href="#/buyerProfile" v-if="this.role==='administrator'" class="active">Moj profil</a>
         <a href="#/buyerProfile" v-if="this.role==='manager'" class="active">Moj profil</a>
+		<a href="#/buyerProfile" v-if="this.role==='deliverer'" class="active">Moj profil</a>
        
         <a href="#/restaurants" v-if="this.role==='kupac'">Restorani</a>
 		<a href="#/restaurants" v-if="this.role==='administrator'">Restorani</a>
@@ -67,6 +68,7 @@ Vue.component("update-profile", {
 		<a href="#" v-if="this.role==='administrator'">Korisnici</a>
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
+		<a href="#/orders" v-if="this.role==='deliverer'">Porudžbine</a>
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
 		<a href="#" v-if="this.role==='manager'">Kupci</a>
 

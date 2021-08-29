@@ -17,6 +17,7 @@ import beans.Restaurant;
 import beans.User;
 import dao.AdministratorDAO;
 import dao.BuyerDao;
+import dao.DelivererDAO;
 import dao.ManagerDAO;
 import dao.RestaurantDao;
 import spark.Request;
@@ -29,6 +30,7 @@ public class ProjekatMain {
 	private static BuyerDao buyer=new BuyerDao();
 	private static AdministratorDAO admin=new AdministratorDAO();
 	private static ManagerDAO manager = new ManagerDAO();
+	private static DelivererDAO deliverer = new DelivererDAO();
 	private static RestaurantDao restaurant=new RestaurantDao();
 
 
@@ -65,6 +67,10 @@ public class ProjekatMain {
             	korisnicko=name;
             	response.add(korisnicko);
             	response.add("manager");
+            }else if(deliverer.findDeliverer(name, pass)!=null) {
+            	korisnicko=name;
+            	response.add(korisnicko);
+            	response.add("deliverer");
             }
             response.add(korisnicko);
             return g.toJson(response);

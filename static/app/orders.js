@@ -19,12 +19,14 @@ Vue.component("orders", {
 	 <div class="vertical-menu">
         <a href="#/buyerProfile" v-if="this.role==='kupac'">Moj profil</a>
 		<a href="#/buyerProfile" v-if="this.role==='manager'">Moj profil</a>
+		<a href="#/buyerProfile" v-if="this.role==='deliverer'">Moj profil</a>
 		
         <a href="#/restaurants" v-if="this.role==='kupac'">Restorani</a>
 		 <a href="#/restaurants" v-if="this.role==='manager'">Restorani</a>
 	
         <a href="#/orders" v-if="this.role==='kupac'" class="active">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'" class="active">Porudžbine</a>
+		<a href="#/orders" v-if="this.role==='deliverer'" class="active">Porudžbine</a>
   
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
 		<a href="#" v-if="this.role==='manager'">Kupci</a>
