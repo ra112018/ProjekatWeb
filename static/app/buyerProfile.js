@@ -30,6 +30,7 @@ Vue.component("buyer-profile", {
             this.date = response.data.birthDate;
 			this.user=response.data.us;
 			
+			
         });
 },
 	methods: {

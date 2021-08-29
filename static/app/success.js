@@ -3,8 +3,9 @@ Vue.component("success", {
 	data: function(){
 		return {
 		username:"",
-        role:"",
+        role:localStorage.getItem('role'),
 		user:localStorage.getItem('user'),
+		stavka1:"",
 		
 		};
 	},
@@ -12,6 +13,10 @@ Vue.component("success", {
 		mounted: function(){
               this.username = window.localStorage.getItem('username');
               this.role = window.localStorage.getItem('role');
+			  this.stavka1="Moj profil";
+
+			if(this.role="kupac"){
+			}
             },
 	},
 	template: `<div>	 
@@ -21,12 +26,20 @@ Vue.component("success", {
 	</div>
 	
 	<div class="vertical-menu">
-        <a href="#/buyerProfile">Moj profil</a>
-        <a href="#/restaurants">Restorani</a>
-        <a href="#/orders">Porudžbine</a>
-        <a href="#/basket">Korpa</a>
-        <a href="#">Utisci i komentari</a> </div>
-      <p class="naslov"><b>Uloga: Kupac</b></p>
+        <a href="#/buyerProfile" v-if="this.role==='kupac'">Moj profil</a>
+        <a href="#/buyerProfile" v-if="this.role==='administrator'">Moj profil</a>
+
+        <a href="#/restaurants" v-if="this.role==='kupac'">Restorani</a>
+        <a href="#/restaurants" v-if="this.role==='administrator'">Restorani</a>
+
+        <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
+        <a href="#" v-if="this.role==='administrator'">Korisnici</a>
+
+        <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
+        <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
+        <a href="#" v-if="this.role==='administrator'">Utisci i komentari</a> </div>
+
+      <p class="naslov"><b>Uloga: {{this.role}} </b></p>
       <p class="p1">Uspešna prijava</p>
 		</div>`
 		

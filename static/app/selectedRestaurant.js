@@ -12,35 +12,53 @@ Vue.component("selected-restaurant", {
         usName: null,
 		user:localStorage.getItem('user'),
 		restaurantName:localStorage.getItem('restaurantName'),
+		role:localStorage.getItem('role'),
         backup: {},
 		//decodeVar: null
 		};
 	},
 	
 	methods: {
+		 
+ 
 		mounted: function(){
         
+            axios
+              .get('/restaurantDetails?userName='+this.restaurantName)
+	          .then(response => {
+            this.type = response.data.restaurantType;
+            this.articles = response.data.articles;
+            this.status = response.data.status;
+            this.logo = response.data.logo;
+               
               this.username = window.localStorage.getItem('username');
               this.role = window.localStorage.getItem('role');
 			  this.user=window.localStorage.getItem('user');
 			this.restaurantName=window.localStorage.getItem('restaurantName')
-	},
-		
+	});
+		}
+		},
 
-	},
 	template: ` 
 	<div>
 		<div class="maliHeder">
 		<a href="#/">
 		<button style="font-size: 100%;">Odjavi se</button></a>
 	</div>
+	
 	<div class="vertical-menu">
-        <a href="#/buyerProfile">Moj profil</a>
-        <a href="#/restaurants" class="active">Restorani</a>
-        <a href="#/orders">Porudžbine</a>
-        <a href="#/basket">Korpa</a>
-        <a href="#">Utisci i komentari</a>
-     </div>
+        <a href="#/buyerProfile" v-if="this.role==='kupac'">Moj profil</a>
+        <a href="#/buyerProfile" v-if="this.role==='administrator'">Moj profil</a>
+
+        <a href="#/restaurants" v-if="this.role==='kupac'">Restorani</a>
+        <a href="#/restaurants" v-if="this.role==='administrator'">Restorani</a>
+
+        <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
+        <a href="#" v-if="this.role==='administrator'">Korisnici</a>
+
+        <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
+        <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
+        <a href="#" v-if="this.role==='administrator'">Utisci i komentari</a> </div>
 	
 		<div class="pretraga">
 		<input type="text" placeholder="Naziv" id="naziv" name="naziv">
@@ -76,7 +94,7 @@ Vue.component("selected-restaurant", {
 	
 	<div class="restoran">
 		<img class="logo3" src="dizni-logo.jpg"/>
-		<span class="opis"><br><br><input v-model="restaurantName">Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-22:00
+		<span class="opis"><br><br><input v-model="restaurantName">{{this.type}}<br><p class="open">Otvoreno</p> 10:00-22:00
 		<br>Bulevar cara Lazara 92
 		</span>
 		</div>

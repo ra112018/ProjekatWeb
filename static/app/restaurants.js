@@ -5,11 +5,16 @@ Vue.component("restaurants", {
 			restaurantList: [],
 			username:"",
       	    role:"",
-			user:localStorage.getItem('user')
+			user:localStorage.getItem('user'),
+			restaurantName:""
 		    }
 	},
 	methods:{
-		
+		trigger(){
+			this.restaurantName="Ciao";
+		    localStorage.setItem('restaurantName', 'Ciao');
+
+		}
 	},
 	mounted: function(){
         
@@ -17,11 +22,7 @@ Vue.component("restaurants", {
               this.role = window.localStorage.getItem('role');
 			  this.user=window.localStorage.getItem('user');
 	},
-	selected: function(){
-			       		
-			localStorage.setItem("restaurantName", "ciao");
-			router.replace({ path: `/selectedRestaurant` })
-	},
+	
 
 	template: ` </div>
 	<div>
@@ -30,12 +31,19 @@ Vue.component("restaurants", {
 		<button style="font-size: 100%;">Odjavi se</button></a>
 	</div>
 	<div class="vertical-menu">
-        <a href="#/buyerProfile">Moj profil</a>
-        <a href="#/restaurants" class="active">Restorani</a>
-        <a href="#/orders">Porudžbine</a>
-        <a href="#/basket">Korpa</a>
-        <a href="#">Utisci i komentari</a>
-     </div>
+        <a href="#/buyerProfile" v-if="this.role==='kupac'">Moj profil</a>
+        <a href="#/buyerProfile" v-if="this.role==='administrator'">Moj profil</a>
+
+        <a href="#/restaurants" v-if="this.role==='kupac'">Restorani</a>
+        <a href="#/restaurants" v-if="this.role==='administrator'">Restorani</a>
+
+        <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
+        <a href="#" v-if="this.role==='administrator'">Korisnici</a>
+
+        <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
+        <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
+        <a href="#" v-if="this.role==='administrator'">Utisci i komentari</a> </div>
+
 	
 		<div class="pretraga">
 		<input type="text" placeholder="Naziv" id="naziv" name="naziv">
@@ -71,8 +79,8 @@ Vue.component("restaurants", {
 	
 	<div class="grid">
 			
-		<a onClick="selected" >
-		<div class="restoran">
+		<a>
+		<div class="restoran" @click="trigger">
 			<a href="#/selectedRestaurant"><img class="logo2" src="img/ciao.jpg" alt="Sample photo"/></a>
 		<span class="opis"><em><strong>Ciao Pizzeria</strong></em><br>Pizza restoran<br><p class="open">Otvoreno </p> 09:00-23:00
 		</span>

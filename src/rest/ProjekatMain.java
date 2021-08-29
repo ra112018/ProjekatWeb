@@ -13,9 +13,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import beans.Buyer;
+import beans.Restaurant;
 import beans.User;
+import dao.AdministratorDAO;
 import dao.BuyerDao;
-import javaxt.http.Response;
+import dao.RestaurantDao;
 import spark.Request;
 import spark.Service.StaticFiles;
 import spark.Session;
@@ -24,6 +26,10 @@ import spark.Spark;
 
 public class ProjekatMain {
 	private static BuyerDao buyer=new BuyerDao();
+	private static AdministratorDAO admin=new AdministratorDAO();
+	private static RestaurantDao restaurant=new RestaurantDao();
+
+
 	private static Gson g=new Gson();
 
 	public static void main(String[] args) throws Exception {
@@ -48,6 +54,11 @@ public class ProjekatMain {
                response.add(korisnicko);
 			   response.add("kupac");
 
+            }
+            else if(admin.findAdmin(name, pass)!=null) {
+            	korisnicko=name;
+            	response.add(korisnicko);
+            	response.add("administrator");
             }
             response.add(korisnicko);
             return g.toJson(response);
@@ -89,6 +100,20 @@ public class ProjekatMain {
 			}
 			return true;
 			
+		});
+		
+		get("/restaurantDetails", (req, res)-> {
+			String rName =  req.queryParams("restaurantName");
+			Restaurant r;
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			r = restaurant.findRestaurant(rName);
+			if(r != null) {
+				System.out.println("nadjen");
+
+				return gsonReg.toJson(r);
+			}
+			return gsonReg.toJson(r);
+		
 		});
 		
 		
