@@ -3,6 +3,7 @@ Vue.component("buyer-profile", {
 	data: function(){
 		return {
 			
+		gray: true,
         usPass:null,
         name: null,
         lastName:null,
@@ -35,11 +36,46 @@ Vue.component("buyer-profile", {
         });
 },
 	methods: {
-		update : function (e){
-			
-		router.replace({ path: `/updateProfile` })
+		edit:function(){
+            this.gray = false;
+			this.backup.usPass = this.usPass;
+            this.backup.name = this.name;
+            this.backup.lastName = this.lastName;
+            this.backup.gender = this.gender;
+        },
+		cancel:function(){
+            this.gray = true;
+			this.usPass = this.backup.usPass;
+            this.name = this.backup.name;
+            this.lastName = this.backup.lastName;
+            this.gender = this.backup.gender;
+
+			router.replace({ path: `/success` })
+        },
+
+		 save:function(e){
+			e.preventDefault();
+       
+                axios
+                .post('/updateProfile',{name: this.name, 
+                    surname: this.lastName,
+                    userName : this.email,
+                    password: this.usPass,
+                    gender : this.gender,
+                    
+                    }, {params:{userName:this.usName}})
+                .then((response) => {
+                  alert("Uspesno izmenjeni podaci! ");
+                  this.backup = {};
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+             
+
+        
+		},
 		
-		}
 
 	},
 	template: `<div>
@@ -72,40 +108,45 @@ Vue.component("buyer-profile", {
 
      </div>
       <p class="naslov"><b>Vaši podaci</b></p>
+	 
       <div class="tabela">
         <table>
             <tbody>
                 	<tr> </tr>
                     <tr>
                         <td> Korisničko ime: </td>
-                        <td> <input type="text" v-model="usName" disabled /> </td>
+                        <td> <input type="text" v-model="usName" disabled/> </td>
                     </tr>
                     <tr>
                         <td> Lozinka: </td>
-                        <td> <input type="password" v-model="usPass" disabled/> </td>
+                        <td> <input type="password" v-model="usPass" v-bind:disabled="gray"/> </td>
                     </tr>
                     <tr>
                         <td> Ime: </td>
-                        <td> <input type="text" v-model="name" disabled/> </td>
+                        <td> <input type="text" v-model="name" v-bind:disabled="gray"/> </td>
                     </tr>
                     <tr>
                         <td> Prezime: </td>
-                        <td> <input type="text" v-model="lastName" disabled/> </td>
+                        <td> <input type="text" v-model="lastName" v-bind:disabled="gray"/> </td>
                     </tr>
                     <tr>
                         <td> Pol: </td>
-                        <td> <input type="radio" value="Male" name="pol" v-model="gender" disabled/> <label>Muški</label> <input type="radio" value="Female" name="pol" v-model="gender" disabled /> <label> Ženski</label></td>
+                        <td> <input type="radio" value="Male" name="pol" v-model="gender" v-bind:disabled="gray"/> <label>Muški</label> <input type="radio" value="Female" name="pol" v-model="gender" v-bind:disabled="gray"/> <label> Ženski</label></td>
                     </tr>
                     <tr>
                         <td> Datum rođenja: </td>
-                        <td> <input type="date" v-model="date" disabled/> </td>
+                        <td> <input type="date" v-model="date" v-bind:disabled="gray"/> </td>
                     </tr>
 
                     <tr>
                         <td colspan="2" style="text-align: right;">
-						<a href="#/updateProfile">
-                        	<button v:on-click="update"> Izmeni</button>
-						</a>
+						
+						
+						<button @click="edit" type="button">Izmeni</button>
+              			<button @click="cancel" type="button">Odustani</button>
+         
+          				<button @click="save">Sacuvaj</button>
+
                         </td>
                     </tr>
             </tbody>
