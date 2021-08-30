@@ -20,7 +20,7 @@ import beans.UserType;
 
 public class AdministratorDAO {
 
-	private static HashMap<String, Administrator> admins;
+	private HashMap<String, Administrator> admins;
 
     public AdministratorDAO() {
 
@@ -35,13 +35,17 @@ public class AdministratorDAO {
     public HashMap<String,Administrator> getAdmins() {
 		return admins;
 	}
+    
+    public void setAdmins(HashMap<String,Administrator> admins) {
+		this.admins = admins;
+	}
 
     private void readAdmins() throws FileNotFoundException{
         Gson gson = new Gson();
         Type token = new TypeToken<HashMap<String,Administrator>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/administrators.json"));
-        AdministratorDAO.admins = gson.fromJson(br, token);
-        System.out.println(AdministratorDAO.admins);
+        this.admins = gson.fromJson(br, token);
+        
     }
 
    
@@ -59,7 +63,7 @@ public class AdministratorDAO {
 
 	
 	
-	public static Administrator findAdminByUsername(String uName) {
+	public Administrator findAdminByUsername(String uName) {
 		for (Map.Entry<String, Administrator> entry : admins.entrySet()) {
 	        if(entry.getValue().getUserName().equals(uName) ) {
 	        	return entry.getValue();
@@ -68,8 +72,8 @@ public class AdministratorDAO {
 		return null;
 	}
 	
-	/*public static void updateAdmin(String usname, Administrator admin) {
-		for (Map.Entry<String, Buyer> entry : admins.entrySet()) {
+	public void updateAdmin(String usname, Administrator admin) {
+		for (Map.Entry<String, Administrator> entry : admins.entrySet()) {
 	        if(entry.getValue().getUserName().equals(usname) ) {
 	        	entry.getValue().setName(admin.getName());
 	        	entry.getValue().setSurname(admin.getSurname());
@@ -83,8 +87,15 @@ public class AdministratorDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}*/
+	}
 	
+	public void addAccount() throws IOException{
+		Gson gson = new Gson();
+		FileWriter fw = new FileWriter("static/json/administrators.json");
+		gson.toJson(this.admins, fw);
+		fw.flush();
+		fw.close();
+	}
 	
 
 }

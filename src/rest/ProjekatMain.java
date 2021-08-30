@@ -93,22 +93,21 @@ public class ProjekatMain {
 			String uName =  req.queryParams("userName");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			User us;
-			us = BuyerDao.findBuyerByUsername(uName);
+			us = buyerDAO.findBuyerByUsername(uName);
 			if(us != null) {
 				return gsonReg.toJson(us);
 			}
 			else {
-				us=AdministratorDAO.findAdminByUsername(uName);
+				us=adminDAO.findAdminByUsername(uName);
 				if(us!=null) {
-					return gsonReg.toJson(us);}
-				
-					else {
-						us=ManagerDAO.findManagerByUsername(uName);
+					return gsonReg.toJson(us);
+				}else {
+						us=managerDAO.findManagerByUsername(uName);
 						if(us!=null) {
 							return gsonReg.toJson(us);
 						}
 						else {
-							us=DelivererDAO.findDelivererByUsername(uName);
+							us=delivererDAO.findDelivererByUsername(uName);
 							if(us!=null) {
 								return gsonReg.toJson(us);
 							}
@@ -125,16 +124,13 @@ public class ProjekatMain {
 			String reqBody = req.body();
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			User us = null;
-			us = BuyerDao.findBuyerByUsername(uName);
+			us = buyerDAO.findBuyerByUsername(uName);
 			if(us != null) {
-				System.out.println(us.getName());
 
-				Buyer Gbuyer = gsonReg.fromJson(reqBody, Buyer.class);	//Ovde nesto ne cita kako treba
-				System.out.println(Gbuyer.getName());
-				BuyerDao.updateBuyer(uName,Gbuyer);
-			}/*
-			else {
-				us = AdministratorDAO.findAdminByUsername(uName);
+				Buyer buyer = gsonReg.fromJson(reqBody, Buyer.class);	
+				buyerDAO.updateBuyer(uName, buyer);
+			}else {
+				us = adminDAO.findAdminByUsername(uName);
 				if(us != null) {
 					Administrator Gadmin = gsonReg.fromJson(reqBody, Administrator.class);
 					adminDAO.updateAdmin(uName, Gadmin);
@@ -144,7 +140,7 @@ public class ProjekatMain {
 						Manager Gmanager = gsonReg.fromJson(reqBody, Manager.class);
 						managerDAO.updateManager(uName, Gmanager);
 					}else {
-						us = DelivererDAO.findDelivererByUsername(uName);
+						us = delivererDAO.findDelivererByUsername(uName);
 						if(us != null) {
 							Deliverer Gdeliverer = gsonReg.fromJson(reqBody, Deliverer.class);
 							delivererDAO.updateDeliverer(uName, Gdeliverer);
@@ -152,7 +148,7 @@ public class ProjekatMain {
 					}
 					
 				}
-			}*/
+			}
 			return true;
 			
 		});

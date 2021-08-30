@@ -19,7 +19,7 @@ import beans.UserType;
 
 public class BuyerDao {
 
-private static HashMap<String,Buyer> buyers;
+	private HashMap<String,Buyer> buyers;
 
     public BuyerDao() {
 
@@ -31,8 +31,12 @@ private static HashMap<String,Buyer> buyers;
         }
     }
 
-    public static HashMap<String, Buyer> getBuyers() {
+    public HashMap<String, Buyer> getBuyers() {
 		return buyers;
+	}
+    
+    public void setBuyers(HashMap<String,Buyer> buyers) {
+		this.buyers = buyers;
 	}
 
 
@@ -40,8 +44,8 @@ private static HashMap<String,Buyer> buyers;
         Gson gson = new Gson();
         Type token = new TypeToken<HashMap<String,Buyer>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/kupci.json"));
-        BuyerDao.buyers = gson.fromJson(br, token);
-        System.out.println(BuyerDao.buyers);
+        this.buyers = gson.fromJson(br, token);
+       
     }
 
    
@@ -71,14 +75,15 @@ private static HashMap<String,Buyer> buyers;
 		}
 		return buyer;
 	}
-	public static void addAccount() throws IOException{
+	public void addAccount() throws IOException{
 		Gson gson = new Gson();
 		FileWriter fw = new FileWriter("static/json/kupci.json");
-		gson.toJson(BuyerDao.buyers, fw);
+		gson.toJson(this.buyers, fw);
 		fw.flush();
 		fw.close();
 	}
-	public static Buyer findBuyerByUsername(String uName) {
+	
+	public Buyer findBuyerByUsername(String uName) {
 		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
 	        if(entry.getValue().getUserName().equals(uName) ) {
 	        	return entry.getValue();
@@ -86,7 +91,7 @@ private static HashMap<String,Buyer> buyers;
 	    }
 		return null;
 	}
-	public static void updateBuyer(String usname, Buyer buyer) {
+	public void updateBuyer(String usname, Buyer buyer) {
 		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
 	        if(entry.getValue().getUserName().equals(usname) ) {
 	        	entry.getValue().setName(buyer.getName());

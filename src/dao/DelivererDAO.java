@@ -3,6 +3,8 @@ package dao;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +13,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Administrator;
+import beans.Buyer;
 import beans.Deliverer;
 
 public class DelivererDAO {
 
-	private static HashMap<String, Deliverer> deliverers;
+	private HashMap<String, Deliverer> deliverers;
 
     public DelivererDAO() {
 
@@ -30,13 +33,18 @@ public class DelivererDAO {
     public HashMap<String,Deliverer> getDeliverers() {
 		return deliverers;
 	}
+    
 
+    public void setDeliverers(HashMap<String,Deliverer> deliverers) {
+		this.deliverers = deliverers;
+	}
+    
     private void readDeliverers() throws FileNotFoundException{
         Gson gson = new Gson();
         Type token = new TypeToken<HashMap<String, Deliverer>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/deliverers.json"));
-        DelivererDAO.deliverers = gson.fromJson(br, token);
-        System.out.println(DelivererDAO.deliverers);
+        this.deliverers = gson.fromJson(br, token);
+    
     }
 
    
@@ -54,13 +62,38 @@ public class DelivererDAO {
 
 	
 	
-	public static Deliverer findDelivererByUsername(String uName) {
+	public Deliverer findDelivererByUsername(String uName) {
 		for (Map.Entry<String, Deliverer> entry : deliverers.entrySet()) {
 	        if(entry.getValue().getUserName().equals(uName) ) {
 	        	return entry.getValue();
 	        }
 	    }
 		return null;
+	}
+	
+	public void updateDeliverer(String usname, Deliverer deliverer) {
+		for (Map.Entry<String, Deliverer> entry : deliverers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(usname) ) {
+	        	entry.getValue().setName(deliverer.getName());
+	        	entry.getValue().setSurname(deliverer.getSurname());
+	        	entry.getValue().setGender(deliverer.getGender());
+	        	entry.getValue().setPassword(deliverer.getPassword());
+	        }
+	    }
+		try {
+			addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void addAccount() throws IOException{
+		Gson gson = new Gson();
+		FileWriter fw = new FileWriter("static/json/deliverers.json");
+		gson.toJson(this.deliverers, fw);
+		fw.flush();
+		fw.close();
 	}
 	
 	

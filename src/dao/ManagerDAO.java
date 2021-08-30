@@ -3,6 +3,8 @@ package dao;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,11 +13,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Administrator;
+import beans.Buyer;
 import beans.Manager;
+import beans.User;
 
 public class ManagerDAO {
 
-	private static HashMap<String, Manager> managers;
+	private HashMap<String, Manager> managers;
 
     public ManagerDAO() {
 
@@ -30,12 +34,17 @@ public class ManagerDAO {
     public HashMap<String,Manager> getManagers() {
 		return managers;
 	}
+    
+    public void setManagers(HashMap<String,Manager> managers) {
+		this.managers = managers;
+	}
+
     private void readManagers() throws FileNotFoundException{
         Gson gson = new Gson();
         Type token = new TypeToken<HashMap<String, Manager>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/managers.json"));
-        ManagerDAO.managers = gson.fromJson(br, token);
-        System.out.println(ManagerDAO.managers);
+        this.managers = gson.fromJson(br, token);
+        
     }
 
    
@@ -53,7 +62,7 @@ public class ManagerDAO {
 
 	
 	
-	public static Manager findManagerByUsername(String uName) {
+	public Manager findManagerByUsername(String uName) {
 		for (Map.Entry<String, Manager> entry : managers.entrySet()) {
 	        if(entry.getValue().getUserName().equals(uName) ) {
 	        	return entry.getValue();
@@ -61,6 +70,31 @@ public class ManagerDAO {
 	    }
 		return null;
 	}
+	public void updateManager(String usname, Manager manager) {
+		for (Map.Entry<String, Manager> entry : managers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(usname) ) {
+	        	entry.getValue().setName(manager.getName());
+	        	entry.getValue().setSurname(manager.getSurname());
+	        	entry.getValue().setGender(manager.getGender());
+	        	entry.getValue().setPassword(manager.getPassword());
+	        }
+	    }
+		try {
+			addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void addAccount() throws IOException{
+		Gson gson = new Gson();
+		FileWriter fw = new FileWriter("static/json/managers.json");
+		gson.toJson(this.managers, fw);
+		fw.flush();
+		fw.close();
+	}
+	
 	
 	
 }
