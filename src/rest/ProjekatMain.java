@@ -8,11 +8,15 @@ import static spark.Spark.staticFiles;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import beans.Administrator;
 import beans.Buyer;
+import beans.Deliverer;
+import beans.Manager;
 import beans.Restaurant;
 import beans.User;
 import dao.AdministratorDAO;
@@ -27,10 +31,10 @@ import spark.Spark;
 
 
 public class ProjekatMain {
-	private static BuyerDao buyer=new BuyerDao();
-	private static AdministratorDAO admin=new AdministratorDAO();
-	private static ManagerDAO manager = new ManagerDAO();
-	private static DelivererDAO deliverer = new DelivererDAO();
+	private static BuyerDao buyerDAO=new BuyerDao();
+	private static AdministratorDAO adminDAO=new AdministratorDAO();
+	private static ManagerDAO managerDAO = new ManagerDAO();
+	private static DelivererDAO delivererDAO = new DelivererDAO();
 	private static RestaurantDao restaurant=new RestaurantDao();
 
 
@@ -52,22 +56,22 @@ public class ProjekatMain {
 			String korisnicko = " ";
 
             ArrayList<String> response = new ArrayList<String>();
-            if(buyer.findBuyer(name, pass) != null) {
+            if(buyerDAO.findBuyer(name, pass) != null) {
 				korisnicko = name;
 				
                response.add(korisnicko);
 			   response.add("kupac");
 
             }
-            else if(admin.findAdmin(name, pass)!=null) {
+            else if(adminDAO.findAdmin(name, pass)!=null) {
             	korisnicko=name;
             	response.add(korisnicko);
             	response.add("administrator");
-            } else if(manager.findManager(name, pass)!=null) {
+            } else if(managerDAO.findManager(name, pass)!=null) {
             	korisnicko=name;
             	response.add(korisnicko);
             	response.add("manager");
-            }else if(deliverer.findDeliverer(name, pass)!=null) {
+            }else if(delivererDAO.findDeliverer(name, pass)!=null) {
             	korisnicko=name;
             	response.add(korisnicko);
             	response.add("deliverer");
@@ -81,7 +85,7 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			
 			Buyer buyerReg = gsonReg.fromJson(reqBody, Buyer.class);
-			buyer.addBuyer(buyerReg);
+			buyerDAO.addBuyer(buyerReg);
 			return true;
 			
 		});
@@ -128,7 +132,27 @@ public class ProjekatMain {
 				Buyer Gbuyer = gsonReg.fromJson(reqBody, Buyer.class);	//Ovde nesto ne cita kako treba
 				System.out.println(Gbuyer.getName());
 				BuyerDao.updateBuyer(uName,Gbuyer);
-			}
+			}/*
+			else {
+				us = AdministratorDAO.findAdminByUsername(uName);
+				if(us != null) {
+					Administrator Gadmin = gsonReg.fromJson(reqBody, Administrator.class);
+					adminDAO.updateAdmin(uName, Gadmin);
+				}else {
+					us = managerDAO.findManagerByUsername(uName);
+					if(us != null) {
+						Manager Gmanager = gsonReg.fromJson(reqBody, Manager.class);
+						managerDAO.updateManager(uName, Gmanager);
+					}else {
+						us = DelivererDAO.findDelivererByUsername(uName);
+						if(us != null) {
+							Deliverer Gdeliverer = gsonReg.fromJson(reqBody, Deliverer.class);
+							delivererDAO.updateDeliverer(uName, Gdeliverer);
+						}
+					}
+					
+				}
+			}*/
 			return true;
 			
 		});
@@ -147,7 +171,44 @@ public class ProjekatMain {
 		});
 		
 		
+		get("/admins", (req, res)->{
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			ArrayList<Administrator> admins = new ArrayList<Administrator>();
+			for (Map.Entry<String, Administrator> entry : adminDAO.getAdmins().entrySet()) {
+				
+					admins.add( entry.getValue());
+		        
+		    }	
+			return gsonReg.toJson(admins);
+			
+		});
 		
+		get("/managers", (req, res)->{
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			ArrayList<Manager> managers = new ArrayList<Manager>();
+			for (Map.Entry<String, Manager> entry : managerDAO.getManagers().entrySet()) {
+				
+					managers.add( entry.getValue());
+		        
+		    }	
+			return gsonReg.toJson(managers);
+			
+		});
+		
+		get("/deliverers", (req, res)->{
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			ArrayList<Deliverer> deliverers = new ArrayList<Deliverer>();
+			for (Map.Entry<String, Deliverer> entry : delivererDAO.getDeliverers().entrySet()) {
+				
+					deliverers.add( entry.getValue());
+		        
+		    }	
+			return gsonReg.toJson(deliverers);
+			
+		});
 		
 		
 	}

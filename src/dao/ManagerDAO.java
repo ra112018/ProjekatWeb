@@ -10,6 +10,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import beans.Administrator;
 import beans.Manager;
 
 public class ManagerDAO {
@@ -26,6 +27,9 @@ public class ManagerDAO {
         }
     }
 
+    public HashMap<String,Manager> getManagers() {
+		return managers;
+	}
     private void readManagers() throws FileNotFoundException{
         Gson gson = new Gson();
         Type token = new TypeToken<HashMap<String, Manager>>(){}.getType();

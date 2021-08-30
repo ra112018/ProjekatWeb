@@ -31,6 +31,10 @@ public class AdministratorDAO {
             e.printStackTrace();
         }
     }
+    
+    public HashMap<String,Administrator> getAdmins() {
+		return admins;
+	}
 
     private void readAdmins() throws FileNotFoundException{
         Gson gson = new Gson();
@@ -63,6 +67,23 @@ public class AdministratorDAO {
 	    }
 		return null;
 	}
+	
+	/*public static void updateAdmin(String usname, Administrator admin) {
+		for (Map.Entry<String, Buyer> entry : admins.entrySet()) {
+	        if(entry.getValue().getUserName().equals(usname) ) {
+	        	entry.getValue().setName(admin.getName());
+	        	entry.getValue().setSurname(admin.getSurname());
+	        	entry.getValue().setGender(admin.getGender());
+	        	entry.getValue().setPassword(admin.getPassword());
+	        }
+	    }
+		try {
+			addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}*/
 	
 	
 

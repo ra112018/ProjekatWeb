@@ -4,7 +4,7 @@ public class UserType {
 
 	private UserTypeName userTypeName;
 	private double percentage;
-	private int pointsNeeded;
+	private int points;
 	
 	public UserType() {
 		userTypeName=UserTypeName.Bronze;

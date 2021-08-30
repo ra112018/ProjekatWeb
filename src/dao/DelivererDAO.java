@@ -10,6 +10,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import beans.Administrator;
 import beans.Deliverer;
 
 public class DelivererDAO {
@@ -25,6 +26,10 @@ public class DelivererDAO {
             e.printStackTrace();
         }
     }
+    
+    public HashMap<String,Deliverer> getDeliverers() {
+		return deliverers;
+	}
 
     private void readDeliverers() throws FileNotFoundException{
         Gson gson = new Gson();

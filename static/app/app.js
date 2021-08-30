@@ -8,6 +8,7 @@ const Orders = {template: '<orders></orders>' }
 const UpdateProfile = {template: '<update-profile></update-profile>' }
 const Restaurants={template:'<restaurants></restaurants>'}
 const SelectedRestaurant={template:'<selected-restaurant></selected-restaurant>'}
+const UserTableAdmin = {template:'<userTableAdmin></userTableAdmin>'}
 
 
 const router = new VueRouter({
@@ -22,7 +23,8 @@ const router = new VueRouter({
 		{ path: '/basket', component: Basket },
 		{ path: '/orders', component: Orders },
 		{ path: '/restaurants',component:Restaurants},
-		{ path: '/selectedRestaurant',component:SelectedRestaurant}
+		{ path: '/selectedRestaurant',component:SelectedRestaurant},
+		{ path: '/userTableAdmin',component:UserTableAdmin}
 
 
 
