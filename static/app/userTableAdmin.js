@@ -3,8 +3,8 @@ Vue.component("userTableAdmin", {
     data: function () {
       return {
         users:[],
-
-		role:"",
+		userTypeName:"",
+		role:""
        
     };
     },
@@ -116,10 +116,11 @@ Vue.component("userTableAdmin", {
 					<td>{{user.username}}</td>
 					<td>{{user.role}}</td>
 					<td>{{user.type}}</td>
+					<td>{{user.points}}</td>
 					
 					<td v-if="user.role !='administrator'"> <button @click="deleteUser" :id="user.username"> Obrisi</button></td>
                     <td v-if="user.role =='administrator'"> <button :disabled=true @click="deleteUser" :id="user.userName"> Obrisi</button></td>
-                    <td v-if="(user.role =='buyer' |  user.role =='manager' |  user.role =='deliverer')> <button  :id="user.userName"> Blokiraj</button></td>
+                    <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer')"> <button :id="user.username">Blokiraj</button></td>
                   
 					
 				</tr>
