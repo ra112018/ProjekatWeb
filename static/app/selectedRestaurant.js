@@ -7,6 +7,7 @@ Vue.component("selected-restaurant", {
         name: null,
         lastName:null,
         date:null,
+		type:null,
         gender:null,
         showErrorMessage: false,
         usName: null,
@@ -17,14 +18,9 @@ Vue.component("selected-restaurant", {
 		//decodeVar: null
 		};
 	},
-	
-	methods: {
-		 
- 
-		mounted: function(){
-        
+	mounted: function(){
             axios
-              .get('/restaurantDetails?userName='+this.restaurantName)
+              .get('/restaurantDetails?restaurant='+this.restaurantName)
 	          .then(response => {
             this.type = response.data.restaurantType;
             this.articles = response.data.articles;
@@ -36,7 +32,12 @@ Vue.component("selected-restaurant", {
 			  this.user=window.localStorage.getItem('user');
 			this.restaurantName=window.localStorage.getItem('restaurantName')
 	});
-		}
+		},
+	
+	methods: {
+		 
+ 
+		
 		},
 
 	template: ` 
@@ -100,16 +101,12 @@ Vue.component("selected-restaurant", {
 	
 	<div class="restoran">
 		<img class="logo3" src="dizni-logo.jpg"/>
-		<span class="opis"><br><br><input v-model="restaurantName">{{this.type}}<br><p class="open">Otvoreno</p> 10:00-22:00
+		<span class="opis"><br><br><input v-model="restaurantName"><br><input v-model="type"><p class="open">Otvoreno</p> 10:00-22:00
 		<br>Bulevar cara Lazara 92
 		</span>
 		</div>
-		<div class="slike"><img class="slika" src="dizni1.jpg"/><img class="slika" src="dizni2.jpg"/></div>
-		<div class="ukratko">Rođena u Novom Sadu pre skoro dvadeset godina iz uzvraćene ljubavi sa njenim visočanstvom palačinkom.
-Mekana, topiva, satenski nežna, filovana po željama, postala sam simbol mnogih detinjstava.
- Dodaci su se stalno menjali, ali ja sam ostajala ista. 
-Kažu da su sve palačinke slične i naravno okrugle, ali svako ko se usudio da ih proba kod mene je shvatio da su stvarno okrugle, ali ipak drugačije. 
-Za tu jednu nijansu, od pedeset nijansi palačinke.</div>
+		<div class="slike"><img class="slika" src="dizni1.jpg"/><img class="slika" src="this.logo"/></div>
+		
 <div class="meni"><h2><br><br><br><br><br><br><br><br>Palačinke</h2></div>
 <div class="slatke"><h3>-slatke</h3></div>
 <table class="opcija">

@@ -36,23 +36,12 @@ public class RestaurantDao {
 
     private void readRestaurants() throws FileNotFoundException{
         Gson gson = new Gson();
-        Type token = new TypeToken<HashMap<String,Buyer>>(){}.getType();
+        Type token = new TypeToken<HashMap<String,Restaurant>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/restaurants.json"));
         RestaurantDao.restaurants = gson.fromJson(br, token);
         System.out.println(RestaurantDao.restaurants);
+
     }
-
-   
-
-	public Restaurant findRestaurant(String name) {
-		// TODO Auto-generated method stub
-		 for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
-	            if(entry.getValue().getRestaurantName().equals(name) ) {
-	                return entry.getValue();
-	            }
-	        }
-	        return null;
-	}
 	
 
 	public Restaurant addRestaurant(Restaurant restaurant) {
@@ -73,9 +62,12 @@ public class RestaurantDao {
 		fw.flush();
 		fw.close();
 	}
-	public static Restaurant findRestaurantByName(String name) {
+	public Restaurant findRestaurantByName(String name) {
 		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+        	System.out.println(entry.getValue().getRestaurantName());
+
 	        if(entry.getValue().getRestaurantName().equals(name) ) {
+	        	System.out.println(name);
 	        	return entry.getValue();
 	        }
 	    }

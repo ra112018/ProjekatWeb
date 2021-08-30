@@ -11,8 +11,8 @@ Vue.component("restaurants", {
 	},
 	methods:{
 		trigger(){
-			this.restaurantName="Ciao";
-		    localStorage.setItem('restaurantName', 'Ciao');
+			this.restaurantName="Pizzeria Ciao";
+		    localStorage.setItem('restaurantName', 'Pizzeria Ciao');
 
 		}
 	},

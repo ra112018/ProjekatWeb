@@ -93,6 +93,24 @@ public class ProjekatMain {
 			if(us != null) {
 				return gsonReg.toJson(us);
 			}
+			else {
+				us=AdministratorDAO.findAdminByUsername(uName);
+				if(us!=null) {
+					return gsonReg.toJson(us);}
+				
+					else {
+						us=ManagerDAO.findManagerByUsername(uName);
+						if(us!=null) {
+							return gsonReg.toJson(us);
+						}
+						else {
+							us=DelivererDAO.findDelivererByUsername(uName);
+							if(us!=null) {
+								return gsonReg.toJson(us);
+							}
+						}
+					}
+			}
 			return gsonReg.toJson(us);
 		
 		});
@@ -116,13 +134,12 @@ public class ProjekatMain {
 		});
 		
 		get("/restaurantDetails", (req, res)-> {
-			String rName =  req.queryParams("restaurantName");
+			String rName =  req.queryParams("restaurant");
 			Restaurant r;
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			r = restaurant.findRestaurant(rName);
+			r = restaurant.findRestaurantByName(rName);
+			System.out.println(gsonReg.toJson(r));
 			if(r != null) {
-				System.out.println("nadjen");
-
 				return gsonReg.toJson(r);
 			}
 			return gsonReg.toJson(r);
