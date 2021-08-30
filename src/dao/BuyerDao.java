@@ -31,7 +31,12 @@ private static HashMap<String,Buyer> buyers;
         }
     }
 
-    private void readBuyers() throws FileNotFoundException{
+    public static HashMap<String, Buyer> getBuyers() {
+		return buyers;
+	}
+
+
+	private void readBuyers() throws FileNotFoundException{
         Gson gson = new Gson();
         Type token = new TypeToken<HashMap<String,Buyer>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/kupci.json"));

@@ -209,6 +209,18 @@ public class ProjekatMain {
 			return gsonReg.toJson(deliverers);
 			
 		});
+		get("/buyers", (req, res)->{
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			ArrayList<Buyer> buyers = new ArrayList<Buyer>();
+			for (Map.Entry<String, Buyer> entry : buyerDAO.getBuyers().entrySet()) {
+				
+					buyers.add( entry.getValue());
+		        
+		    }	
+			return gsonReg.toJson(buyers);
+			
+		});
 		
 		
 	}

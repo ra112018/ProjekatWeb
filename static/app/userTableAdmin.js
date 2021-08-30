@@ -3,13 +3,65 @@ Vue.component("userTableAdmin", {
     data: function () {
       return {
         users:[],
-		role="",
-		userTypeName=""
+
+		role:"",
        
     };
     },
     mounted: function(){
-        			
+        			 axios.get('/buyers')
+		.then(response => {
+           
+            for(var i =0;i< response.data.length;i++){
+                var user = {};
+                user.name = response.data[i].name;
+                user.lastName = response.data[i].surname;
+                user.username = response.data[i].userName;
+				user.type=response.data[i].userTypeName;
+                user.role = "kupac";
+                this.users.push(user);
+            }
+         
+        });
+            axios.get('/admins')
+		.then(response => {
+           
+            for(var i =0;i< response.data.length;i++){
+                var user = {};
+                user.name = response.data[i].name;
+                user.lastName = response.data[i].surname;
+                user.username = response.data[i].userName;
+                user.role = "administrator";
+                this.users.push(user);
+            }
+         
+        });
+        axios.get('/managers')
+		.then(response => {
+           
+            for(var i =0;i< response.data.length;i++){
+                var user = {};
+                user.name = response.data[i].name;
+                user.lastName = response.data[i].surname;
+                user.username = response.data[i].userName;
+                user.role = "manager";
+                this.users.push(user);
+            }
+         
+        });
+        axios.get('/deliverers')
+		.then(response => {
+           
+            for(var i =0;i< response.data.length;i++){
+                var user = {};
+                user.name = response.data[i].name;
+                user.lastName = response.data[i].surname;
+                user.username = response.data[i].userName;
+                user.role = "kupac";
+                this.users.push(user);
+            }
+         
+        });
     },
     methods: {
 		deleteUser(event){
@@ -23,9 +75,7 @@ Vue.component("userTableAdmin", {
     },
     template: 
     ` <div>
-<p>PROBAA</p>
-		<div>
-			<p>PROBAA</p>
+		<div>                     			
 			<form @submit="search">
 				<input type="text"></input>
 				<button>Pretraži</button>
@@ -62,10 +112,10 @@ Vue.component("userTableAdmin", {
 				</tr>
 				<tr v-for="user in users">
 					<td>{{user.name}}</td>
-					<td>{{user.surname}}</td>
-					<td>{{user.userName}}</td>
+					<td>{{user.lastName}}</td>
+					<td>{{user.username}}</td>
 					<td>{{user.role}}</td>
-					<td>{{user.userTypeName}}</td>
+					<td>{{user.type}}</td>
 					
 					<td v-if="user.role !='administrator'"> <button @click="deleteUser" :id="user.username"> Obrisi</button></td>
                     <td v-if="user.role =='administrator'"> <button :disabled=true @click="deleteUser" :id="user.userName"> Obrisi</button></td>
