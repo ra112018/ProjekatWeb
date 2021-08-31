@@ -75,6 +75,20 @@ Vue.component("userTableAdmin", {
     },
     template: 
     ` <div>
+		<div class="maliHeder">
+				<a href="#/">
+				<button style="font-size: 100%;">Odjavi se</button></a>
+		</div>
+		<div class="vertical-menu">
+			<a href="#/buyerProfile">Moj profil</a>
+			<a href="#/restaurants">Restorani</a>
+			<a href="#/userTableAdmin" class="active">Korisnici</a>
+			 <a href="#" >Utisci i komentari</a> 
+
+		
+		</div>
+		<div><a href="#/addUser"><button>Dodaj zaposlenog</button></a></div>
+		<br>
 		<div>                     			
 			<form @submit="search">
 				<input type="text"></input>

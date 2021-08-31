@@ -8,7 +8,8 @@ const Orders = {template: '<orders></orders>' }
 const Restaurants={template:'<restaurants></restaurants>'}
 const SelectedRestaurant={template:'<selected-restaurant></selected-restaurant>'}
 const UserTableAdmin = {template:'<userTableAdmin></userTableAdmin>'}
-const AddRestaurant={template:'<addRestaurant></addRestaurant>'}
+const AddRestaurant= {template:'<addRestaurant></addRestaurant>'}
+const AddUser = {template:'<addUser></addUser>'}
 
 
 const router = new VueRouter({
@@ -24,7 +25,8 @@ const router = new VueRouter({
 		{ path: '/restaurants',component:Restaurants},
 		{ path: '/selectedRestaurant',component:SelectedRestaurant},
 		{ path: '/userTableAdmin',component:UserTableAdmin},
-		{ path: '/addRestaurant',component:AddRestaurant}
+		{ path: '/addRestaurant',component:AddRestaurant},
+		{ path: '/addUser',component:AddUser}
 
 
 

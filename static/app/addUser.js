@@ -1,0 +1,120 @@
+Vue.component("addUser", {
+	name: "addUser",
+	data: function(){
+		return {
+			userName:null,
+			password: null,
+			name: null,
+			surname: null,
+			gender: null,
+			birthDate: null,
+			role: null
+	
+		};
+	},
+	mounted: function(){
+        
+		
+			
+      
+},
+	methods: {
+		
+			cancel: function(){
+				router.replace({path: `/userTableAdmin`})
+			},
+			
+			addUser: function(e){
+				
+				
+			}
+             
+
+        
+		},
+		
+
+
+	template: `<div>
+		<div class="maliHeder">
+				<a href="#/">
+				<button style="font-size: 100%;">Odjavi se</button></a>
+		</div>
+		
+		<div class="vertical-menu">
+			<a href="#/buyerProfile">Moj profil</a>
+			<a href="#/restaurants">Restorani</a>
+			<a href="#/userTableAdmin" class="active">Korisnici</a>
+			 <a href="#" >Utisci i komentari</a> 
+
+		
+		</div>
+		
+		<div>
+			<table>
+			<tbody>
+				<tr>
+					<td><label>Ime:</label></td>
+					<td><input type="text" placeholder="Unesite ime" required v-model="name"/></td>
+				</tr>
+				<tr>
+					<td><label>Prezime:</label></td>
+					<td><input type="text" placeholder="Unesite prezime" required v-model="surname"/></td>
+				</tr>
+				<tr>
+					<td><label>Korisnicko ime:</label></td>
+					<td><input type="text" placeholder="Unesite korisnicko ime" required v-model="userName"/></td>
+				</tr>
+				<tr>
+					<td><label>Lozinka:</label></td>
+					<td><input type="password" placeholder="Unesite lozinku" required v-model="password"/></td>
+				</tr>
+				<tr>
+					<td><label>Pol:</label></td>
+					<td>
+					
+						<input type="radio" v-model="gender" value="Muski"/>
+						<label>Muski</label>
+						
+						<input type="radio" v-model="gender" value="Zenski"/>
+						<label>Zenski</label></td>
+						
+					
+				</tr>
+				<tr>
+					<td><label>Datum rodjenja</label></td>
+					<td><input type="date" v-model="birthDate"/></td>
+					
+				</tr>
+				<tr>
+					
+					<td><label>Uloga:</label></td>
+					<td><input type="radio" v-model="role" value="Manager"/>
+					<label>Menadzer</label>
+					
+					<input type="radio" v-model="role" value="Deliverer"/>
+					<label>Dostavljac</label></td>
+				</tr>	
+				
+				<tr>
+                        <td colspan="2" style="text-align: right;">
+						
+						
+						
+              			<button @click="cancel" type="button">Odustani</button>
+         
+          				<button @click="addUser">Dodaj korisnika</button>
+
+                        </td>
+                  </tr>
+				
+				</tbody>
+			</table>
+			</div>
+		
+         
+		
+	</div>
+`
+		
+});
