@@ -219,7 +219,7 @@ public class ProjekatMain {
 			
 			ArrayList<Administrator> admins = new ArrayList<Administrator>();
 			for (Map.Entry<String, Administrator> entry : adminDAO.getAdmins().entrySet()) {
-				
+				if(!entry.getValue().isDeleted())
 					admins.add( entry.getValue());
 		        
 		    }	
@@ -232,7 +232,7 @@ public class ProjekatMain {
 			
 			ArrayList<Manager> managers = new ArrayList<Manager>();
 			for (Map.Entry<String, Manager> entry : managerDAO.getManagers().entrySet()) {
-				
+				if(!entry.getValue().isDeleted())
 					managers.add( entry.getValue());
 		        
 		    }	
@@ -245,7 +245,7 @@ public class ProjekatMain {
 			
 			ArrayList<Deliverer> deliverers = new ArrayList<Deliverer>();
 			for (Map.Entry<String, Deliverer> entry : delivererDAO.getDeliverers().entrySet()) {
-				
+				if(!entry.getValue().isDeleted())
 					deliverers.add( entry.getValue());
 		        
 		    }	
@@ -257,7 +257,7 @@ public class ProjekatMain {
 			
 			ArrayList<Buyer> buyers = new ArrayList<Buyer>();
 			for (Map.Entry<String, Buyer> entry : buyerDAO.getBuyers().entrySet()) {
-				
+				if(!entry.getValue().isDeleted())
 					buyers.add( entry.getValue());
 		        
 		    }	
