@@ -40,6 +40,7 @@ Vue.component("success", {
 	    <a href="#/orders" v-if="this.role==='deliverer'">Porudžbine</a>
 
       	<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
+		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>
 		<a href="#" v-if="this.role==='manager'">Kupci</a>
 
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>

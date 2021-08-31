@@ -44,6 +44,7 @@ Vue.component("restaurants", {
 		<a href="#/restaurants" v-if="this.role==='manager'" class="active">Restorani</a>
 		
 		<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
+		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>

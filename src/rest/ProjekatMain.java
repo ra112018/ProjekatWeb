@@ -152,6 +152,27 @@ public class ProjekatMain {
 			
 		});
 		
+		post("/addUser", (req, res)-> {
+			
+			String rola = req.queryParams("role");
+			String reqBody = req.body();
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			if(rola.equals("Deliverer")) {
+				
+				Deliverer deliverer = gsonReg.fromJson(reqBody, Deliverer.class);
+				delivererDAO.addDeliverer(deliverer);
+				
+			}else if(rola.equals("Manager")) {
+				Manager manager = gsonReg.fromJson(reqBody, Manager.class);
+				managerDAO.addManager(manager);
+				
+			}
+			
+			
+			return true;
+		});
+		
 		get("/restaurantDetails", (req, res)-> {
 			String rName =  req.queryParams("restaurant");
 			Restaurant r;

@@ -94,6 +94,7 @@ Vue.component("buyer-profile", {
 		<a href="#/restaurants" v-if="this.role==='manager'">Restorani</a>
 		
 		<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
+		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>
 		
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>

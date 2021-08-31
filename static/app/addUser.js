@@ -8,7 +8,8 @@ Vue.component("addUser", {
 			surname: null,
 			gender: null,
 			birthDate: null,
-			role: null
+			role: localStorage.getItem('role'),
+			showErrorMessage: false
 	
 		};
 	},
@@ -21,11 +22,32 @@ Vue.component("addUser", {
 	methods: {
 		
 			cancel: function(){
-				router.replace({path: `/userTableAdmin`})
+				router.replace({path: `/success`})
 			},
 			
 			addUser: function(e){
-				
+				e.preventDefault();
+				this.errors = null;
+				if(!this.name || !this.surname || !this.userName || !this.password || !this.birthDate || !this.role ||!this.gender){
+					this.showErrorMessage = true;
+					alert("Unesite sve podatke");
+					e.preventDefault();
+				}else{
+					axios
+					.post('/addUser', {userName: this.userName, 
+										password: this.password, 
+										name: this.name, 
+										surname: this.surname, 
+										gender: this.gender,
+										birthDate: this.birthDate,		
+										role: this.role}, {params:{userName:this.userName, password:this.password, role:this.role}})
+						
+					
+					.then(function(response){
+						alert("Dodat korisnik!")
+						router.replace({ path: `/success`})
+					});
+				}
 				
 			}
              
@@ -44,8 +66,9 @@ Vue.component("addUser", {
 		<div class="vertical-menu">
 			<a href="#/buyerProfile">Moj profil</a>
 			<a href="#/restaurants">Restorani</a>
-			<a href="#/userTableAdmin" class="active">Korisnici</a>
-			 <a href="#" >Utisci i komentari</a> 
+			<a href="#/userTableAdmin">Korisnici</a>
+			<a href="#/addUser" class="active">Dodaj korisnika</a>
+			<a href="#" >Utisci i komentari</a> 
 
 		
 		</div>

@@ -57,7 +57,7 @@ Vue.component("userTableAdmin", {
                 user.name = response.data[i].name;
                 user.lastName = response.data[i].surname;
                 user.username = response.data[i].userName;
-                user.role = "kupac";
+                user.role = "deliverer";
                 this.users.push(user);
             }
          
@@ -83,11 +83,12 @@ Vue.component("userTableAdmin", {
 			<a href="#/buyerProfile">Moj profil</a>
 			<a href="#/restaurants">Restorani</a>
 			<a href="#/userTableAdmin" class="active">Korisnici</a>
+			<a href="#/addUser">Dodaj korisnika</a>
 			 <a href="#" >Utisci i komentari</a> 
 
 		
 		</div>
-		<div><a href="#/addUser"><button>Dodaj zaposlenog</button></a></div>
+		
 		<br>
 		<div>                     			
 			<form @submit="search">

@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import beans.Administrator;
 import beans.Buyer;
 import beans.Deliverer;
+import beans.Manager;
 
 public class DelivererDAO {
 
@@ -94,6 +95,18 @@ public class DelivererDAO {
 		gson.toJson(this.deliverers, fw);
 		fw.flush();
 		fw.close();
+	}
+	
+	public Deliverer addDeliverer(Deliverer deliverer) {
+		
+		deliverers.put(deliverer.getUserName(),deliverer);
+		try {
+			this.addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return deliverer;
 	}
 	
 	

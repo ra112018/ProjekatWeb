@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,9 @@ import com.google.gson.reflect.TypeToken;
 import beans.Administrator;
 import beans.Buyer;
 import beans.Manager;
+import beans.Order;
 import beans.User;
+import beans.UserType;
 
 public class ManagerDAO {
 
@@ -93,6 +96,18 @@ public class ManagerDAO {
 		gson.toJson(this.managers, fw);
 		fw.flush();
 		fw.close();
+	}
+	
+	public Manager addManager(Manager manager) {
+		
+		managers.put(manager.getUserName(),manager);
+		try {
+			this.addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return manager;
 	}
 	
 	
