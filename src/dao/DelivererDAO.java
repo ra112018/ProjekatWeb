@@ -109,6 +109,14 @@ public class DelivererDAO {
 		return deliverer;
 	}
 	
+	public void deleteDeliverer(String uName) {
+		for (Map.Entry<String, Deliverer> entry : deliverers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(uName) ) {
+	        	entry.getValue().deleted(true);
+	        }
+	    }
+	}
+	
 	
 }
 

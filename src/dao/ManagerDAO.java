@@ -110,6 +110,14 @@ public class ManagerDAO {
 		return manager;
 	}
 	
+	public void deleteManager(String uName) {
+		for (Map.Entry<String, Manager> entry : managers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(uName) ) {
+	        	entry.getValue().deleted(true);
+	        }
+	    }
+	}
+	
 	
 	
 }

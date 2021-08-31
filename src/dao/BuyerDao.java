@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Buyer;
+import beans.User;
 import beans.Order;
 import beans.UserType;
 
@@ -106,6 +107,14 @@ public class BuyerDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void deleteBuyer(String uName) {
+		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(uName) ) {
+	        	entry.getValue().deleted(true);
+	        }
+	    }
 	}
 	
 

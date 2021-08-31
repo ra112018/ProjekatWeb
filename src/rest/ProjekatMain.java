@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 import beans.Administrator;
 import beans.Buyer;
 import beans.Deliverer;
+import beans.User;
 import beans.Manager;
 import beans.Restaurant;
 import beans.User;
@@ -172,6 +173,32 @@ public class ProjekatMain {
 			
 			return true;
 		});
+		
+		post("/deleteUser", (req, res)-> {
+			String uName = req.queryParams("userName");
+			
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			User u = null;
+			u = buyerDAO.findBuyerByUsername(uName);
+			if(u != null) {
+				buyerDAO.deleteBuyer(uName);
+			}else {
+					u = managerDAO.findManagerByUsername(uName);
+					if(u != null) {
+						managerDAO.deleteManager(uName);
+					}else {
+						u = delivererDAO.findDelivererByUsername(uName);
+						if(u != null) {
+							delivererDAO.deleteDeliverer(uName);
+						
+						}	
+					}
+			}
+			return true;
+		});
+		
+		
+		
 		
 		get("/restaurantDetails", (req, res)-> {
 			String rName =  req.queryParams("restaurant");

@@ -9,63 +9,82 @@ Vue.component("userTableAdmin", {
     };
     },
     mounted: function(){
-        			 axios.get('/buyers')
-		.then(response => {
-           
-            for(var i =0;i< response.data.length;i++){
-                var user = {};
-                user.name = response.data[i].name;
-                user.lastName = response.data[i].surname;
-                user.username = response.data[i].userName;
-				user.type=response.data[i].userTypeName;
-                user.role = "kupac";
-                this.users.push(user);
-            }
-         
-        });
-            axios.get('/admins')
-		.then(response => {
-           
-            for(var i =0;i< response.data.length;i++){
-                var user = {};
-                user.name = response.data[i].name;
-                user.lastName = response.data[i].surname;
-                user.username = response.data[i].userName;
-                user.role = "administrator";
-                this.users.push(user);
-            }
-         
-        });
-        axios.get('/managers')
-		.then(response => {
-           
-            for(var i =0;i< response.data.length;i++){
-                var user = {};
-                user.name = response.data[i].name;
-                user.lastName = response.data[i].surname;
-                user.username = response.data[i].userName;
-                user.role = "manager";
-                this.users.push(user);
-            }
-         
-        });
-        axios.get('/deliverers')
-		.then(response => {
-           
-            for(var i =0;i< response.data.length;i++){
-                var user = {};
-                user.name = response.data[i].name;
-                user.lastName = response.data[i].surname;
-                user.username = response.data[i].userName;
-                user.role = "deliverer";
-                this.users.push(user);
-            }
-         
-        });
+        		this.refreshPage();	 
     },
     methods: {
-		deleteUser(event){
+		refreshPage(){
+					axios.get('/buyers')
+				.then(response => {
+		           
+		            for(var i =0;i< response.data.length;i++){
+		                var user = {};
+		                user.name = response.data[i].name;
+		                user.lastName = response.data[i].surname;
+		                user.username = response.data[i].userName;
+						user.type=response.data[i].userTypeName;
+		                user.role = "kupac";
+		                this.users.push(user);
+		            }
+		         
+		        });
+		            axios.get('/admins')
+				.then(response => {
+		           
+		            for(var i =0;i< response.data.length;i++){
+		                var user = {};
+		                user.name = response.data[i].name;
+		                user.lastName = response.data[i].surname;
+		                user.username = response.data[i].userName;
+		                user.role = "administrator";
+		                this.users.push(user);
+		            }
+		         
+		        });
+		        axios.get('/managers')
+				.then(response => {
+		           
+		            for(var i =0;i< response.data.length;i++){
+		                var user = {};
+		                user.name = response.data[i].name;
+		                user.lastName = response.data[i].surname;
+		                user.username = response.data[i].userName;
+		                user.role = "manager";
+		                this.users.push(user);
+		            }
+		         
+		        });
+		        axios.get('/deliverers')
+				.then(response => {
+		           
+		            for(var i =0;i< response.data.length;i++){
+		                var user = {};
+		                user.name = response.data[i].name;
+		                user.lastName = response.data[i].surname;
+		                user.username = response.data[i].userName;
+		                user.role = "deliverer";
+		                this.users.push(user);
+		            }
+		         
+		        });
+					
 			
+		},
+		deleteUser(event){
+			//OVDE NE ZNAM
+			username = event.target.id;
+            for(var i =0;i<this.users.length;i++){
+              if(this.users[i].username == username){
+                    axios
+                .post('/deleteUser',{}, {params:{userName:username}})
+                .then((response) => {
+                  alert("Obrisan korisnik ");
+                  this.users = [];
+                  this.refreshPage();
+                  
+                })
+                
+              }
+          }
 			
 		},
 		search(){
@@ -133,9 +152,10 @@ Vue.component("userTableAdmin", {
 					<td>{{user.type}}</td>
 					<td>{{user.points}}</td>
 					
-					<td v-if="user.role !='administrator'"> <button @click="deleteUser" :id="user.username"> Obrisi</button></td>
+					<td v-if="user.role !='administrator'"> <button @click="deleteUser" :id="user.userName"> Obrisi</button></td>
                     <td v-if="user.role =='administrator'"> <button :disabled=true @click="deleteUser" :id="user.userName"> Obrisi</button></td>
                     <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer')"> <button :id="user.username">Blokiraj</button></td>
+                    <td v-if="user.role =='administrator'"> <button :disabled=true :id="user.userName"> Blokiraj</button></td>
                   
 					
 				</tr>
