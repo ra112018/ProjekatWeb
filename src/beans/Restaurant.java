@@ -10,6 +10,7 @@ public class Restaurant {
 	private RestaurantStatus status;
 	private Location location;
 	private String logo;
+	private Manager manager;
 
 	public Restaurant() {}
 
@@ -70,5 +71,13 @@ public class Restaurant {
 
 	public void setLogo(String logo) {
 		this.logo = logo;
+	}
+
+	public Manager getManager() {
+		return manager;
+	}
+
+	public void setManager(Manager manager) {
+		this.manager = manager;
 	}
 }

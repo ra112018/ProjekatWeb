@@ -35,7 +35,6 @@ Vue.component("selected-restaurant", {
 		},
 	
 	methods: {
-		 
  
 		
 		},
@@ -98,7 +97,6 @@ Vue.component("selected-restaurant", {
 		</select>
 		
 		</div>
-	
 	<div class="restoran">
 		<img class="logo3" src="dizni-logo.jpg"/>
 		<span class="opis"><br><br><input v-model="restaurantName"><br><input v-model="type"><p class="open">Otvoreno</p> 10:00-22:00

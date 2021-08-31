@@ -37,7 +37,6 @@ public class ProjekatMain {
 	private static DelivererDAO delivererDAO = new DelivererDAO();
 	private static RestaurantDao restaurant=new RestaurantDao();
 
-
 	private static Gson g=new Gson();
 
 	public static void main(String[] args) throws Exception {

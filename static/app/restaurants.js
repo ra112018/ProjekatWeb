@@ -14,6 +14,10 @@ Vue.component("restaurants", {
 			this.restaurantName="Pizzeria Ciao";
 		    localStorage.setItem('restaurantName', 'Pizzeria Ciao');
 
+		},
+		newRestaurant(event){
+		    router.push({ path: `/addRestaurant` })
+
 		}
 	},
 	mounted: function(){
@@ -83,7 +87,8 @@ Vue.component("restaurants", {
 		</select>
 		
 		</div>
-	
+	<div v-if="role =='administrator'"> <button class="addButton" @click="newRestaurant" :id="user.username"> Novi</button></div>
+
 	<div class="grid">
 			
 		<a>
