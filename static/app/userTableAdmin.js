@@ -70,7 +70,7 @@ Vue.component("userTableAdmin", {
 			
 		},
 		deleteUser(event){
-			//OVDE NE ZNAM
+			
 			username = event.target.id;
             for(var i =0;i<this.users.length;i++){
               if(this.users[i].username == username){
@@ -152,8 +152,8 @@ Vue.component("userTableAdmin", {
 					<td>{{user.type}}</td>
 					<td>{{user.points}}</td>
 					
-					<td v-if="user.role !='administrator'"> <button @click="deleteUser" :id="user.userName"> Obrisi</button></td>
-                    <td v-if="user.role =='administrator'"> <button :disabled=true @click="deleteUser" :id="user.userName"> Obrisi</button></td>
+					<td v-if="user.role !='administrator'"> <button @click="deleteUser" :id="user.username"> Obrisi</button></td>
+                    <td v-if="user.role =='administrator'"> <button :disabled=true @click="deleteUser" :id="user.username"> Obrisi</button></td>
                     <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer')"> <button :id="user.username">Blokiraj</button></td>
                     <td v-if="user.role =='administrator'"> <button :disabled=true :id="user.userName"> Blokiraj</button></td>
                   
