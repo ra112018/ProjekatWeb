@@ -6,9 +6,13 @@ import static spark.Spark.port;
 import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.Map;
+
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,6 +20,7 @@ import com.google.gson.GsonBuilder;
 import beans.Administrator;
 import beans.Buyer;
 import beans.Deliverer;
+import beans.Location;
 import beans.User;
 import beans.Manager;
 import beans.Restaurant;
@@ -23,6 +28,7 @@ import beans.User;
 import dao.AdministratorDAO;
 import dao.BuyerDao;
 import dao.DelivererDAO;
+import dao.LocationDAO;
 import dao.ManagerDAO;
 import dao.RestaurantDao;
 import spark.Request;
@@ -37,6 +43,8 @@ public class ProjekatMain {
 	private static ManagerDAO managerDAO = new ManagerDAO();
 	private static DelivererDAO delivererDAO = new DelivererDAO();
 	private static RestaurantDao restaurant=new RestaurantDao();
+	private static LocationDAO locationDAO=new LocationDAO();
+
 
 	private static Gson g=new Gson();
 
@@ -211,6 +219,20 @@ public class ProjekatMain {
 			}
 			return gsonReg.toJson(r);
 		
+		});
+		
+		post("/addRestaurant", (req, res) -> {
+			String reqBody = req.body();
+			
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+
+			Restaurant r = gsonReg.fromJson(reqBody, Restaurant.class);
+
+			restaurant.addRestaurant(r);
+				
+		
+			return true;
+			
 		});
 		
 		

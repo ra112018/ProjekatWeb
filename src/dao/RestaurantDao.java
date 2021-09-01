@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +46,6 @@ public class RestaurantDao {
 	
 
 	public Restaurant addRestaurant(Restaurant restaurant) {
-		
 		restaurants.put(restaurant.getRestaurantName(),restaurant);
 		try {
 			this.addRestaurantInFile();
@@ -85,6 +85,10 @@ public class RestaurantDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public String findNextId() {
+		String maxValueKey = Collections.max(this.restaurants.keySet());
+		return Integer.toString(Integer.valueOf(maxValueKey) + 1);
 	}
 
 }

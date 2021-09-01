@@ -9,8 +9,10 @@ public class Restaurant {
 	private ArrayList<Article> articles;
 	private RestaurantStatus status;
 	private Location location;
+	private String city;
+	private String address;
 	private String logo;
-	private Manager manager;
+	private String managerName;
 
 	public Restaurant() {}
 
@@ -73,11 +75,13 @@ public class Restaurant {
 		this.logo = logo;
 	}
 
-	public Manager getManager() {
-		return manager;
+	public String getManagerName() {
+		return managerName;
 	}
 
-	public void setManager(Manager manager) {
-		this.manager = manager;
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
 	}
+
+
 }

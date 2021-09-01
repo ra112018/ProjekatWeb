@@ -2,6 +2,11 @@ Vue.component("addRestaurant", {
 	name: "addRestaurant",
 	data: function(){
 		return {
+			name:"",
+			type:"",
+			location:"",
+			logo:"",
+			manager:""
 			
 		};
 	},
@@ -10,7 +15,7 @@ Vue.component("addRestaurant", {
     add: function (e) {
       e.preventDefault();
       this.errors = null;
-			if(!this.name || !this.type || !this.location || !this.logo || !this.manager ){
+			if(!this.name || !this.type || !this.city || !this.logo || !this.manager ){
 				this.showErrorMessage = true;
 				alert("Morate uneti sve podatke.")
 				e.preventDefault();
@@ -18,9 +23,10 @@ Vue.component("addRestaurant", {
         axios
         .post('/addRestaurant', {restaurantName: this.name, 
                     restaurantType: this.type,
-                    location : this.location,
+                    city : this.city,
+                    address : this.address,
                     logo: this.logo,
-                    manager : this.manager,
+                    managerName : this.manager,
                     })
         .then(function(response){	alert("Uspešno dodat restoran!");
 				router.replace({ path: `/restaurants` })
@@ -47,12 +53,23 @@ Vue.component("addRestaurant", {
                                 <td> <input type="text" required v-model="name" /> </td>
                             </tr>
                             <tr>
-                                <td> Tip: </td>
-                                <td> <input type="text" required  v-model="type"/> </td>
+                                <td> Tip: </td><td> <select id="type" name="type" required v-model="type">
+								<option value="brza">Brza hrana</option>
+								  <option value="giros">Giros</option>
+								  <option value="kineska">Kineska hrana</option>
+								  <option value="kuvana">Kuvana jela</option>
+								  <option value="palačinke">Palačinke</option>
+								  <option value="pizza">Pizza</option>
+								  <option value="poslasticarnica">Poslastičarnica</option>
+								  <option value="susi">Suši</option>
+  								</select></td>
                             </tr>
                             <tr>
-                                <td> Lokacija: </td>
-                                <td> <input type="text" required v-model="location" /> </td>
+                                <td> Grad: </td>
+                                <td> <input type="text" required v-model="city" /> </td>
+                            </tr>                            <tr>
+                                <td> Adresa: </td>
+                                <td> <input type="text" required v-model="address" /> </td>
                             </tr>
                             <tr>
                                 <td> Logo: </td>
