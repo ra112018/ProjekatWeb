@@ -4,8 +4,11 @@ Vue.component("userTableAdmin", {
       return {
         users:[],
 		userTypeName:"",
-		role:""
-       
+		role:"",
+        userNameSort:"",
+		nameSort:"",
+		surnameSort:"",
+		pointsSort:""
     };
     },
     mounted: function(){
@@ -89,6 +92,119 @@ Vue.component("userTableAdmin", {
 		},
 		search(){
 			
+		},
+		
+		sortTable(event){
+			id = event.target.id;
+			
+			if(id === "userName"){
+				if(this.userNameSort === ""){
+					this.userNameSort = "ascending";
+				}else if(this.userNameSort === "descending"){
+					this.userNameSort = "ascending";
+				}else{
+					this.userNameSort = "descending";
+				}
+				var tempVar;
+				for(var i = 0; i < this.users.length; i++){
+					for(var j = 0; j < this.users.length-1; j++){
+						if(this.userNameSort === "descending"){
+							if(this.users[j].username > this.users[j+1].username){
+								tempVar = this.users[j];
+                                this.users[j] = this.users[j+1];
+                                this.users[j+1] = tempVar;  
+							}
+						}else{
+							if(this.users[j].username < this.users[j+1].username){
+                                tempVar = this.users[j];
+                                this.users[j] = this.users[j+1];
+                                this.users[j+1] = tempVar;
+                            }
+						}
+					}
+				}
+			}else if(id === "name"){
+				if(this.nameSort === ""){
+					this.nameSort = "ascending";
+				}else if(this.nameSort === "descending"){
+					this.nameSort = "ascending";
+				}else{
+					this.nameSort = "descending";
+				}
+				var tempVar;
+				for(var i = 0; i < this.users.length; i++){
+					for(var j = 0; j < this.users.length-1; j++){
+						if(this.nameSort === "descending"){
+							if(this.users[j].name > this.users[j+1].name){
+								tempVar = this.users[j];
+                                this.users[j] = this.users[j+1];
+                                this.users[j+1] = tempVar;  
+							}
+						}else{
+							if(this.users[j].username < this.users[j+1].username){
+                                tempVar = this.users[j];
+                                this.users[j] = this.users[j+1];
+                                this.users[j+1] = tempVar;
+                            }
+						}
+					}
+				}
+				
+			}else if(id === "surname"){
+				if(this.surnameSort === ""){
+					this.surnameSort = "ascending";
+				}else if(this.surnameSort === "descending"){
+					this.surnameSort = "ascending";
+				}else{
+					this.surnameSort = "descending";
+				}
+				var tempVar;
+				for(var i = 0; i < this.users.length; i++){
+					for(var j = 0; j < this.users.length-1; j++){
+						if(this.surnameSort === "descending"){
+							if(this.users[j].lastName > this.users[j+1].lastName){
+								tempVar = this.users[j];
+                                this.users[j] = this.users[j+1];
+                                this.users[j+1] = tempVar;  
+							}
+						}else{
+							if(this.users[j].lastName < this.users[j+1].lastName){
+                                tempVar = this.users[j];
+                                this.users[j] = this.users[j+1];
+                                this.users[j+1] = tempVar;
+                            }
+						}
+					}
+				}
+			}else {
+				
+				if(this.pointsSort === ""){
+					this.pointsSort = "ascending";
+				}else if(this.pointsSort === "descending"){
+					this.pointsSort = "ascending";
+				}else{
+					this.pointsSort = "descending";
+				}
+				var tempVar;
+				for(var i = 0; i < this.users.length; i++){
+					for(var j = 0; j < this.users.length-1; j++){
+						if(this.pointsSort === "descending"){
+							if(this.users[j].points > this.users[j+1].points){
+								tempVar = this.users[j];
+                                this.users[j] = this.users[j+1];
+                                this.users[j+1] = tempVar;  
+							}
+						}else{
+							if(this.users[j].points < this.users[j+1].points){
+                                tempVar = this.users[j];
+                                this.users[j] = this.users[j+1];
+                                this.users[j+1] = tempVar;
+                            }
+						}
+					}
+				}
+			}
+			
 		}
   
     },
@@ -135,12 +251,12 @@ Vue.component("userTableAdmin", {
 		<div>
 			<table>	
 				<tr>
-					<th>Ime</th>
-					<th>Prezime</th>
-					<th>Korisnicko ime</th>
+					<th @click="sortTable" v-bind:class="nameSort" id="name">Ime</th>
+					<th @click="sortTable" v-bind:class="surnameSort" id="surname">Prezime</th>
+					<th @click="sortTable" v-bind:class="userNameSort" id="userName">Korisnicko ime</th>
 					<th>Uloga</th>
 					<th>Tip kupca</th>
-					<th>Bodovi</th>
+					<th @click="sortTable" v-bind:class="pointsSort" id="points">Bodovi</th>
 					<th> </th>
 					<th> </th>
 				</tr>
