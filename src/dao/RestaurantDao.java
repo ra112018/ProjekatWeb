@@ -60,14 +60,23 @@ public class RestaurantDao {
 		System.out.println(logoName);
 
         restaurant.setLogo("../img/" + logoName);
-
-
-		try {
-			this.addRestaurantInFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        boolean exist=checkManager(restaurant.getManagerName());
+        if(exist==true) {
+        	System.out.println("Menadzer postoji");
+        	try {
+    			this.addRestaurantInFile();
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+        }
+        else{
+        	System.out.println("Menadzer ne postoji");
+        	restaurant=new Restaurant();
+        	restaurant.setManagerName("nepostojeci");
+        	}
+        	
+		
 		return restaurant;
 	}
 	public static void addRestaurantInFile() throws IOException{
@@ -111,36 +120,34 @@ public class RestaurantDao {
 		BufferedImage bimage = null;	
         byte[] imageByte;
         imageByte = Base64.getDecoder().decode(imageString);
-
         ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
-
         try {
 			bimage = ImageIO.read(bis);
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         try {
 			bis.close();
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		String imageName= "restoran"  + ".png";
-
 		File outputfile = new File(System.getProperty("user.dir")+ "\\static\\img\\" + imageName);
         try {
 			ImageIO.write(bimage, "png", outputfile);
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         return imageName;
-        
 	}
+	public boolean checkManager(String name) {
+		boolean MngExist;
+		ManagerDAO m=new ManagerDAO();
+		MngExist=m.ManagerExist(name);
+		return MngExist;
+		}
 
 }

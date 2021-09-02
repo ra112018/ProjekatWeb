@@ -227,8 +227,10 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			System.out.println("Pokrenuo");
 			Restaurant r = gsonReg.fromJson(reqBody, Restaurant.class);
-			restaurant.addRestaurant(r);
-				
+			Restaurant checkEror=restaurant.addRestaurant(r);
+			if(checkEror.getManagerName()=="nepostojeci") {
+				return false;
+			}
 		
 			return true;
 			

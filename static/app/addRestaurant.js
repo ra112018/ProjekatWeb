@@ -38,9 +38,14 @@ Vue.component("addRestaurant", {
 					logo:this.image,
                     managerName : this.managerName,
                     })
-        .then(function(response){	alert("Uspešno dodat restoran!");
-				router.replace({ path: `/restaurants` })
-      })  
+        .then(response =>{
+                if(response.data){
+                    alert("Restoran uspešno kreiran.")
+                }
+                else{
+                    alert("Menadžer ne postoji u bazi, dodajte drugog menadžera.")
+                }
+            })
     }
 	}, 
 		addLogo: function(event){
