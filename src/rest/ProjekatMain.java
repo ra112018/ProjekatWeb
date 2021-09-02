@@ -288,8 +288,16 @@ public class ProjekatMain {
 			
 		});
 		
+		get("/restaurants", (req, res)->{
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			ArrayList<Restaurant> restaurantList = new ArrayList<Restaurant>();
+			for (Map.Entry<String, Restaurant> entry : restaurant.getRestaurants().entrySet()) {
+					restaurantList.add( entry.getValue());
+			}
+			return gsonReg.toJson(restaurantList);
+		});
 		
-		
-	}
+		}
 
 }

@@ -63,6 +63,20 @@ Vue.component("addRestaurant", {
         },
 	},
 	template: `<div>
+		<div class="maliHeder">
+		<a href="#/">
+		<button style="font-size: 100%;">Odjavi se</button></a>
+	</div>
+	<div class="vertical-menu">
+ 		<a href="#/buyerProfile" v-if="this.role==='administrator'">Moj profil</a>
+       		<a href="#/restaurants" v-if="this.role==='administrator'" class="active">Restorani</a>
+		
+		<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
+		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>
+
+		<a href="#" v-if="this.role==='administrator'">Utisci i komentari</a>
+ 
+	</div>
        
     <p class="naslov"><b>Dodaj restoran</b></p>
     <p class="napomena"> *Sva polja su obavezna</p>
@@ -101,7 +115,7 @@ Vue.component("addRestaurant", {
 
                             <tr>
                                 <td colspan="2" style="text-align: right;">
-                                <input type="submit" value="Dodaj novog" style="font-size: medium; margin-top: 2%;"/>
+                                <input type="submit" value="Dodaj" style="font-size: medium; margin-top: 2%;"/>
                                 </td>
                             </tr>
                         

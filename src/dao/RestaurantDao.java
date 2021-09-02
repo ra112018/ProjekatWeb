@@ -21,9 +21,11 @@ import javax.imageio.ImageIO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import beans.Article;
 import beans.Buyer;
 import beans.Order;
 import beans.Restaurant;
+import beans.RestaurantStatus;
 import beans.UserType;
 
 public class RestaurantDao {
@@ -57,13 +59,15 @@ public class RestaurantDao {
 		System.out.println(restaurant.getRestaurantType());
 		System.out.println(restaurant.getLogo());
 		if(restaurant.getLogo()!=null) {
-		String logoName=getNiceImageFormat(restaurant.getLogo());
+		String logoName=getNiceImageFormat(restaurant.getLogo(),restaurant.getRestaurantName());
 		System.out.println(logoName);
 
         restaurant.setLogo("../img/" + logoName);
 		}
         boolean exist=checkManager(restaurant.getManagerName());
         if(exist==true) {
+        	restaurant.setArticles(new ArrayList<Article>());
+        	restaurant.setStatus(RestaurantStatus.Open);
         	System.out.println("Menadzer postoji");
         	try {
     			this.addRestaurantInFile();
@@ -116,7 +120,7 @@ public class RestaurantDao {
 		String maxValueKey = Collections.max(this.restaurants.keySet());
 		return Integer.toString(Integer.valueOf(maxValueKey) + 1);
 	}
-	public String getNiceImageFormat(String image) {
+	public String getNiceImageFormat(String image,String name) {
 
 		String imageString = image.split(",")[1];
 		BufferedImage bimage = null;	
@@ -135,7 +139,7 @@ public class RestaurantDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String imageName= "restoran"  + ".png";
+		String imageName= "restoran"  +name+ ".png";
 		File outputfile = new File(System.getProperty("user.dir")+ "\\static\\img\\" + imageName);
         try {
 			ImageIO.write(bimage, "png", outputfile);
@@ -145,6 +149,18 @@ public class RestaurantDao {
 		}
         return imageName;
 	}
+	public static HashMap<String, Restaurant> getRestaurants() {
+		return restaurants;
+	}
+
+
+
+	public static void setRestaurants(HashMap<String, Restaurant> restaurants) {
+		RestaurantDao.restaurants = restaurants;
+	}
+
+
+
 	public boolean checkManager(String name) {
 		boolean MngExist;
 		ManagerDAO m=new ManagerDAO();

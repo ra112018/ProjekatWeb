@@ -6,7 +6,8 @@ Vue.component("restaurants", {
 			username:"",
       	   role:localStorage.getItem('role'),
 		   user:localStorage.getItem('user'),
-			restaurantName:""
+			restaurantName:"",
+			restaurant:[]
 		    }
 	},
 	methods:{
@@ -25,10 +26,25 @@ Vue.component("restaurants", {
               this.username = window.localStorage.getItem('username');
               this.role = window.localStorage.getItem('role');
 			  this.user=window.localStorage.getItem('user');
+			axios.get('/restaurants')
+				.then(response => {
+		           
+		            for(var i =0;i< response.data.length;i++){
+		                var restaurant = {};
+		                restaurant.restaurantName = response.data[i].restaurantName;
+		                restaurant.restaurantType = response.data[i].restaurantType;
+		                restaurant.logo = response.data[i].logo;
+						restaurant.managerName=response.data[i].managerName;
+		               restaurant.location=response.data[i].location;
+						restaurant.status=response.data[i].status;
+						restaurant.articles=response.data[i].articles;
+		            }
+		         
+		        });
 	},
 	
 
-	template: ` </div>
+	template: ` <div>
 	<div>
 		<div class="maliHeder">
 		<a href="#/">
