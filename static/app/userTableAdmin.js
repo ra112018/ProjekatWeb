@@ -3,8 +3,9 @@ Vue.component("userTableAdmin", {
     data: function () {
       return {
         users:[],
-		userTypeName:"",
+		type:"",
 		role:"",
+		searching:"",
         userNameSort:"",
 		nameSort:"",
 		surnameSort:"",
@@ -91,7 +92,77 @@ Vue.component("userTableAdmin", {
 			
 		},
 		search(){
-			
+			this.users = [];
+			if(this.type == "" && this.role == "" && this.searching == ""){
+				this.refreshPage();
+			}else if(this.type != ""){
+				axios.get('/searchingBuyers', {params:{searching:this.searching, role:this.role, customerType:this.type}})
+                .then(response => {
+                for(var i =0;i< response.data.length;i++){
+                    var user = {};
+                    user.name = response.data[i].name;
+                    user.lastName = response.data[i].surname;
+                    user.username = response.data[i].userName;
+                    user.role = "kupac";
+                    user.points = response.data[i].points;
+                    user.type= response.data[i].userTypeName;
+                   
+                    this.users.push(user);
+                }
+			});
+			}else{
+				 axios.get('/searchingAdmins', {params:{searching:this.searching, role:this.role}})
+		            .then(response => {
+		                for(var i =0;i< response.data.length;i++){
+		                    var user = {};
+		                    user.name = response.data[i].name;
+		                    user.lastName = response.data[i].surname;
+		                    user.username = response.data[i].userName;
+		                    user.role = "administrator";
+		                    this.users.push(user);
+		                }
+		             
+		            });
+		            axios.get('/searchingManagers', {params:{searching:this.searching, role:this.role}})
+		            .then(response => {
+		                for(var i =0;i< response.data.length;i++){
+		                    var user = {};
+		                     user.name = response.data[i].name;
+		                    user.lastName = response.data[i].surname;
+		                    user.username = response.data[i].userName;
+		                    user.role = "manager";
+		                    this.users.push(user);
+		                }
+		             
+		            });
+ 					axios.get('/searchingDeliverers', {params:{searching:this.searching, role:this.role}})
+		            .then(response => {
+		                for(var i =0;i< response.data.length;i++){
+		                    var user = {};
+		                     user.name = response.data[i].name;
+		                    user.lastName = response.data[i].surname;
+		                    user.username = response.data[i].userName;
+		                    user.role = "deliverer";
+		                    this.users.push(user);
+		                }
+		             
+		            });
+		           axios.get('/searchingBuyers', {params:{searching:this.searching, role:this.role, customerType:this.type}})
+	                .then(response => {
+	                for(var i =0;i< response.data.length;i++){
+	                    var user = {};
+	                    user.name = response.data[i].name;
+	                    user.lastName = response.data[i].surname;
+	                    user.username = response.data[i].userName;
+	                    user.role = "kupac";
+	                    user.points = response.data[i].points;
+	                    user.type= response.data[i].type;
+	                   
+	                    this.users.push(user);
+					}
+				});
+				
+			}
 		},
 		
 		sortTable(event){

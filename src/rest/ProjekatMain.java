@@ -298,6 +298,75 @@ public class ProjekatMain {
 			return gsonReg.toJson(restaurantList);
 		});
 		
-		}
+		get("/searchingAdmins", (req, res)->{
+			String s =  req.queryParams("searching");
+			String r = req.queryParams("role");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			ArrayList<Administrator> admins = new ArrayList<Administrator>();
+			for (Map.Entry<String, Administrator> entry : adminDAO.getAdmins().entrySet()) {
+				if(r.equals("administrator")|| r.equals("")) {
+					if((entry.getValue().getName().contains(s) || entry.getValue().getSurname().contains(s) || entry.getValue().getUserName().contains(s)) && !entry.getValue().isDeleted() )
+			        	admins.add( entry.getValue());
+					} 
+		    }	
+			return gsonReg.toJson(admins);
+			
+		});
+		
+		get("/searchingManagers", (req, res)->{
+			String s =  req.queryParams("searching");
+			String r = req.queryParams("role");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			ArrayList<Manager> managers = new ArrayList<Manager>();
+			for (Map.Entry<String, Manager> entry : managerDAO.getManagers().entrySet()) {
+				if(r.equals("manager")|| r.equals("")) {
+					if((entry.getValue().getName().contains(s) || entry.getValue().getSurname().contains(s) || entry.getValue().getUserName().contains(s)) && !entry.getValue().isDeleted() )
+			        	managers.add( entry.getValue());
+					} 
+		    }	
+			return gsonReg.toJson(managers);
+			
+		});
+		
+		get("/searchingDeliverers", (req, res)->{
+			String s =  req.queryParams("searching");
+			String r = req.queryParams("role");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			ArrayList<Deliverer> deliverers = new ArrayList<Deliverer>();
+			for (Map.Entry<String, Deliverer> entry : delivererDAO.getDeliverers().entrySet()) {
+				if(r.equals("deliverer")|| r.equals("")) {
+					if((entry.getValue().getName().contains(s) || entry.getValue().getSurname().contains(s) || entry.getValue().getUserName().contains(s)) && !entry.getValue().isDeleted() )
+			        	deliverers.add( entry.getValue());
+					} 
+		    }	
+			return gsonReg.toJson(deliverers);
+			
+		});
+		
+		get("/searchingBuyers", (req, res)->{
+			String s =  req.queryParams("searching");
+			String r =  req.queryParams("role");
+			String t =  req.queryParams("type");
+		
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			ArrayList<Buyer> buyers = new ArrayList<Buyer>();
+			if(r.equals("kupac") || r.equals("")) {
+				for (Map.Entry<String, Buyer> entry : buyerDAO.getBuyers().entrySet()) {
+					if(s.equals("") && !t.equals("")) {
+						if(  !entry.getValue().isDeleted())
+							buyers.add( entry.getValue());
+					}else {
+						if((entry.getValue().getName().contains(s) || entry.getValue().getSurname().contains(s) || entry.getValue().getUserName().contains(s)) && !entry.getValue().isDeleted())
+							buyers.add( entry.getValue());
+					}
+				}
+			}
+			return gsonReg.toJson(buyers);
+			
+		});
+	}
 
 }

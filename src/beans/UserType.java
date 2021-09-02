@@ -7,7 +7,31 @@ public class UserType {
 	private int points;
 	
 	public UserType() {
-		userTypeName=UserTypeName.Bronze;
+		
+	}
+
+	public UserTypeName getUserTypeName() {
+		return userTypeName;
+	}
+
+	public void setUserTypeName(UserTypeName userTypeName) {
+		this.userTypeName = userTypeName;
+	}
+
+	public double getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
 	}
 
 }
