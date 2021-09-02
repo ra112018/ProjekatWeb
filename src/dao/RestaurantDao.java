@@ -56,10 +56,12 @@ public class RestaurantDao {
 		restaurants.put(restaurant.getRestaurantName(),restaurant);
 		System.out.println(restaurant.getRestaurantType());
 		System.out.println(restaurant.getLogo());
+		if(restaurant.getLogo()!=null) {
 		String logoName=getNiceImageFormat(restaurant.getLogo());
 		System.out.println(logoName);
 
         restaurant.setLogo("../img/" + logoName);
+		}
         boolean exist=checkManager(restaurant.getManagerName());
         if(exist==true) {
         	System.out.println("Menadzer postoji");
