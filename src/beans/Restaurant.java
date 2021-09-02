@@ -9,8 +9,6 @@ public class Restaurant {
 	private ArrayList<Article> articles;
 	private RestaurantStatus status;
 	private Location location;
-	private String city;
-	private String address;
 	private String logo;
 	private String managerName;
 

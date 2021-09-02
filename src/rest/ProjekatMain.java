@@ -223,11 +223,10 @@ public class ProjekatMain {
 		
 		post("/addRestaurant", (req, res) -> {
 			String reqBody = req.body();
-			
+
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-
+			System.out.println("Pokrenuo");
 			Restaurant r = gsonReg.fromJson(reqBody, Restaurant.class);
-
 			restaurant.addRestaurant(r);
 				
 		
