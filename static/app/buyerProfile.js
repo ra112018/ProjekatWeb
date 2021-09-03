@@ -7,7 +7,7 @@ Vue.component("buyer-profile", {
         usPass:null,
         name: null,
         lastName:null,
-        date:null,
+        birthDate:null,
         gender:null,
         showErrorMessage: false,
         usName: null,
@@ -29,7 +29,7 @@ Vue.component("buyer-profile", {
             }else{
                 this.gender = "Female";
             }
-            this.date = response.data.birthDate;
+            this.birthDate = response.data.birthDate;
 			this.user=response.data.us;
 			
 			
@@ -38,17 +38,19 @@ Vue.component("buyer-profile", {
 	methods: {
 		edit:function(){
             this.gray = false;
-			this.backup.usPass = this.usPass;
+			this.backup.password = this.usPass;
             this.backup.name = this.name;
-            this.backup.lastName = this.lastName;
+            this.backup.surname = this.lastName;
             this.backup.gender = this.gender;
+			this.backup.birthDate = this.birthDate;
         },
 		cancel:function(){
             this.gray = true;
-			this.usPass = this.backup.usPass;
+			this.usPass = this.backup.password;
             this.name = this.backup.name;
-            this.lastName = this.backup.lastName;
+            this.lastName = this.backup.surname;
             this.gender = this.backup.gender;
+			this.birthDate = this.backup.birthDate;
 
 			router.replace({ path: `/success` })
         },
@@ -62,6 +64,7 @@ Vue.component("buyer-profile", {
                     userName : this.email,
                     password: this.usPass,
                     gender : this.gender,
+					birthDate: this.birthDate,
                     
                     }, {params:{userName:this.usName}})
                 .then((response) => {
@@ -136,7 +139,7 @@ Vue.component("buyer-profile", {
                     </tr>
                     <tr>
                         <td> Datum rođenja: </td>
-                        <td> <input type="date" v-model="date" v-bind:disabled="gray"/> </td>
+                        <td> <input type="date" v-model="birthDate" v-bind:disabled="gray"/> </td>
                     </tr>
 
                     <tr>

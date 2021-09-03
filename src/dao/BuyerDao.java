@@ -64,9 +64,11 @@ public class BuyerDao {
 
 	public Buyer addBuyer(Buyer buyer) {
 		buyer.setCustomerPoints(0);
+		buyer.deleted(false);
 		buyer.setCustomerOrders(new ArrayList<Order>());
 		UserType ut=new UserType();
 		buyer.setCustomerType(ut);
+		
 		buyers.put(buyer.getUserName(),buyer);
 		try {
 			this.addAccount();
@@ -99,6 +101,7 @@ public class BuyerDao {
 	        	entry.getValue().setSurname(buyer.getSurname());
 	        	entry.getValue().setGender(buyer.getGender());
 	        	entry.getValue().setPassword(buyer.getPassword());
+	        	entry.getValue().setBirthDate(buyer.getBirthDate());
 	        }
 	    }
 		try {
