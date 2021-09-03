@@ -2,8 +2,42 @@ Vue.component("home-page", {
 	name:"home-page",
 	data: function () {
 		    return {
-			user:null
+			user:null,
+			restaurants:[],
+			restaurantName:"",
+
+
 		    }
+	},
+	methods:{
+		trigger(){
+			this.restaurantName="Pizzeria Ciao";
+		    localStorage.setItem('restaurantName', 'Pizzeria Ciao');
+
+		}
+	},
+	mounted: function(){
+        
+              this.username = window.localStorage.getItem('username');
+              this.role = window.localStorage.getItem('role');
+			  this.user=window.localStorage.getItem('user');
+			axios.get('/restaurants')
+				.then(response => {
+		           
+		            for(var i =0;i< response.data.length;i++){
+		                var restaurant = {};
+		                restaurant.restaurantName = response.data[i].restaurantName;
+		                restaurant.restaurantType = response.data[i].restaurantType;
+		                restaurant.logo = response.data[i].logo;
+						restaurant.managerName=response.data[i].managerName;
+		               restaurant.location=response.data[i].location;
+						restaurant.status=response.data[i].status;
+						restaurant.articles=response.data[i].articles;
+					     this.restaurants.push(restaurant);
+
+		            }
+		         
+		        });
 	},
 	template: ` 
 	<div>
@@ -47,16 +81,39 @@ Vue.component("home-page", {
 		</div>
 	
 	<div class="grid">
+			
+		<a>
+		<div class="restoran" @click="trigger">
+			<a href="#/selectedRestaurant"><img class="logo2" src="img/ciao.jpg" alt="Sample photo"/></a>
+		<span class="opis"><em><strong>Ciao Pizzeria</strong></em><br>Pizza restoran<br><p class="open">Otvoreno </p> 09:00-23:00
+		</span>
+		</div></a>
 		
-			<img src="img/ciao.jpg" alt="Sample photo"/>
 		
-			<img src="img/milki-logo.png" alt="Sample photo"/>
-	
-			<img src="img/food1.jpg" alt="Sample photo"/>
+		<div class="restoran">
+			<a href="#/selectedRestaurant"><img class="logo4" src="img/giros.jpg" alt="Sample photo"/></a>
+		<span class="opis"><br><br><br><em><strong>Giros Master</strong></em><br>Giros<br><p class="open">Otvoreno</p> 08:00-21:00
+		</span>
+		</div>
+		<div class="restoran">
+			<a href="#/selectedRestaurant"><img class="logo3" src="img/dizni-logo.jpg" alt="Sample photo"/></a>
+		<span class="opis"><br><br><br><em><strong>Palačinkarnica Dizni</strong></em><br>Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-22:00
+		</span>
+		</div>
 		
-			<img src="img/giros.jpg" alt="Sample photo"/>
-		
-	</div>
+		<div class="restoran">
+			<a href="#/selectedRestaurant"><img class="logo5" src="img/mek.jpg" alt="Sample photo"/></a>
+		<span class="opis"><br><br><br><em><strong>McDonald's</strong></em><br>Restoran brze hrane<br><p class="open">Otvoreno</p> 10:00-22:00
+		</span>
+		</div><div class="restoran">
+			<a href="#/selectedRestaurant"><img class="logo6" src="img/logo.jpg" alt="Sample photo"/></a>
+		<span class="opis1"><br><br><br><em><strong>Grekos giros</strong></em><br>Giros<br><p class="open">Otvoreno</p> 10:00-22:00
+		</span>
+		</div>
+		<div v-for="restaurant in restaurants" class="restoran"><a href="#/selectedRestaurant"><img class="logo4"
+			 :src="restaurant.logo" alt="Sample photo"/></a><span class="opis1"><br><br><br><em><strong>{{restaurant.restaurantName}}
+		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> 10:00-22:00
+		</span></div>
 	
 	</div>
 `

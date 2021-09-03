@@ -23,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 
 import beans.Article;
 import beans.Buyer;
+import beans.Manager;
 import beans.Order;
 import beans.Restaurant;
 import beans.RestaurantStatus;
@@ -167,5 +168,19 @@ public class RestaurantDao {
 		MngExist=m.ManagerExist(name);
 		return MngExist;
 		}
+	
+	public Restaurant findRestaurantByManager(String usname) {
+		ManagerDAO m=new ManagerDAO();
+		Manager man=m.findManagerByUsername(usname);
+		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+        	System.out.println(entry.getValue().getManagerName());
+
+	        if(entry.getValue().getManagerName().equals((man.getName()+" "+man.getSurname())) ) {
+	        	System.out.println(entry.getValue().getManagerName());
+	        	return entry.getValue();
+	        }
+	    }
+		return null;
+	}
 
 }

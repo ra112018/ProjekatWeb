@@ -297,7 +297,18 @@ public class ProjekatMain {
 			}
 			return gsonReg.toJson(restaurantList);
 		});
-		
+		get("/findMyRestaurant", (req, res)->{
+
+			String uName =  req.queryParams("userName");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			Restaurant rs;
+			rs = restaurant.findRestaurantByManager(uName);
+			if(rs != null) {
+				return gsonReg.toJson(rs);
+			}
+			return gsonReg.toJson(rs);
+			
+		});
 		get("/searchingAdmins", (req, res)->{
 			String s =  req.queryParams("searching");
 			String r = req.queryParams("role");

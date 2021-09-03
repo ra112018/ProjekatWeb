@@ -19,7 +19,8 @@ Vue.component("restaurants", {
 		newRestaurant(event){
 		    router.push({ path: `/addRestaurant` })
 
-		}
+		},
+		
 	},
 	mounted: function(){
         
@@ -60,6 +61,9 @@ Vue.component("restaurants", {
         <a href="#/restaurants" v-if="this.role==='kupac'" class="active">Restorani</a>
 		<a href="#/restaurants" v-if="this.role==='administrator'" class="active">Restorani</a>
 		<a href="#/restaurants" v-if="this.role==='manager'" class="active">Restorani</a>
+		
+		<a href="#/myRestaurants" v-if="this.role==='manager'" >Moji restorani</a>
+		
 		
 		<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
 		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>

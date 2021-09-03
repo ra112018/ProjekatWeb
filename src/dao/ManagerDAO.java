@@ -62,8 +62,6 @@ public class ManagerDAO {
 	        return null;
 	}
 	
-
-	
 	
 	public Manager findManagerByUsername(String uName) {
 		for (Map.Entry<String, Manager> entry : managers.entrySet()) {

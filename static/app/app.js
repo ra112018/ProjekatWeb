@@ -6,6 +6,7 @@ const BuyerProfile = { template: '<buyer-profile></buyer-profile>' }
 const Basket = {template: '<basket></basket>' }
 const Orders = {template: '<orders></orders>' }
 const Restaurants={template:'<restaurants></restaurants>'}
+const MyRestaurants={template:'<myRestaurants></myRestaurants>'}
 const SelectedRestaurant={template:'<selected-restaurant></selected-restaurant>'}
 const UserTableAdmin = {template:'<userTableAdmin></userTableAdmin>'}
 const AddRestaurant= {template:'<addRestaurant></addRestaurant>'}
@@ -24,6 +25,7 @@ const router = new VueRouter({
 		{ path: '/basket', component: Basket },
 		{ path: '/orders', component: Orders },
 		{ path: '/restaurants',component:Restaurants},
+		{ path: '/myRestaurants',component:MyRestaurants},
 		{ path: '/selectedRestaurant',component:SelectedRestaurant},
 		{ path: '/userTableAdmin',component:UserTableAdmin},
 		{ path: '/addRestaurant',component:AddRestaurant},
