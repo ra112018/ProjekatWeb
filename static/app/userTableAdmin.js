@@ -6,6 +6,7 @@ Vue.component("userTableAdmin", {
 		type:"",
 		role:"",
 		searching:"",
+		
         userNameSort:"",
 		nameSort:"",
 		surnameSort:"",
@@ -25,7 +26,8 @@ Vue.component("userTableAdmin", {
 		                user.name = response.data[i].name;
 		                user.lastName = response.data[i].surname;
 		                user.username = response.data[i].userName;
-						user.type=response.data[i].userTypeName;
+						user.type=response.data[i].buyerType;
+						user.points = response.data[i].customerPoints;
 		                user.role = "kupac";
 		                this.users.push(user);
 		            }
