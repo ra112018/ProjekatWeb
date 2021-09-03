@@ -13,8 +13,6 @@ public abstract class User {
 	private Gender gender;
 	private String birthDate;	
 	private Role role;
-	private Restaurant restaurant; //za menadzera
-	private ArrayList<Order> deliveryOrders; //za dostavljaca
 	private boolean deleted;
 	
 	public User() {}
@@ -84,21 +82,8 @@ public abstract class User {
 		this.role = role;
 	}
 
-	public Restaurant getRestaurant() {
-		return restaurant;
-	}
+	
 
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
-	}
-
-	public ArrayList<Order> getDeliveryOrders() {
-		return deliveryOrders;
-	}
-
-	public void setDeliveryOrders(ArrayList<Order> deliveryOrders) {
-		this.deliveryOrders = deliveryOrders;
-	}
 	
 	public boolean isDeleted() {
 		return deleted;

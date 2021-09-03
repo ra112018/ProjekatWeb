@@ -99,6 +99,8 @@ Vue.component("addRestaurant", {
 								<option value="Italian">Italijanska hrana</option>
 								  <option value="Chinese">Kineska hrana</option>
 								  <option value="Barbecue">Roštilj</option>
+								  <option value="Pancakes">Palačinke</option>
+
   								</select></td>
                             </tr>
                               <tr>

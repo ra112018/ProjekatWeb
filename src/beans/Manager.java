@@ -2,6 +2,14 @@ package beans;
 
 public class Manager extends User {
 	
-	public Manager() {}
+	private Restaurant restaurant; //za menadzera
 
+	public Manager() {}
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
 }

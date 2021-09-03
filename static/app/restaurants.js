@@ -7,7 +7,7 @@ Vue.component("restaurants", {
       	   role:localStorage.getItem('role'),
 		   user:localStorage.getItem('user'),
 			restaurantName:"",
-			restaurant:[]
+			restaurants:[]
 		    }
 	},
 	methods:{
@@ -38,6 +38,8 @@ Vue.component("restaurants", {
 		               restaurant.location=response.data[i].location;
 						restaurant.status=response.data[i].status;
 						restaurant.articles=response.data[i].articles;
+					     this.restaurants.push(restaurant);
+
 		            }
 		         
 		        });
@@ -114,16 +116,8 @@ Vue.component("restaurants", {
 		<span class="opis"><em><strong>Ciao Pizzeria</strong></em><br>Pizza restoran<br><p class="open">Otvoreno </p> 09:00-23:00
 		</span>
 		</div></a>
-		<div class="restoran">
-			<a href="#/selectedRestaurant"><img class="logo4" src="img/milki-logo.png" alt="Sample photo"/></a>
-		<span class="opis"><br><br><br><em><strong>Palačinkarnica Milki</strong></em><br>Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-24:00
-		</span>
-		</div>
-		<div class="restoran">
-			<a href="#/selectedRestaurant"><img class="logo4" src="img/food1.jpg" alt="Sample photo"/></a>
-		<span class="opis"><br><br><br><em><strong>Palačinkarnica Milki</strong></em><br>Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-24:00
-		</span>
-		</div>
+		
+		
 		<div class="restoran">
 			<a href="#/selectedRestaurant"><img class="logo4" src="img/giros.jpg" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>Giros Master</strong></em><br>Giros<br><p class="open">Otvoreno</p> 08:00-21:00
@@ -134,11 +128,7 @@ Vue.component("restaurants", {
 		<span class="opis"><br><br><br><em><strong>Palačinkarnica Dizni</strong></em><br>Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-22:00
 		</span>
 		</div>
-		<div class="restoran">
-			<a href="#/selectedRestaurant"><img class="logo4" src="img/logo_kineski.png" alt="Sample photo"/></a>
-		<span class="opis"><br><br><br><em><strong>Kineski zid</strong></em><br>Restoran kineske hrane<br><p class="open">Otvoreno</p> 10:00-22:00
-		</span>
-		</div>
+		
 		<div class="restoran">
 			<a href="#/selectedRestaurant"><img class="logo5" src="img/mek.jpg" alt="Sample photo"/></a>
 		<span class="opis"><br><br><br><em><strong>McDonald's</strong></em><br>Restoran brze hrane<br><p class="open">Otvoreno</p> 10:00-22:00
@@ -148,7 +138,10 @@ Vue.component("restaurants", {
 		<span class="opis1"><br><br><br><em><strong>Grekos giros</strong></em><br>Giros<br><p class="open">Otvoreno</p> 10:00-22:00
 		</span>
 		</div>
-	</div>
+		<div v-for="restaurant in restaurants" class="restoran"><a href="#/selectedRestaurant"><img class="logo4"
+			 :src="restaurant.logo" alt="Sample photo"/></a><span class="opis1"><br><br><br><em><strong>{{restaurant.restaurantName}}
+		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> 10:00-22:00
+		</span></div>
 	
 	</div>
 `,
