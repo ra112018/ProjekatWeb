@@ -17,6 +17,7 @@ import beans.Buyer;
 import beans.User;
 import beans.Order;
 import beans.UserType;
+import beans.UserTypeName;
 
 public class BuyerDao {
 
@@ -66,8 +67,11 @@ public class BuyerDao {
 		buyer.setCustomerPoints(0);
 		buyer.deleted(false);
 		buyer.setCustomerOrders(new ArrayList<Order>());
-		UserType ut=new UserType();
-		buyer.setCustomerType(ut);
+		UserType ut = new UserType();
+		ut.setUserTypeName(UserTypeName.Usual);
+		ut.setPercentage(0);
+		ut.setPointsNeeded(0);
+		buyer.setBuyerType("USUAL");
 		
 		buyers.put(buyer.getUserName(),buyer);
 		try {

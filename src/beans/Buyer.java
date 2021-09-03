@@ -8,8 +8,8 @@ public class Buyer extends User {
 	private ArrayList<Order> customerOrders;	//sve porudzbine za kupca
 	private Basket basket;  //za kupca
 	private int customerPoints; //za kupca
-	private UserType customerType;
-
+	//private UserType customerType;
+	private String buyerType;
 
 	public Buyer() {
 		// TODO Auto-generated constructor stub
@@ -39,13 +39,22 @@ public class Buyer extends User {
 		this.customerPoints = customerPoints;
 	}
 
-	public UserType getCustomerType() {
+	public String getBuyerType() {
+		return buyerType;
+	}
+
+	public void setBuyerType(String buyerType) {
+		this.buyerType = buyerType;
+	}
+
+	/*public UserType getCustomerType() {
 		return customerType;
 	}
 
 	public void setCustomerType(UserType customerType) {
 		this.customerType = customerType;
-	}
+	}*/
+	
 	
 
 

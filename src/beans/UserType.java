@@ -4,7 +4,7 @@ public class UserType {
 
 	private UserTypeName userTypeName;
 	private double percentage;
-	private int points;
+	private int pointsNeeded;
 	
 	public UserType() {
 		
@@ -26,12 +26,19 @@ public class UserType {
 		this.percentage = percentage;
 	}
 
-	public int getPoints() {
-		return points;
+	public int getPointsNeeded() {
+		return pointsNeeded;
 	}
 
-	public void setPoints(int points) {
-		this.points = points;
+	public UserType(UserTypeName userTypeName, double percentage, int pointsNeeded) {
+		super();
+		this.userTypeName = userTypeName;
+		this.percentage = percentage;
+		this.pointsNeeded = pointsNeeded;
+	}
+
+	public void setPointsNeeded(int pointsNeeded) {
+		this.pointsNeeded = pointsNeeded;
 	}
 
 }

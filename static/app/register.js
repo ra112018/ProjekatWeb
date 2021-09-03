@@ -2,7 +2,12 @@ Vue.component("register", {
 	name: "register",
 	data: function(){
 		return {
-			
+			name:null,
+			lastName: null,
+			usName: null,
+			usPass: null,
+			birthDate: null,
+			gender: null
 		};
 	},
 	methods: {
@@ -10,7 +15,7 @@ Vue.component("register", {
     registration: function (e) {
       e.preventDefault();
       this.errors = null;
-			if(!this.name || !this.lastname || !this.usName || !this.usPass || !this.birthday 
+			if(!this.name || !this.lastName || !this.usName || !this.usPass || !this.birthDate 
 					|| !this.gender){
 				this.showErrorMessage = true;
 				alert("Morate uneti sve podatke.")
@@ -22,10 +27,10 @@ Vue.component("register", {
                     userName : this.usName,
                     password: this.usPass,
                     gender : this.gender,
-                    birthDate : this.birthday
+                    birthDate : this.birthDate
                     })
         .then(function(response){	alert("Uspešna registracija!");
-				router.replace({ path: `/home-page` })
+				router.replace({ path: `/#` })
       })  
     }
 }
@@ -58,7 +63,7 @@ Vue.component("register", {
                             </tr>
                             <tr>
                                 <td> Prezime: </td>
-                                <td> <input type="text" required v-model="lastname" pattern="[A-ZŠĐČĆŽ]{1}[A-Za-zšđčćž]+"/> </td>
+                                <td> <input type="text" required v-model="lastName" pattern="[A-ZŠĐČĆŽ]{1}[A-Za-zšđčćž]+"/> </td>
                             </tr>
                             <tr>
                                 <td> Pol: </td>
@@ -66,7 +71,7 @@ Vue.component("register", {
                             </tr>
                             <tr>
                                 <td> Datum rođenja: </td>
-                                <td> <input type="date" required v-model="birthday" /> </td>
+                                <td> <input type="date" required v-model="birthDate" /> </td>
                             </tr>
 
                             <tr>
