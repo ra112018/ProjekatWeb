@@ -66,16 +66,25 @@ public class RestaurantDao {
         restaurant.setLogo("../img/" + logoName);
 		}
         boolean exist=checkManager(restaurant.getManagerName());
+        boolean alreadyHasRestaurant=checkIfManagerHasRestaurant(restaurant.getManagerName());
         if(exist==true) {
         	restaurant.setArticles(new ArrayList<Article>());
         	restaurant.setStatus(RestaurantStatus.Open);
         	System.out.println("Menadzer postoji");
+        	if(alreadyHasRestaurant==false) {
         	try {
     			this.addRestaurantInFile();
     		} catch (IOException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
+        	}
+        	else {
+            	System.out.println("Menadzer vec ima restoran");
+
+            	restaurant=new Restaurant();
+            	restaurant.setManagerName("zauzet");
+        	}
         }
         else{
         	System.out.println("Menadzer ne postoji");
@@ -160,7 +169,18 @@ public class RestaurantDao {
 		RestaurantDao.restaurants = restaurants;
 	}
 
+	private boolean checkIfManagerHasRestaurant(String managerName) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+        	System.out.println(entry.getValue().getRestaurantName());
 
+	        if(entry.getValue().getManagerName().equals(managerName) ) {
+	        	System.out.println(managerName);
+	        	return true;
+	        }
+	    }
+		return false;
+	}
 
 	public boolean checkManager(String name) {
 		boolean MngExist;

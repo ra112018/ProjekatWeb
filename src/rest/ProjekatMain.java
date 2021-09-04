@@ -209,11 +209,13 @@ public class ProjekatMain {
 		
 		
 		get("/restaurantDetails", (req, res)-> {
-			String rName =  req.queryParams("restaurant");
+			String rName =  req.queryParams("restaurantName");
 			Restaurant r;
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			r = restaurant.findRestaurantByName(rName);
-			System.out.println(gsonReg.toJson(r));
+			System.out.println("Trazim");
+			System.out.println(rName);
+
 			if(r != null) {
 				return gsonReg.toJson(r);
 			}
@@ -228,7 +230,7 @@ public class ProjekatMain {
 			System.out.println("Pokrenuo");
 			Restaurant r = gsonReg.fromJson(reqBody, Restaurant.class);
 			Restaurant checkEror=restaurant.addRestaurant(r);
-			if(checkEror.getManagerName()=="nepostojeci") {
+			if(checkEror.getManagerName()=="nepostojeci" || checkEror.getManagerName()=="zauzet") {
 				return false;
 			}
 		

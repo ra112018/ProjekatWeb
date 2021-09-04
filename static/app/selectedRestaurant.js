@@ -12,16 +12,18 @@ Vue.component("selected-restaurant", {
         showErrorMessage: false,
         usName: null,
 		user:localStorage.getItem('user'),
-		restaurantName:localStorage.getItem('restaurantName'),
 		role:localStorage.getItem('role'),
         backup: {},
+		restaurant:null
 		//decodeVar: null
 		};
 	},
 	mounted: function(){
+		 let restaurantName = this.$route.params.restaurantName;
             axios
-              .get('/restaurantDetails?restaurant='+this.restaurantName)
+              .get('/restaurantDetails?restaurantName='+this.restaurantName)
 	          .then(response => {
+			this.restaurant=response.data;
             this.type = response.data.restaurantType;
             this.articles = response.data.articles;
             this.status = response.data.status;
@@ -56,6 +58,8 @@ Vue.component("selected-restaurant", {
 		<a href="#/restaurants" v-if="this.role==='manager'" >Restorani</a>
 		
 		<a href="#" v-if="this.role==='administrator'">Korisnici</a>
+		<a href="#" v-if="this.role==='administrator'">Dodaj korisnika</a>
+
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
@@ -68,12 +72,12 @@ Vue.component("selected-restaurant", {
 	
 		
 	<div class="restoran">
-		<img class="logo3" src="dizni-logo.jpg"/>
-		<span class="opis"><br><br><input v-model="restaurantName"><br><input v-model="type"><p class="open">Otvoreno</p> 10:00-22:00
-		<br>Bulevar cara Lazara 92
+		<img class="logo3" src="this.logo"/>
+		<span class="opis"><br><br><input v-model="restaurantName"><br><input v-model="type"><p class="open">Otvoreno</p>
+		Bulevar cara Lazara 92
 		</span>
 		</div>
-		<div class="slike"><img class="slika" src="dizni1.jpg"/><img class="slika" src="this.logo"/></div>
+		<div class="slike"><img class="slika" src="this.logo"/></div>
 		
 <div class="meni"><h2><br><br><br><br><br><br><br><br>Palačinke</h2></div>
 <div class="slatke"><h3>-slatke</h3></div>

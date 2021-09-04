@@ -6,21 +6,19 @@ Vue.component("restaurants", {
 			username:"",
       	   role:localStorage.getItem('role'),
 		   user:localStorage.getItem('user'),
-			restaurantName:"",
 			restaurants:[]
 		    }
 	},
 	methods:{
-		trigger(){
-			this.restaurantName="Pizzeria Ciao";
-		    localStorage.setItem('restaurantName', 'Pizzeria Ciao');
-
-		},
+		
 		newRestaurant(event){
 		    router.push({ path: `/addRestaurant` })
 
 		},
-		
+		selectRestaurant: function(id){
+			router.push({ path: `/selectedRestaurant/${id}` })
+			
+		},
 	},
 	mounted: function(){
         
@@ -32,13 +30,7 @@ Vue.component("restaurants", {
 		           
 		            for(var i =0;i< response.data.length;i++){
 		                var restaurant = {};
-		                restaurant.restaurantName = response.data[i].restaurantName;
-		                restaurant.restaurantType = response.data[i].restaurantType;
-		                restaurant.logo = response.data[i].logo;
-						restaurant.managerName=response.data[i].managerName;
-		               restaurant.location=response.data[i].location;
-						restaurant.status=response.data[i].status;
-						restaurant.articles=response.data[i].articles;
+		                restaurant = response.data[i];
 					     this.restaurants.push(restaurant);
 
 		            }
@@ -115,7 +107,7 @@ Vue.component("restaurants", {
 	<div class="grid">
 			
 		
-		<div v-for="restaurant in restaurants" class="restoran"><a href="#/selectedRestaurant"><img class="logo4"
+		<div v-for="restaurant in restaurants" class="restoran"><a v-on:click="selectRestaurant(restaurant.restaurantName)"> <img class="logo4"
 			 :src="restaurant.logo" alt="Sample photo"/></a><span class="opis1"><br><br><br><em><strong>{{restaurant.restaurantName}}
 		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> 10:00-22:00
 		</span></div>

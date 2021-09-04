@@ -43,7 +43,7 @@ Vue.component("addRestaurant", {
                     alert("Restoran uspešno kreiran.")
                 }
                 else{
-                    alert("Menadžer ne postoji u bazi, dodajte drugog menadžera.")
+                    alert("Menadžer ne postoji u bazi ili već ima restoran.")
                 }
             })
     }

@@ -11,8 +11,6 @@ Vue.component("home-page", {
 	},
 	methods:{
 		trigger(){
-			this.restaurantName="Pizzeria Ciao";
-		    localStorage.setItem('restaurantName', 'Pizzeria Ciao');
 
 		}
 	},
