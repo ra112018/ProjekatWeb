@@ -19,21 +19,17 @@ Vue.component("selected-restaurant", {
 		};
 	},
 	mounted: function(){
-		 let restaurantName = this.$route.params.restaurantName;
+		 let id = this.$route.params.id;
             axios
-              .get('/restaurantDetails?restaurantName='+this.restaurantName)
+              .get('/restaurantDetails?id='+id,{params:{restaurantName: id}})
 	          .then(response => {
 			this.restaurant=response.data;
-            this.type = response.data.restaurantType;
-            this.articles = response.data.articles;
-            this.status = response.data.status;
-            this.logo = response.data.logo;
                
               this.username = window.localStorage.getItem('username');
               this.role = window.localStorage.getItem('role');
 			  this.user=window.localStorage.getItem('user');
-			this.restaurantName=window.localStorage.getItem('restaurantName')
-	});
+	});	
+
 		},
 	
 	methods: {
@@ -72,12 +68,11 @@ Vue.component("selected-restaurant", {
 	
 		
 	<div class="restoran">
-		<img class="logo3" src="this.logo"/>
-		<span class="opis"><br><br><input v-model="restaurantName"><br><input v-model="type"><p class="open">Otvoreno</p>
+		<img class="logo3" :src="restaurant.logo"/>
+		<span class="opis"><br><br>{{restaurant.restaurantName}}<br><input v-model="type"><p class="open">{{restaurant.restaurantType}}</p>
 		Bulevar cara Lazara 92
 		</span>
 		</div>
-		<div class="slike"><img class="slika" src="this.logo"/></div>
 		
 <div class="meni"><h2><br><br><br><br><br><br><br><br>Palačinke</h2></div>
 <div class="slatke"><h3>-slatke</h3></div>

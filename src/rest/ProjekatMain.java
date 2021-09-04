@@ -209,17 +209,18 @@ public class ProjekatMain {
 		
 		
 		get("/restaurantDetails", (req, res)-> {
-			String rName =  req.queryParams("restaurantName");
+			String rName =  req.queryParams("id");
 			Restaurant r;
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			r = restaurant.findRestaurantByName(rName);
-			System.out.println("Trazim");
 			System.out.println(rName);
 
 			if(r != null) {
 				return gsonReg.toJson(r);
 			}
 			return gsonReg.toJson(r);
+			
+
 		
 		});
 		
