@@ -7,31 +7,20 @@ Vue.component("myRestaurants", {
       	   role:localStorage.getItem('role'),
 		   user:localStorage.getItem('user'),
 			restaurantName:"",
-			restaurants:[]
-		    }
+			restaurant:null
+	    }
 	},
 	methods:{
-		trigger(){
-
-		}
 		
 	},
 	mounted: function(){
-        
               this.username = window.localStorage.getItem('username');
               this.role = window.localStorage.getItem('role');
 			  this.user=window.localStorage.getItem('user');
-			axios.get('/findMyRestaurant')
+			axios.get('/findMyRestaurant',{params:{userName: this.username}})
 				.then(response => {
 		           
-		                var restaurant = {};
-		                restaurant.restaurantName = response.data[i].restaurantName;
-		                restaurant.restaurantType = response.data[i].restaurantType;
-		                restaurant.logo = response.data[i].logo;
-						restaurant.managerName=response.data[i].managerName;
-		               restaurant.location=response.data[i].location;
-						restaurant.status=response.data[i].status;
-						restaurant.articles=response.data[i].articles;
+		                this.restaurant=response.data;
 		         
 		        });
 	},
@@ -61,7 +50,7 @@ Vue.component("myRestaurants", {
 	<div class="grid">
 			
 		
-		<div v-for="restaurant in restaurants" class="restoran"><a href="#/selectedRestaurant"><img class="logo4"
+		<div  class="restoran"><a href="#/selectedRestaurant"><img class="logo4"
 			 :src="restaurant.logo" alt="Sample photo"/></a><span class="opis1"><br><br><br><em><strong>{{restaurant.restaurantName}}
 		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> 10:00-22:00
 		</span></div>

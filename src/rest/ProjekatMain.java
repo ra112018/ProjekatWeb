@@ -305,10 +305,8 @@ public class ProjekatMain {
 			String uName =  req.queryParams("userName");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			Restaurant rs;
+
 			rs = restaurant.findRestaurantByManager(uName);
-			if(rs != null) {
-				return gsonReg.toJson(rs);
-			}
 			return gsonReg.toJson(rs);
 			
 		});

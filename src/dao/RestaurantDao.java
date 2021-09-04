@@ -193,10 +193,8 @@ public class RestaurantDao {
 		ManagerDAO m=new ManagerDAO();
 		Manager man=m.findManagerByUsername(usname);
 		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
-        	System.out.println(entry.getValue().getManagerName());
 
 	        if(entry.getValue().getManagerName().equals((man.getName()+" "+man.getSurname())) ) {
-	        	System.out.println(entry.getValue().getManagerName());
 	        	return entry.getValue();
 	        }
 	    }
