@@ -10,6 +10,7 @@ const MyRestaurants={template:'<myRestaurants></myRestaurants>'}
 const SelectedRestaurant={template:'<selected-restaurant></selected-restaurant>'}
 const UserTableAdmin = {template:'<userTableAdmin></userTableAdmin>'}
 const AddRestaurant= {template:'<addRestaurant></addRestaurant>'}
+const AddArticle= {template:'<addArticle></addArticle>'}
 const AddUser = {template:'<addUser></addUser>'}
 const Comments = {template:'<comments></comments>'}
 
@@ -29,6 +30,7 @@ const router = new VueRouter({
 		{ path: '/selectedRestaurant/:id',component:SelectedRestaurant},
 		{ path: '/userTableAdmin',component:UserTableAdmin},
 		{ path: '/addRestaurant',component:AddRestaurant},
+		{ path: '/addArticle',component:AddArticle},
 		{ path: '/addUser',component:AddUser},
 		{ path: '/comments',component:Comments}
 

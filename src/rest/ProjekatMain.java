@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import beans.Administrator;
+import beans.Article;
 import beans.Buyer;
 import beans.Deliverer;
 import beans.Location;
@@ -26,6 +27,7 @@ import beans.Manager;
 import beans.Restaurant;
 import beans.User;
 import dao.AdministratorDAO;
+import dao.ArticleDAO;
 import dao.BuyerDao;
 import dao.DelivererDAO;
 import dao.LocationDAO;
@@ -44,6 +46,7 @@ public class ProjekatMain {
 	private static DelivererDAO delivererDAO = new DelivererDAO();
 	private static RestaurantDao restaurant=new RestaurantDao();
 	private static LocationDAO locationDAO=new LocationDAO();
+	private static ArticleDAO articleDAO=new ArticleDAO();
 
 
 	private static Gson g=new Gson();
@@ -239,6 +242,17 @@ public class ProjekatMain {
 			
 		});
 		
+		post("/addArticle", (req, res) -> {
+			String reqBody = req.body();
+
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			System.out.println("Pokrenuo");
+			Article r = gsonReg.fromJson(reqBody, Article.class);
+			Article checkEror=articleDAO.addArticle(r);
+		
+			return true;
+			
+		});
 		
 		get("/admins", (req, res)->{
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -273,8 +287,7 @@ public class ProjekatMain {
 			for (Map.Entry<String, Deliverer> entry : delivererDAO.getDeliverers().entrySet()) {
 				if(!entry.getValue().isDeleted())
 					deliverers.add( entry.getValue());
-		        
-		    }	
+		       }	
 			return gsonReg.toJson(deliverers);
 			
 		});

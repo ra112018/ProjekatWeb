@@ -11,7 +11,10 @@ Vue.component("myRestaurants", {
 	    }
 	},
 	methods:{
-		
+		newArticle(event){
+		    router.push({ path: `/addArticle` })
+
+		},
 	},
 	mounted: function(){
               this.username = window.localStorage.getItem('username');
@@ -21,7 +24,8 @@ Vue.component("myRestaurants", {
 				.then(response => {
 		           
 		                this.restaurant=response.data;
-		         
+		         		localStorage.setItem("restaurantName", JSON.parse(JSON.stringify(response.data))[0]);
+
 		        });
 	},
 	
@@ -52,8 +56,9 @@ Vue.component("myRestaurants", {
 		
 		<div  class="restoran"><a href="#/selectedRestaurant"><img class="logo4"
 			 :src="restaurant.logo" alt="Sample photo"/></a><span class="opis1"><br><br><br><em><strong>{{restaurant.restaurantName}}
-		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> 10:00-22:00
-		</span></div>
+		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> {{restaurant.articles}}
+		<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Novi</button>
+		</span></div></div>
 	
 	</div>
 `,
