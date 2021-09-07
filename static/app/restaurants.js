@@ -2,11 +2,14 @@ Vue.component("restaurants", {
 	name:"restaurants",
 	data: function () {
 		    return {
-			restaurantList: [],
+			
 			username:"",
-      	   role:localStorage.getItem('role'),
-		   user:localStorage.getItem('user'),
-			restaurants:[]
+      	    role:localStorage.getItem('role'),
+		    user:localStorage.getItem('user'),
+			restaurants:[],
+			restaurantName:"",
+			sortingType:"",
+			sortingCriterion:""
 		    }
 	},
 	methods:{
@@ -19,6 +22,44 @@ Vue.component("restaurants", {
 			router.push({ path: `/selectedRestaurant/${id}` })
 			
 		},
+		checkName: function(i, j){
+			let first, second;
+			if(this.sortingCriterion == "naziv"){
+				first = i.naziv;
+				second = j.naziv;
+			}
+			if(first > second){
+				if(this.sortingType == 'rastuce'){
+					return 1;
+				}else{
+					return -1;
+				}
+			}else if(first < second){
+				if(this.sortingType == 'rastuce'){
+					return -1;
+				}else{
+					return 1;
+				}
+			}else{
+				return 0;
+			}
+			
+			
+		},
+		sortRestaurants: function(){
+			if(this.sortingType != "rastuce" && this.sortingType != "opadajuce"){
+				alert("Potrebno je uneti tip sortiranja");
+				
+			}else{
+				if(this.sortingCriterion != "naziv" && this.sortingCriterion != "lokacija" && this.sortingCriterion!= "ocena"){
+					alert("Potrebno je uneti kriterijum sortiranja");
+				}else if(this.sortingCriterion == "naziv"){
+					this.restaurants.sort(this.checkName);
+				}
+				
+				
+			}
+		}
 	},
 	mounted: function(){
         
@@ -91,16 +132,17 @@ Vue.component("restaurants", {
 		<label for="otvoreni">Samo otvoreni   </label>
 &nbsp;
 	  	<strong>Sortiraj prema: </strong> 
-		<select name="sortiranje" id="sort">
+		<select name="sortiranje" id="sort" v-model="sortingCriterion">
 			  <option value="naziv">Naziv restorana</option>
 			  <option value="lokacija">Lokacija</option>
 			  <option value="ocena">Prosečna ocena</option>
 		</select>  
-		<select name="kriterijum" id="kriterijum">
-			  <option value="rastuće">Rastuće</option>
-			  <option value="opadajuće">Opadajuće</option>
+		<select name="kriterijum" id="kriterijum" v-model="sortingType">
+			  <option value="rastuce">Rastuće</option>
+			  <option value="opadajuce">Opadajuće</option>
 		</select>
-		
+		<button v-on:click="sortRestaurants">Sortiraj </button>
+
 		</div>
 	<div v-if="role =='administrator'"> <button class="addButton" @click="newRestaurant" :id="user.username"> Novi</button></div>
 

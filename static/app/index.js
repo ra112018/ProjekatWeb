@@ -5,14 +5,50 @@ Vue.component("home-page", {
 			user:null,
 			restaurants:[],
 			restaurantName:"",
-
-
+			sortingType:"",
+			sortingCriterion:""
 		    }
 	},
 	methods:{
 		trigger(){
 
+		},
+		
+		checkName: function(i, j){
+			let first, second;
+			if(this.sortingCriterion == "naziv"){
+				first = i.naziv;
+				second = j.naziv;
+			}
+			if(first > second){
+				if(this.sortingType == 'rastuce'){
+					return 1;
+				}else{
+					return -1;
+				}
+			}else if(first < second){
+				if(this.sortingType == 'rastuce'){
+					return -1;
+				}else{
+					return 1;
+				}
+			}else{
+				return 0;
+			}
+			
+			
+		},
+		sortRestaurants: function(){
+			if(this.sortingType != "rastuce" && this.sortingType != "opadajuce"){
+				alert("Potrebno je uneti tip sortianja");
+			}else{
+				if(this.sortingCriterion == "naziv"){
+					this.restaurants.sort(this.checkName);
+				}
+				
+			}
 		}
+		
 	},
 	mounted: function(){
         
@@ -32,7 +68,7 @@ Vue.component("home-page", {
 						restaurant.status=response.data[i].status;
 						restaurant.articles=response.data[i].articles;
 					     this.restaurants.push(restaurant);
-
+						
 		            }
 		         
 		        });
@@ -66,16 +102,16 @@ Vue.component("home-page", {
 		<label for="otvoreni">Samo otvoreni   </label>
 &nbsp;
 	  	<strong>Sortiraj prema: </strong> 
-		<select name="sortiranje" id="sort">
+		<select name="sortiranje" id="sort" v-model="sortingCriterion">
 			  <option value="naziv">Naziv restorana</option>
 			  <option value="lokacija">Lokacija</option>
 			  <option value="ocena">Prosečna ocena</option>
 		</select>  
-		<select name="kriterijum" id="kriterijum">
-			  <option value="rastuće">Rastuće</option>
-			  <option value="opadajuće">Opadajuće</option>
+		<select name="kriterijum" id="kriterijum" v-model="sortingType">
+			  <option value="rastuce">Rastuće</option>
+			  <option value="opadajuce">Opadajuće</option>
 		</select>
-		
+		<button v-on:click="sortRestaurants">Sortiraj </button>
 		</div>
 	
 	<div class="grid">
