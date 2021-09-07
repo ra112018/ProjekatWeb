@@ -20,7 +20,6 @@ Vue.component("addArticle", {
 	},
 	mounted: function (){
 		    this.restaurantName = window.localStorage.getItem('restaurantName');
-
 	},
 	methods: {
 		
@@ -29,9 +28,9 @@ Vue.component("addArticle", {
       this.errors = null;
 
         axios
-        .post('/addArticle', {articleName:this.name, articleType:this.articleType,price:this.price,
+        .post('/addArticle', {articleName:this.name, articleType:this.type,price:this.price,
 					quantity:this.quantity,
-                    description : this.description,
+                    description : this.description, restaurantName:this.restaurantName
                     })
         .then(response =>{
                 if(response.data){
@@ -60,7 +59,7 @@ Vue.component("addArticle", {
  
 	</div>
        
-    <p class="naslov"><b>Dodaj restoran</b></p>
+    <p class="naslov"><b>Dodaj artikal</b></p>
     <p class="napomena"> *Sva polja su obavezna</p>
         
  		<form @submit="add"  class="registracija">

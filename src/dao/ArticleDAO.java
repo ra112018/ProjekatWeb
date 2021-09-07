@@ -8,11 +8,13 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Article;
+import beans.Manager;
 import beans.Restaurant;
 import beans.RestaurantStatus;
 
@@ -20,6 +22,12 @@ public class ArticleDAO {
 
 	private static HashMap<String,Article> articles;
 
+	public static HashMap<String, Article> getArticles() {
+		return articles;
+	}
+	public static void setArticles(HashMap<String, Article> articles) {
+		ArticleDAO.articles = articles;
+	}
 	public ArticleDAO() {
 		// TODO Auto-generated constructor stub
 		 articles = new HashMap<String,Article>();
@@ -56,6 +64,17 @@ public class ArticleDAO {
 		gson.toJson(ArticleDAO.articles, fw);
 		fw.flush();
 		fw.close();
+	}
+	public static HashMap<String, Article> getArticlesByRestaurant(String rName) {
+		// TODO Auto-generated method stub
+		HashMap<String,Article> m=new HashMap<String,Article>();
+		for (Map.Entry<String, Article> entry : articles.entrySet()) {
+	        if(entry.getValue().getRestaurantName().equals(rName) ) {
+	        	m.put(entry.getValue().getRestaurantName(),entry.getValue());
+	        }
+	    }
+		
+		return m;
 	}
 
 }

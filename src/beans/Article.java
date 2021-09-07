@@ -5,9 +5,10 @@ public class Article {
 	private String articleName;
 	private double price;
 	private ArticleType articleType;
-	private Restaurant restaurant;
+	private String restaurantName;
 	private int quantity;
 	private String description;
+	private String articlePhoto;
 	
 	public Article() {}
 
@@ -35,12 +36,13 @@ public class Article {
 		this.articleType = articleType;
 	}
 
-	public Restaurant getRestaurant() {
-		return restaurant;
+
+	public String getRestaurantName() {
+		return restaurantName;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
+	public void setRestaurantName(String restaurantName) {
+		this.restaurantName = restaurantName;
 	}
 
 	public int getQuantity() {
@@ -57,5 +59,13 @@ public class Article {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getArticlePhoto() {
+		return articlePhoto;
+	}
+
+	public void setArticlePhoto(String articlePhoto) {
+		this.articlePhoto = articlePhoto;
 	}
 }

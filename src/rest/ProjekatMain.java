@@ -223,8 +223,6 @@ public class ProjekatMain {
 			}
 			return gsonReg.toJson(r);
 			
-
-		
 		});
 		
 		post("/addRestaurant", (req, res) -> {
@@ -240,6 +238,20 @@ public class ProjekatMain {
 		
 			return true;
 			
+		});
+		
+		get("/articles",(req,res) -> {
+			String rName =  req.queryParams("restaurantName");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+
+			ArrayList<Article> articleList = new ArrayList<Article>();
+			for (Map.Entry<String, Article> entry : articleDAO.getArticlesByRestaurant(rName).entrySet()) {
+					articleList.add( entry.getValue());
+			}
+			System.out.println("pokrecem");
+
+			return gsonReg.toJson(articleList);
+						
 		});
 		
 		post("/addArticle", (req, res) -> {

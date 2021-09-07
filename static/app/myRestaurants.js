@@ -7,7 +7,8 @@ Vue.component("myRestaurants", {
       	   role:localStorage.getItem('role'),
 		   user:localStorage.getItem('user'),
 			restaurantName:"",
-			restaurant:null
+			restaurant:null,
+			articles:null
 	    }
 	},
 	methods:{
@@ -15,6 +16,12 @@ Vue.component("myRestaurants", {
 		    router.push({ path: `/addArticle` })
 
 		},
+		findArticles: function(){
+			
+			axios.get('/articles',{params:{restaurantName: this.restaurant.restaurantName}}).then(response => {
+				this.articles=response.data;
+			});
+		}
 	},
 	mounted: function(){
               this.username = window.localStorage.getItem('username');
@@ -23,10 +30,11 @@ Vue.component("myRestaurants", {
 			axios.get('/findMyRestaurant',{params:{userName: this.username}})
 				.then(response => {
 		           
-		                this.restaurant=response.data;
-		         		localStorage.setItem("restaurantName", JSON.parse(JSON.stringify(response.data))[0]);
+		            this.restaurant=response.data;
+		         	localStorage.setItem("restaurantName", this.restaurant.restaurantName);
 
 		        });
+			this.findArticles();
 	},
 	
 
@@ -59,7 +67,8 @@ Vue.component("myRestaurants", {
 		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> {{restaurant.articles}}
 		<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Novi</button>
 		</span></div></div>
-	
+	<div v-for="article in articles"><img :src="article.logo"><p>{{article.description}}</p><p>{{article.price}}</p>
+	</div
 	</div>
 `,
 });	
