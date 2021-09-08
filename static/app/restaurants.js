@@ -22,11 +22,11 @@ Vue.component("restaurants", {
 			router.push({ path: `/selectedRestaurant/${id}` })
 			
 		},
-		checkName: function(i, j){
+		checkName: function(a,b){
 			let first, second;
 			if(this.sortingCriterion == "naziv"){
-				first = i.naziv;
-				second = j.naziv;
+				first = a.restaurantName;
+				second = b.restaurantName;
 			}
 			if(first > second){
 				if(this.sortingType == 'rastuce'){
