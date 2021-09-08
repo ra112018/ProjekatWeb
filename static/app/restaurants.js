@@ -29,17 +29,17 @@ Vue.component("restaurants", {
 				first = a.restaurantName;
 				second = b.restaurantName;
 			}
-			if(first > second){
+			if(first < second){
 				if(this.sortingType == 'rastuce'){
-					return 1;
-				}else{
 					return -1;
+				}else{
+					return 1;
 				}
-			}else if(first < second){
+			}else if(first > second){
 				if(this.sortingType == 'rastuce'){
-					return -1;
-				}else{
 					return 1;
+				}else{
+					return -1;
 				}
 			}else{
 				return 0;
