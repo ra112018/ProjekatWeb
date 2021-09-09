@@ -16,15 +16,15 @@ Vue.component("myRestaurants", {
 		    router.push({ path: `/addArticle` })
 
 		},
-		findArticles: function(){
-			
-			axios.get('/articles',{params:{restaurantName: this.restaurant.restaurantName}}).then(response => {
+		findArticles: function(id){
+				axios.get('/articles?id='+id).then(response => {
 				this.articles=response.data;
 			});
 		}
 	},
 	mounted: function(){
               this.username = window.localStorage.getItem('username');
+
               this.role = window.localStorage.getItem('role');
 			  this.user=window.localStorage.getItem('user');
 			axios.get('/findMyRestaurant',{params:{userName: this.username}})
@@ -34,7 +34,8 @@ Vue.component("myRestaurants", {
 		         	localStorage.setItem("restaurantName", this.restaurant.restaurantName);
 
 		        });
-			this.findArticles();
+
+			this.findArticles(window.localStorage.getItem('restaurantName'));
 	},
 	
 
@@ -67,8 +68,8 @@ Vue.component("myRestaurants", {
 		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> {{restaurant.articles}}
 		<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Novi</button>
 		</span></div></div>
-	<div v-for="article in articles"><img :src="article.logo"><p>{{article.description}}</p><p>{{article.price}}</p>
-	</div
+	<div class="restoran" v-for="article in articles">
+	<img :src="article.logo"><p>{{article.description}}</p><p>{{article.price}}</p></div>
 	</div>
 `,
 });	

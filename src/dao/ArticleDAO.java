@@ -1,14 +1,20 @@
 package dao;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -49,6 +55,13 @@ public class ArticleDAO {
 	public Article addArticle(Article r) {
 		// TODO Auto-generated method stub
 		articles.put(r.getArticleName(),r);
+
+		if(r.getArticlePhoto()!=null) {
+		String logoName=getNiceImageFormat(r.getArticlePhoto(),r.getRestaurantName());
+		System.out.println(logoName);
+
+        r.setArticlePhoto("../img/" + logoName);
+		}
 		try {
 			this.addArticleInFile();
 		} catch (IOException e) {
@@ -69,12 +82,43 @@ public class ArticleDAO {
 		// TODO Auto-generated method stub
 		HashMap<String,Article> m=new HashMap<String,Article>();
 		for (Map.Entry<String, Article> entry : articles.entrySet()) {
-	        if(entry.getValue().getRestaurantName().equals(rName) ) {
+			System.out.println((entry.getValue().getRestaurantName()).getClass());
+
+	        if((entry.getValue().getRestaurantName()).equals(rName) ) {
 	        	m.put(entry.getValue().getRestaurantName(),entry.getValue());
 	        }
 	    }
 		
 		return m;
+	}
+	public String getNiceImageFormat(String image,String name) {
+
+		String imageString = image.split(",")[1];
+		BufferedImage bimage = null;	
+        byte[] imageByte;
+        imageByte = Base64.getDecoder().decode(imageString);
+        ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+        try {
+			bimage = ImageIO.read(bis);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        try {
+			bis.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String imageName= "artikal"  +name+ ".png";
+		File outputfile = new File(System.getProperty("user.dir")+ "\\static\\img\\" + imageName);
+        try {
+			ImageIO.write(bimage, "png", outputfile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        return imageName;
 	}
 
 }

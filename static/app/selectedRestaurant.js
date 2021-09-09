@@ -1,4 +1,4 @@
-Vue.component("selected-restaurant", {
+-Vue.component("selected-restaurant", {
 	name: "selected-restaurant",
 	data: function(){
 		return {
@@ -14,7 +14,9 @@ Vue.component("selected-restaurant", {
 		user:localStorage.getItem('user'),
 		role:localStorage.getItem('role'),
         backup: {},
-		restaurant:null
+		restaurant:null,
+		articles:null
+
 		//decodeVar: null
 		};
 	},
@@ -29,6 +31,10 @@ Vue.component("selected-restaurant", {
               this.role = window.localStorage.getItem('role');
 			  this.user=window.localStorage.getItem('user');
 	});	
+	
+				axios.get('/articles?id='+id,{params:{restaurantName: id}}).then(response => {
+				this.articles=response.data;
+				});
 
 		},
 	
@@ -84,6 +90,9 @@ Vue.component("selected-restaurant", {
 <tr><td><h4>Švarcvald palačinka</h4><h5>višnja, čokolada, šlag</h5></td><td>330</td></tr>
 <tr><td><h4>Plazma i Nutella palačinka</h4><h5>nutella, plazma keks u mleku, šlag</h5></td><td>360</td></tr></table>
   
+	<div class="restoran" v-for="article in articles">
+	<img :src="article.logo"><p>{{article.description}}</p><p>{{article.price}}</p></div>
+	</div>
 	
 	</div></div>
 

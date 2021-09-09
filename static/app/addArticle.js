@@ -29,7 +29,7 @@ Vue.component("addArticle", {
 
         axios
         .post('/addArticle', {articleName:this.name, articleType:this.type,price:this.price,
-					quantity:this.quantity,
+					quantity:this.quantity,articlePhoto:this.image,
                     description : this.description, restaurantName:this.restaurantName
                     })
         .then(response =>{
@@ -42,7 +42,21 @@ Vue.component("addArticle", {
             })
     
 	}, 
+	addLogo: function(event){
+            const file = event.target.files[0];
+            this.createImage(file);
+            this.showLogo = (URL.createObjectURL(file));
+        },
+		createImage(file){
+            const reader= new FileReader();
+ 
+            reader.onload = (e) =>{
+                this.image = (e.target.result);
+            }
+            reader.readAsDataURL(file);
+        },
 	},
+
 	template: `<div>
 		<div class="maliHeder">
 		<a href="#/">
@@ -93,7 +107,9 @@ Vue.component("addArticle", {
                                 <td> Opis: </td>
                                 <td> <input type="text" required v-model="description" /></td>
                             </tr>
-
+						 <tr><td>Slika: </td>
+             				 <td><input type="file" v-on:change="addLogo" > </td>
+                            </tr>
                             <tr>
                                 <td colspan="2" style="text-align: right;">
                                 <input type="submit" value="Dodaj" style="font-size: medium; margin-top: 2%;"/>

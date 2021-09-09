@@ -241,14 +241,13 @@ public class ProjekatMain {
 		});
 		
 		get("/articles",(req,res) -> {
-			String rName =  req.queryParams("restaurantName");
-			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 
+			String rName =  req.queryParams("id");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			ArrayList<Article> articleList = new ArrayList<Article>();
-			for (Map.Entry<String, Article> entry : articleDAO.getArticlesByRestaurant(rName).entrySet()) {
+			for (Map.Entry<String, Article> entry : ArticleDAO.getArticlesByRestaurant(rName).entrySet()) {
 					articleList.add( entry.getValue());
 			}
-			System.out.println("pokrecem");
 
 			return gsonReg.toJson(articleList);
 						
@@ -320,7 +319,7 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			
 			ArrayList<Restaurant> restaurantList = new ArrayList<Restaurant>();
-			for (Map.Entry<String, Restaurant> entry : restaurant.getRestaurants().entrySet()) {
+			for (Map.Entry<String, Restaurant> entry : RestaurantDao.getRestaurants().entrySet()) {
 					restaurantList.add( entry.getValue());
 			}
 			return gsonReg.toJson(restaurantList);
