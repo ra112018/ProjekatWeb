@@ -389,13 +389,13 @@ public class ProjekatMain {
 		
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			ArrayList<Buyer> buyers = new ArrayList<Buyer>();
-			if(r.equals("kupac") || r.equals("")) {
+			if(r.equals("buyer") || r.equals("")) {
 				for (Map.Entry<String, Buyer> entry : buyerDAO.getBuyers().entrySet()) {
 					if(s.equals("") && !t.equals("")) {
-						if(  !entry.getValue().isDeleted())
+						if( entry.getValue().getBuyerType().contains(t) && !entry.getValue().isDeleted())
 							buyers.add( entry.getValue());
 					}else {
-						if((entry.getValue().getName().contains(s) || entry.getValue().getSurname().contains(s) || entry.getValue().getUserName().contains(s)) && !entry.getValue().isDeleted())
+						if((entry.getValue().getName().contains(s) || entry.getValue().getSurname().contains(s) || entry.getValue().getUserName().contains(s) || entry.getValue().getBuyerType().contains(t)) && !entry.getValue().isDeleted())
 							buyers.add( entry.getValue());
 					}
 				}

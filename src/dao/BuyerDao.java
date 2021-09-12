@@ -71,7 +71,7 @@ public class BuyerDao {
 		ut.setUserTypeName(UserTypeName.Usual);
 		ut.setPercentage(0);
 		ut.setPointsNeeded(0);
-		buyer.setBuyerType("USUAL");
+		buyer.setBuyerType("Usual");
 		
 		buyers.put(buyer.getUserName(),buyer);
 		try {

@@ -98,16 +98,16 @@ Vue.component("userTableAdmin", {
 			if(this.type == "" && this.role == "" && this.searching == ""){
 				this.refreshPage();
 			}else if(this.type != ""){
-				axios.get('/searchingBuyers', {params:{searching:this.searching, role:this.role, customerType:this.type}})
+				axios.get('/searchingBuyers', {params:{searching:this.searching, role:this.role, type:this.type}})
                 .then(response => {
-                for(var i =0;i< response.data.length;i++){
+                for(var i =0; i< response.data.length; i++){
                     var user = {};
                     user.name = response.data[i].name;
                     user.lastName = response.data[i].surname;
                     user.username = response.data[i].userName;
                     user.role = "kupac";
                     user.points = response.data[i].points;
-                    user.type= response.data[i].userTypeName;
+                    user.type= response.data[i].buyerType;
                    
                     this.users.push(user);
                 }
@@ -149,7 +149,7 @@ Vue.component("userTableAdmin", {
 		                }
 		             
 		            });
-		           axios.get('/searchingBuyers', {params:{searching:this.searching, role:this.role, customerType:this.type}})
+		           axios.get('/searchingBuyers', {params:{searching:this.searching, role:this.role, type:this.type}})
 	                .then(response => {
 	                for(var i =0;i< response.data.length;i++){
 	                    var user = {};
@@ -157,8 +157,8 @@ Vue.component("userTableAdmin", {
 	                    user.lastName = response.data[i].surname;
 	                    user.username = response.data[i].userName;
 	                    user.role = "kupac";
-	                    user.points = response.data[i].points;
-	                    user.type= response.data[i].type;
+	                    user.points = response.data[i].customerPoints;
+	                    user.type= response.data[i].buyerType;
 	                   
 	                    this.users.push(user);
 					}
@@ -300,11 +300,11 @@ Vue.component("userTableAdmin", {
 		<br>
 		<div>                     			
 			<form @submit="search">
-				<input type="text"></input>
+				<input type="text" v-model="searching"></input>
 				<button>Pretraži</button>
 			</form>
 		
-		
+		    <label>Uloga:</label>
 			<select v-model="role" @change="search">
 				<option value="" selected>Svi</option>
 				<option value="buyer">Kupci</option>
@@ -312,8 +312,8 @@ Vue.component("userTableAdmin", {
 				<option value="manager">Menadzeri</option>
 				<option value="deliverer">Dostavljaci</option>
 			</select>
-			
-			<select v-model="userTypeName" @change="search">
+			<label>Tip kupca:</label>
+			<select v-model="type" @change="search">
 					<option value="" selected>Svi</option>
 					<option value="Golden">Golden</option>
 					<option value="Silver">Silver</option>
