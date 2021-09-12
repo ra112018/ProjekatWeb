@@ -106,7 +106,7 @@ Vue.component("userTableAdmin", {
                     user.lastName = response.data[i].surname;
                     user.username = response.data[i].userName;
                     user.role = "kupac";
-                    user.points = response.data[i].points;
+                    user.points = response.data[i].customerPoints;
                     user.type= response.data[i].buyerType;
                    
                     this.users.push(user);
