@@ -45,9 +45,14 @@
 
 	template: ` 
 	<div>
-		<div class="maliHeder">
+		<div v-if="this.role==='kupac' || this.role==='administrator' || this.role==='manager' || this.role==='deliverer'" class="maliHeder">
 		<a href="#/">
 		<button style="font-size: 100%;">Odjavi se</button></a>
+	</div>
+	<div>
+		<div v-if="this.role===null " class="maliHeder">
+		<a href="#/login">
+		<button style="font-size: 100%;">Prijavi se</button></a>
 	</div>
 	
 	<div class="vertical-menu">
@@ -91,7 +96,7 @@
 <tr><td><h4>Plazma i Nutella palačinka</h4><h5>nutella, plazma keks u mleku, šlag</h5></td><td>360</td></tr></table>
   
 	<div class="restoran" v-for="article in articles">
-	<img :src="article.logo"><p>{{article.description}}</p><p>{{article.price}}</p></div>
+	<img :src="article.articlePhoto"><p>{{article.description}}</p><p>{{article.price}}</p></div>
 	</div>
 	
 	</div></div>

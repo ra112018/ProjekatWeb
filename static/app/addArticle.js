@@ -101,7 +101,7 @@ Vue.component("addArticle", {
                             </tr>
                             <tr>
                                 <td> Količina: </td>
-                                <td> <input type="text" required v-model="quantity" /></td>
+                                <td> <input type="text" required v-model="quantity" pattern="[0-9]+"/></td>
                             </tr>
 						 <tr>
                                 <td> Opis: </td>

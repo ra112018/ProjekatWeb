@@ -59,7 +59,6 @@ public class ArticleDAO {
 		if(r.getArticlePhoto()!=null) {
 		String logoName=getNiceImageFormat(r.getArticlePhoto(),r.getRestaurantName());
 		System.out.println(logoName);
-
         r.setArticlePhoto("../img/" + logoName);
 		}
 		try {
@@ -82,14 +81,14 @@ public class ArticleDAO {
 		// TODO Auto-generated method stub
 		HashMap<String,Article> m=new HashMap<String,Article>();
 		for (Map.Entry<String, Article> entry : articles.entrySet()) {
-			System.out.println((entry.getValue().getRestaurantName()).getClass());
 
 	        if((entry.getValue().getRestaurantName()).equals(rName) ) {
-	        	m.put(entry.getValue().getRestaurantName(),entry.getValue());
+	        	m.put((entry.getValue().getRestaurantName()),entry.getValue());
+
 	        }
 	    }
-		
 		return m;
+
 	}
 	public String getNiceImageFormat(String image,String name) {
 

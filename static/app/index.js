@@ -3,6 +3,8 @@ Vue.component("home-page", {
 	data: function () {
 		    return {
 			user:null,
+		  role:null,
+			username:null,
 			restaurants:[],
 			restaurantName:"",
 			sortingType:"",
@@ -12,6 +14,11 @@ Vue.component("home-page", {
 	methods:{
 		trigger(){
 
+		},
+		
+		selectRestaurant: function(id){
+			router.push({ path: `/selectedRestaurant/${id}` })
+			
 		},
 		
 		checkName: function(i, j){
@@ -51,24 +58,16 @@ Vue.component("home-page", {
 		
 	},
 	mounted: function(){
-        
-              this.username = window.localStorage.getItem('username');
-              this.role = window.localStorage.getItem('role');
-			  this.user=window.localStorage.getItem('user');
+       		localStorage.removeItem('role');
+     	    localStorage.removeItem('username');
+     	    localStorage.removeItem('user');
 			axios.get('/restaurants')
 				.then(response => {
 		           
 		            for(var i =0;i< response.data.length;i++){
 		                var restaurant = {};
-		                restaurant.restaurantName = response.data[i].restaurantName;
-		                restaurant.restaurantType = response.data[i].restaurantType;
-		                restaurant.logo = response.data[i].logo;
-						restaurant.managerName=response.data[i].managerName;
-		               restaurant.location=response.data[i].location;
-						restaurant.status=response.data[i].status;
-						restaurant.articles=response.data[i].articles;
+		                restaurant = response.data[i];
 					     this.restaurants.push(restaurant);
-						
 		            }
 		         
 		        });
@@ -116,44 +115,12 @@ Vue.component("home-page", {
 	
 	<div class="grid">
 			
-		<a>
-		<div class="restoran" @click="trigger">
-			<a href="#/selectedRestaurant"><img class="logo2" src="img/ciao.jpg" alt="Sample photo"/></a>
-		<span class="opis"><em><strong>Ciao Pizzeria</strong></em><br>Pizza restoran<br><p class="open">Otvoreno </p> 09:00-23:00
-		</span>
-		</div></a>
 		
-		
-		<div class="restoran">
-			<a href="#/selectedRestaurant"><img class="logo4" src="img/giros.jpg" alt="Sample photo"/></a>
-		<span class="opis"><br><br><br><em><strong>Giros Master</strong></em><br>Giros<br><p class="open">Otvoreno</p> 08:00-21:00
-		</span>
-		</div>
-		<div class="restoran">
-			<a href="#/selectedRestaurant"><img class="logo3" src="img/dizni-logo.jpg" alt="Sample photo"/></a>
-		<span class="opis"><br><br><br><em><strong>Palačinkarnica Dizni</strong></em><br>Palačinkarnica<br><p class="open">Otvoreno</p> 10:00-22:00
-		</span>
-		</div>
-		
-		<div class="restoran">
-			<a href="#/selectedRestaurant"><img class="logo5" src="img/mek.jpg" alt="Sample photo"/></a>
-		<span class="opis"><br><br><br><em><strong>McDonald's</strong></em><br>Restoran brze hrane<br><p class="open">Otvoreno</p> 10:00-22:00
-		</span>
-		</div><div class="restoran">
-			<a href="#/selectedRestaurant"><img class="logo6" src="img/logo.jpg" alt="Sample photo"/></a>
-		<span class="opis1"><br><br><br><em><strong>Grekos giros</strong></em><br>Giros<br><p class="open">Otvoreno</p> 10:00-22:00
-		</span>
-		</div>
-		<div v-for="restaurant in restaurants" class="restoran"><a href="#/selectedRestaurant"><img class="logo4"
+		<div v-for="restaurant in restaurants" class="restoran"><a v-on:click="selectRestaurant(restaurant.restaurantName)"> <img class="logo4"
 			 :src="restaurant.logo" alt="Sample photo"/></a><span class="opis1"><br><br><br><em><strong>{{restaurant.restaurantName}}
 		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> 10:00-22:00
 		</span></div>
 	
 	</div>
 `
-	, 
-	methods : {
-		},
-	mounted () {
-            }
 });
