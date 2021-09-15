@@ -14,8 +14,6 @@ Vue.component("addUser", {
 		};
 	},
 	mounted: function(){
-        
-		
 			
       
 },
@@ -42,20 +40,13 @@ Vue.component("addUser", {
 										birthDate: this.birthDate,		
 										role: this.role}, {params:{role:this.role}})
 						
-					
 					.then(function(response){
 						alert("Dodat korisnik!")
 						router.replace({ path: `/success`})
 					});
 				}
-				
 			}
-             
-
-        
 		},
-		
-
 
 	template: `<div>
 		<div class="maliHeder">

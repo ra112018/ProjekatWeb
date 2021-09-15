@@ -19,6 +19,7 @@ import com.google.gson.GsonBuilder;
 
 import beans.Administrator;
 import beans.Article;
+import beans.Basket;
 import beans.Buyer;
 import beans.Deliverer;
 import beans.Location;
@@ -28,6 +29,7 @@ import beans.Restaurant;
 import beans.User;
 import dao.AdministratorDAO;
 import dao.ArticleDAO;
+import dao.BasketDAO;
 import dao.BuyerDao;
 import dao.DelivererDAO;
 import dao.LocationDAO;
@@ -47,6 +49,7 @@ public class ProjekatMain {
 	private static RestaurantDao restaurant=new RestaurantDao();
 	private static LocationDAO locationDAO=new LocationDAO();
 	private static ArticleDAO articleDAO=new ArticleDAO();
+	private static BasketDAO basketDAO=new BasketDAO();
 
 
 	private static Gson g=new Gson();
@@ -247,6 +250,8 @@ public class ProjekatMain {
 			ArrayList<Article> articleList = new ArrayList<Article>();
 			for (Map.Entry<String, Article> entry : ArticleDAO.getArticlesByRestaurant(rName).entrySet()) {
 					articleList.add( entry.getValue());
+		        	System.out.println("2");
+
 			}
 
 			return gsonReg.toJson(articleList);
@@ -264,6 +269,16 @@ public class ProjekatMain {
 			return true;
 			
 		});
+		
+		post("/addArticleToCart", (req, res) -> {
+			String reqBody = req.body();
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			System.out.println("Pokrenuo");
+			Basket r = gsonReg.fromJson(reqBody, Basket.class);
+			Basket checkEror=basketDAO.addArticle(r);
+			return true;
+				 		
+			});
 		
 		get("/admins", (req, res)->{
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();

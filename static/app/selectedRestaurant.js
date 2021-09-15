@@ -13,6 +13,7 @@
         usName: null,
 		user:localStorage.getItem('user'),
 		role:localStorage.getItem('role'),
+		
         backup: {},
 		restaurant:null,
 		articles:null
@@ -22,17 +23,21 @@
 	},
 	mounted: function(){
 		 let id = this.$route.params.id;
+	
+              this.username = window.localStorage.getItem('username');
+              this.role = window.localStorage.getItem('role');
+			  this.user=window.localStorage.getItem('user');
             axios
               .get('/restaurantDetails?id='+id,{params:{restaurantName: id}})
 	          .then(response => {
 			this.restaurant=response.data;
                
-              this.username = window.localStorage.getItem('username');
-              this.role = window.localStorage.getItem('role');
-			  this.user=window.localStorage.getItem('user');
 	});	
 	
 				axios.get('/articles?id='+id,{params:{restaurantName: id}}).then(response => {
+					this.username = window.localStorage.getItem('username');
+              this.role = window.localStorage.getItem('role');
+			  this.user=window.localStorage.getItem('user');
 				this.articles=response.data;
 				});
 
@@ -40,7 +45,18 @@
 	
 	methods: {
  
-		
+		addToCart: function(e){
+				e.preventDefault();
+					axios
+					.post('/addArticleToCart', {user: this.user,articleName:this.name, articleType:this.type,price:this.price,
+					quantity:this.quantity,articlePhoto:this.image,
+                    description : this.description, restaurantName:this.restaurantName
+                    })
+						
+					.then(function(response){
+						alert("Dodato u korpu!")
+					});
+			}
 		},
 
 	template: ` 
@@ -80,24 +96,16 @@
 		
 	<div class="restoran">
 		<img class="logo3" :src="restaurant.logo"/>
-		<span class="opis"><br><br>{{restaurant.restaurantName}}<br><input v-model="type"><p class="open">{{restaurant.restaurantType}}</p>
+		<span class="opis"><br><br>{{restaurant.restaurantName}}<br><p class="open">{{restaurant.status}}</p><p>{{restaurant.restaurantType}}</p>
 		Bulevar cara Lazara 92
 		</span>
 		</div>
 		
-<div class="meni"><h2><br><br><br><br><br><br><br><br>Palačinke</h2></div>
-<div class="slatke"><h3>-slatke</h3></div>
-<table class="opcija">
-<tr><th> </th><th>Cena</th></tr>
-<tr><td><h4>Fina palačinka</h4><h5>jogurt krem sa malinama, šlag, voćni preliv</h5></td>
-<td>330</td></tr>
-<tr><td><h4>Banana split palačinka</h4><h5>banana, sladoled, šlag, čoko preliv</h5></td><td>330</td></tr>
-<tr><td><h4>Švarcvald palačinka</h4><h5>višnja, čokolada, šlag</h5></td><td>330</td></tr>
-<tr><td><h4>Plazma i Nutella palačinka</h4><h5>nutella, plazma keks u mleku, šlag</h5></td><td>360</td></tr></table>
-  
+<div class="meni"><h2><br>Palačinke</h2></div>
+<div class="slatke"><h2>-slatke</h2></div>
 	<div class="restoran" v-for="article in articles">
-	<img :src="article.articlePhoto"><p>{{article.description}}</p><p>{{article.price}}</p></div>
-	</div>
+	<img :src="article.articlePhoto"><p>{{article.articleName}}</p><p>{{article.description}}</p>
+	<p>{{article.price}}</p><button v-if="this.role==='kupac'"> Dodaj u korpu </button></div>
 	
 	</div></div>
 

@@ -83,11 +83,14 @@ public class ArticleDAO {
 		for (Map.Entry<String, Article> entry : articles.entrySet()) {
 
 	        if((entry.getValue().getRestaurantName()).equals(rName) ) {
-	        	m.put((entry.getValue().getRestaurantName()),entry.getValue());
+	        	m.put((entry.getValue().getArticleName()),entry.getValue());
+	        	System.out.println(m);
 
+	        	System.out.println("1");
 	        }
 	    }
 		return m;
+
 
 	}
 	public String getNiceImageFormat(String image,String name) {
