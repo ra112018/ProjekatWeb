@@ -103,9 +103,11 @@
 		
 <div class="meni"><h2><br>Palačinke</h2></div>
 <div class="slatke"><h2>-slatke</h2></div>
-	<div class="restoran" v-for="article in articles">
-	<img :src="article.articlePhoto"><p>{{article.articleName}}</p><p>{{article.description}}</p>
-	<p>{{article.price}}</p><button v-if="this.role==='kupac'"> Dodaj u korpu </button></div>
+	<div class="restoran" v-for="(article,value) in articles">
+	<img :src="article.articlePhoto"><p>{{article.articleName}}</p>
+	<p>{{article.description}}</p>
+	<p>{{article.price}}</p>
+	<p v-if="role=='kupac'"> <button>Dodaj u korpu </button></p></div>
 	
 	</div></div>
 
