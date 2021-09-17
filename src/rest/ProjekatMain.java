@@ -250,7 +250,6 @@ public class ProjekatMain {
 			ArrayList<Article> articleList = new ArrayList<Article>();
 			for (Map.Entry<String, Article> entry : ArticleDAO.getArticlesByRestaurant(rName).entrySet()) {
 					articleList.add( entry.getValue());
-		        	System.out.println("2");
 
 			}
 
@@ -260,9 +259,7 @@ public class ProjekatMain {
 		
 		post("/addArticle", (req, res) -> {
 			String reqBody = req.body();
-
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			System.out.println("Pokrenuo");
 			Article r = gsonReg.fromJson(reqBody, Article.class);
 			Article checkEror=articleDAO.addArticle(r);
 		
@@ -272,11 +269,15 @@ public class ProjekatMain {
 		
 		post("/addArticleToCart", (req, res) -> {
 			String reqBody = req.body();
+			
+			String rName =  req.queryParams("userName");
+			String arName =  req.queryParams("articleName");
+			System.out.println(rName+67);
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			System.out.println("Pokrenuo");
 			Basket r = gsonReg.fromJson(reqBody, Basket.class);
-			Basket checkEror=basketDAO.addArticle(r);
-			return true;
+			boolean succAdded=basketDAO.addArticle(r);
+			return succAdded;
 				 		
 			});
 		

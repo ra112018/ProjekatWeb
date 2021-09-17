@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Article;
+import beans.Buyer;
 import beans.Manager;
 import beans.Restaurant;
 import beans.RestaurantStatus;
@@ -48,9 +49,16 @@ public class ArticleDAO {
         Type token = new TypeToken<HashMap<String,Article>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/articles.json"));
         ArticleDAO.articles = gson.fromJson(br, token);
-        System.out.println(ArticleDAO.articles);
 
     }
+	public double findPriceByName(String aName) {
+		for (Map.Entry<String, Article> entry : articles.entrySet()) {
+	        if(entry.getValue().getArticleName().equals(aName) ) {
+	        	return entry.getValue().getPrice();
+	        }
+	    }
+		return 0;
+	}
 
 	public Article addArticle(Article r) {
 		// TODO Auto-generated method stub
@@ -58,7 +66,6 @@ public class ArticleDAO {
 
 		if(r.getArticlePhoto()!=null) {
 		String logoName=getNiceImageFormat(r.getArticlePhoto(),r.getRestaurantName());
-		System.out.println(logoName);
         r.setArticlePhoto("../img/" + logoName);
 		}
 		try {
@@ -84,9 +91,7 @@ public class ArticleDAO {
 
 	        if((entry.getValue().getRestaurantName()).equals(rName) ) {
 	        	m.put((entry.getValue().getArticleName()),entry.getValue());
-	        	System.out.println(m);
 
-	        	System.out.println("1");
 	        }
 	    }
 		return m;
@@ -121,6 +126,16 @@ public class ArticleDAO {
 			e.printStackTrace();
 		}
         return imageName;
+	}
+	public Article findArticleByName(String articleName) {
+		// TODO Auto-generated method stub
+
+		for (Map.Entry<String, Article> entry : articles.entrySet()) {
+	        if(entry.getValue().getArticleName().equals(articleName) ) {
+	        	return entry.getValue();
+	        }
+	    }
+		return null;
 	}
 
 }

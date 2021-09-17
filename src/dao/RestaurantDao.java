@@ -50,18 +50,14 @@ public class RestaurantDao {
         Type token = new TypeToken<HashMap<String,Restaurant>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/restaurants.json"));
         RestaurantDao.restaurants = gson.fromJson(br, token);
-        System.out.println(RestaurantDao.restaurants);
 
     }
 	
 
 	public Restaurant addRestaurant(Restaurant restaurant) {
 		restaurants.put(restaurant.getRestaurantName(),restaurant);
-		System.out.println(restaurant.getRestaurantType());
-		System.out.println(restaurant.getLogo());
 		if(restaurant.getLogo()!=null) {
 		String logoName=getNiceImageFormat(restaurant.getLogo(),restaurant.getRestaurantName());
-		System.out.println(logoName);
 
         restaurant.setLogo("../img/" + logoName);
 		}
@@ -70,7 +66,6 @@ public class RestaurantDao {
         if(exist==true) {
         	restaurant.setArticles(new ArrayList<Article>());
         	restaurant.setStatus(RestaurantStatus.Open);
-        	System.out.println("Menadzer postoji");
         	if(alreadyHasRestaurant==false) {
         	try {
     			this.addRestaurantInFile();
@@ -80,14 +75,12 @@ public class RestaurantDao {
     		}
         	}
         	else {
-            	System.out.println("Menadzer vec ima restoran");
 
             	restaurant=new Restaurant();
             	restaurant.setManagerName("zauzet");
         	}
         }
         else{
-        	System.out.println("Menadzer ne postoji");
         	restaurant=new Restaurant();
         	restaurant.setManagerName("nepostojeci");
         	}
@@ -104,10 +97,8 @@ public class RestaurantDao {
 	}
 	public Restaurant findRestaurantByName(String name) {
 		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
-        	System.out.println(entry.getValue().getRestaurantName());
 
 	        if(entry.getValue().getRestaurantName().equals(name) ) {
-	        	System.out.println(name);
 	        	return entry.getValue();
 	        }
 	    }
@@ -172,7 +163,6 @@ public class RestaurantDao {
 	private boolean checkIfManagerHasRestaurant(String managerName) {
 		// TODO Auto-generated method stub
 		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
-        	System.out.println(entry.getValue().getRestaurantName());
 
 	        if(entry.getValue().getManagerName().equals(managerName) ) {
 	        	System.out.println(managerName);

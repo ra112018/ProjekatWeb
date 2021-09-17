@@ -6,13 +6,16 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Article;
 import beans.Basket;
+import beans.Buyer;
 
 public class BasketDAO {
 
@@ -46,16 +49,51 @@ public class BasketDAO {
 
     }
 
-	public Basket addArticle(Basket r) {
+	public boolean addArticle(Basket r) {
 		// TODO Auto-generated method stub
-		baskets.put(r.getUser().getUserName(),r);
+		int i=0;		//if buyer has something in Basket i!=0
+		ArticleDAO ad=new ArticleDAO();
+		double s=ad.findPriceByName(r.getArticleName());
+		r.setBasketPrice(s);
+		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
+			
+	        if(entry.getValue().getUserName().equals(r.getUserName()) ) {
+	        	if(entry.getValue().getBasketArticles()!=null) {
+	        	ArrayList<Article> a=entry.getValue().getBasketArticles();
+	        	a.addAll(r.getBasketArticles());
+	        	entry.getValue().setBasketArticles(a);
+	        	}
+	        	else {
+	        		ArrayList<Article> a=new ArrayList<Article>();
+		        	a.add(ad.findArticleByName(r.getArticleName()));
+		        	entry.getValue().setBasketArticles(a);
+	        	}
+	        	double totalPrice=entry.getValue().getBasketPrice();
+	        	totalPrice += r.getBasketPrice();
+	        	entry.getValue().setBasketPrice(totalPrice);
+	        	i=1;
+	        }
+	    }
+		if(i==0) {
+			baskets.put(r.getUserName(),r);
+
+			try {
+				this.addBasketInFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else {
+			
 		try {
 			this.addBasketInFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return r;
+		}
+		return true;
 	}
 
 	public static void addBasketInFile() throws IOException{

@@ -10,7 +10,7 @@
 		type:null,
         gender:null,
         showErrorMessage: false,
-        usName: null,
+        username: localStorage.getItem('username'),
 		user:localStorage.getItem('user'),
 		role:localStorage.getItem('role'),
 		
@@ -45,13 +45,10 @@
 	
 	methods: {
  
-		addToCart: function(e){
-				e.preventDefault();
+		addToCart: function(value){
 					axios
-					.post('/addArticleToCart', {user: this.user,articleName:this.name, articleType:this.type,price:this.price,
-					quantity:this.quantity,articlePhoto:this.image,
-                    description : this.description, restaurantName:this.restaurantName
-                    })
+					.post('/addArticleToCart', {userName: this.username,articleName:value
+                    },{params:{userName: this.username,articleName:value}})
 						
 					.then(function(response){
 						alert("Dodato u korpu!")
@@ -80,8 +77,8 @@
 		<a href="#/restaurants" v-if="this.role==='administrator'" class="active">Restorani</a>
 		<a href="#/restaurants" v-if="this.role==='manager'" >Restorani</a>
 		
-		<a href="#" v-if="this.role==='administrator'">Korisnici</a>
-		<a href="#" v-if="this.role==='administrator'">Dodaj korisnika</a>
+		<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
+		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>
 
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
@@ -107,7 +104,7 @@
 	<img :src="article.articlePhoto"><p>{{article.articleName}}</p>
 	<p>{{article.description}}</p>
 	<p>{{article.price}}</p>
-	<p v-if="role=='kupac'"> <button>Dodaj u korpu </button></p></div>
+	<p v-if="role=='kupac'"> <button v-on:click="addToCart(article.articleName)">Dodaj u korpu </button></p></div>
 	
 	</div></div>
 
