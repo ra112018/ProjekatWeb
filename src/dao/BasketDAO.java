@@ -16,6 +16,8 @@ import com.google.gson.reflect.TypeToken;
 import beans.Article;
 import beans.Basket;
 import beans.Buyer;
+import beans.Manager;
+import beans.Restaurant;
 
 public class BasketDAO {
 
@@ -53,12 +55,17 @@ public class BasketDAO {
 		// TODO Auto-generated method stub
 		int i=0;		//if buyer has something in Basket i!=0
 		ArticleDAO ad=new ArticleDAO();
+		ArrayList<Article> alist=new ArrayList<Article>();
+		Article article=ad.findArticleByName(r.getArticleName());
+		alist.add(article);
+ 		r.setBasketArticles(alist);
+		System.out.println(r.getBasketArticles());
 		double s=ad.findPriceByName(r.getArticleName());
 		r.setBasketPrice(s);
 		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
 			
 	        if(entry.getValue().getUserName().equals(r.getUserName()) ) {
-	        	if(entry.getValue().getBasketArticles()!=null) {
+	        	if(entry.getValue().getBasketArticles()!=null ) {
 	        	ArrayList<Article> a=entry.getValue().getBasketArticles();
 	        	a.addAll(r.getBasketArticles());
 	        	entry.getValue().setBasketArticles(a);
@@ -102,6 +109,18 @@ public class BasketDAO {
 		gson.toJson(BasketDAO.baskets, fw);
 		fw.flush();
 		fw.close();
+	}
+
+	public Basket findBasketByUsername(String rName) {
+		// TODO Auto-generated method stub
+		BasketDAO m=new BasketDAO();
+		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
+
+	        if(entry.getValue().getUserName().equals(rName) ) {
+	        	return entry.getValue();
+	        }
+	    }
+		return null;
 	}
 
 }

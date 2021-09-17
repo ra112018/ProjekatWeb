@@ -418,6 +418,16 @@ public class ProjekatMain {
 			return gsonReg.toJson(buyers);
 			
 		});
+		get("/userBasket", (req, res)-> {
+			String rName =  req.queryParams("userName");
+			Basket r;
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			r = basketDAO.findBasketByUsername(rName);
+			System.out.println(rName);
+			System.out.println(r);
+			return gsonReg.toJson(r);
+			
+		});
 		
 		
 	}

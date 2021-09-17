@@ -3,10 +3,26 @@ Vue.component("basket", {
 	data: function(){
 		return {
 			
+        username: localStorage.getItem('username'),
+		user:localStorage.getItem('user'),
+		role:localStorage.getItem('role'),
+		basket: null,
 		};
 	},
 	methods: {
 		
+	},
+	mounted: function(){
+		 let id = this.$route.params.id;
+	
+              this.username = window.localStorage.getItem('username');
+              this.role = window.localStorage.getItem('role');
+			  this.user=window.localStorage.getItem('user');
+            axios
+              .get('/userBasket',{params:{userName: this.username}})
+	          .then(response => {
+			this.basket=response.data;           
+	});	
 	},
 	template: `<div>
 	 <div class="maliHeder">
@@ -15,7 +31,7 @@ Vue.component("basket", {
 	</div>
 	 <div class="vertical-menu">
         <a href="#/buyerProfile">Moj profil</a>
-        <a href="#">Restorani</a>
+        <a href="#/restaurants">Restorani</a>
         <a href="#/orders">Porudžbine</a>
         <a href="#/basket" class="active">Korpa</a>
         <a href="#">Utisci i komentari</a> </div>
@@ -24,15 +40,15 @@ Vue.component("basket", {
      
         <table class="tabelaKorpe">
             <tr>
+			<th></th>
             <th>Naziv artikla</th>
                 
             <th>Količina</th>
             <th>Cena</th>
-            <th>Slika</th>
-            <th>Ukupna cena porudžbine</th>
             <th>&nbsp;</th>
-            <tr>
-                <td> Palacinka  </td>
+            <tr v-for="article in basket.basketArticles">
+				<td><img :src="article.articlePhoto">
+                <td> {{article.articleName}}</td>
                 <td>
                     <select name="kolicina" id="kolicina">
                         <option value="1">1</option>
@@ -48,11 +64,10 @@ Vue.component("basket", {
                     </select>
 
                 </td>
-                <td> 320  </td>
-                <td> slikaa </td>
-                <td> 320  </td>
+                <td> {{article.price}}  </td>
                 <td> <button>Obriši</button></td>
             </tr>
+			<tr><td>Ukupna cena porudžbine: {{basket.basketPrice}}</td></tr>
                 
             </tr>
         </table>
