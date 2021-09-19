@@ -18,6 +18,7 @@ import beans.Basket;
 import beans.Buyer;
 import beans.Manager;
 import beans.Restaurant;
+import beans.User;
 
 public class BasketDAO {
 
@@ -111,13 +112,28 @@ public class BasketDAO {
 		fw.close();
 	}
 
-	public Basket findBasketByUsername(String rName) {
+	public static Basket findBasketByUsername(String rName) {
 		// TODO Auto-generated method stub
 		BasketDAO m=new BasketDAO();
 		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
 
 	        if(entry.getValue().getUserName().equals(rName) ) {
 	        	return entry.getValue();
+	        }
+	    }
+		return null;
+	}
+
+	public static BasketDAO deleteArticle(String userName, String articleName) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
+	        if(entry.getValue().getUserName().equals(userName) ) {
+	        	for(Article a : entry.getValue().getBasketArticles()) {
+	        		if(a.getArticleName()==articleName) {
+	        		 a.setDeleted(true);
+	        		}
+     
+	        	}
 	        }
 	    }
 		return null;

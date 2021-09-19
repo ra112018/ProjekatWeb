@@ -9,6 +9,7 @@ public class Article {
 	private int quantity;
 	private String description;
 	private String articlePhoto;
+	private boolean deleted;
 	
 	public Article() {}
 
@@ -67,5 +68,13 @@ public class Article {
 
 	public void setArticlePhoto(String articlePhoto) {
 		this.articlePhoto = articlePhoto;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 }

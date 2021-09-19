@@ -270,9 +270,6 @@ public class ProjekatMain {
 		post("/addArticleToCart", (req, res) -> {
 			String reqBody = req.body();
 			
-			String rName =  req.queryParams("userName");
-			String arName =  req.queryParams("articleName");
-			System.out.println(rName+67);
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			System.out.println("Pokrenuo");
 			Basket r = gsonReg.fromJson(reqBody, Basket.class);
@@ -280,6 +277,18 @@ public class ProjekatMain {
 			return succAdded;
 				 		
 			});
+
+		post("/deleteFromCart", (req, res)-> {		
+			String reqBody = req.body();
+			String userName =  req.queryParams("userName");
+			String articleName =  req.queryParams("articleName");
+
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			BasketDAO u = null;
+			u = BasketDAO.deleteArticle(userName,articleName);
+			
+			return true;
+		});
 		
 		get("/admins", (req, res)->{
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -423,9 +432,20 @@ public class ProjekatMain {
 			Basket r;
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			r = basketDAO.findBasketByUsername(rName);
+
 			System.out.println(rName);
 			System.out.println(r);
 			return gsonReg.toJson(r);
+			
+		});
+		post("/order", (req, res) -> {
+			String reqBody = req.body();
+			String uName = req.queryParams("userName");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			System.out.println("Porucivanje");
+			Basket basket=basketDAO.findBasketByUsername(uName);
+		
+			return true;
 			
 		});
 		

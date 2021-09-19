@@ -10,7 +10,21 @@ Vue.component("basket", {
 		};
 	},
 	methods: {
-		
+		inTrash: function(value){
+			axios
+					.post('/deleteFromCart', {userName: this.username,articleName:value
+                    },{params:{userName: this.username,articleName:value}})
+						
+					.then(function(response){
+						alert("Uspešno izbrisano!")
+					});
+		}
+	},
+	order: function(){
+		axios.post('/order',{userName:this.username},{params:{userName:this.username}})
+		.then(function(response){
+			alert("Idemo na sledeci korak!")
+		});
 	},
 	mounted: function(){
 		 let id = this.$route.params.id;
@@ -46,33 +60,22 @@ Vue.component("basket", {
             <th>Količina</th>
             <th>Cena</th>
             <th>&nbsp;</th>
-            <tr v-for="article in basket.basketArticles">
+            <tr v-for="article in basket.basketArticles"  v-if="article.deleted !=='true'">
 				<td><img :src="article.articlePhoto">
                 <td> {{article.articleName}}</td>
                 <td>
-                    <select name="kolicina" id="kolicina">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                    </select>
+					<input type="number" value="1">
 
                 </td>
                 <td> {{article.price}}  </td>
-                <td> <button>Obriši</button></td>
+                <td> <button v-on:click="inTrash(article.articleName)">Obriši</button></td>
             </tr>
 			<tr><td>Ukupna cena porudžbine: {{basket.basketPrice}}</td></tr>
                 
             </tr>
         </table>
 
-        <button style="max-height: 50%; font-size: 120%; float:right; margin-right:10%; margin-top: -1%;">Poruči</button>
+        <button v-on:click="order" style="max-height: 50%; font-size: 120%; float:right; margin-right:10%; margin-top: -1%;">Poruči</button>
 
 		</div>`
 		
