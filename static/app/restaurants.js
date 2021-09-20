@@ -163,11 +163,17 @@ Vue.component("restaurants", {
 
 	
 		<div class="pretraga">
-		
 		<form @submit="search">
-				<input type="text" v-model="searching" placeholder="Naziv ili lokacija"></input>
-				<button>Pretraži</button>
-		</form><br>
+				<input type="text" v-model="searching" placeholder="Naziv"></input>
+				<input type="text" v-model="searching" placeholder="Lokacija"></input>
+				
+		<strong>Tip restorana: </strong>
+		 <select name="kriterijum" id="kriterijum" @change="search">
+			  <option value="chinese">Kineska hrana</option>
+			  <option value="italian">Italijanska hrana</option>
+			  <option value="pancakes">Palačinke</option>
+			  <option value="barbecue">Roštilj</option>
+		</select>  
 		
 		<strong>Ocena: </strong>
 		 <select name="ocena" id="ocena" @change="search">
@@ -176,16 +182,11 @@ Vue.component("restaurants", {
 			  <option value="3">3</option>
 			  <option value="4">4</option>
 			  <option value="5">5</option>
-		</select> <br>
-		<strong>Tip restorana: </strong>
-		 <select name="kriterijum" id="kriterijum" @change="search">
-			  <option value="chinese">Kineska hrana</option>
-			  <option value="italian">Italijanska hrana</option>
-			  <option value="pancakes">Palačinke</option>
-			  <option value="barbecue">Roštilj</option>
-		</select>  <br>
+		</select> 
 		
-		<label for="otvoreni">Samo otvoreni   </label>
+		<button>Pretraži</button>
+		</form>
+		<label><b>Filtriranje: </b></label><label for="otvoreni">Samo otvoreni   </label>
 		<input type="checkbox" id="otvoreni" name="otvoreni" value="Samo otvoreni"><br>
 
 	  	<strong>Sortiraj prema: </strong> 
