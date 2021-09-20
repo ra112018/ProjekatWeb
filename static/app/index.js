@@ -164,8 +164,8 @@ Vue.component("home-page", {
 				<img class="logo4" :src="restaurant.logo" width="150em" height="130em"/></a>
 				<ul>
 					<span class="opis1"><br><em><strong>
-						<li>{{restaurant.restaurantName}}</strong></em></li>
-						<li class="open">{{restaurant.status}}</strong></em></li>
+						<li>{{restaurant.restaurantName}}</li></strong></em>
+						<li class="open">{{restaurant.status}}</li></strong></em>
 						<li><i>{{restaurant.restaurantType}}</i></li>
 						<li>10:00-22:00</li>
 					</span>
@@ -179,8 +179,8 @@ Vue.component("home-page", {
 				<img class="logo4" :src="restaurant.logo" width="150em" height="130em"/></a>
 				<ul>
 					<span class="opis1"><br><em><strong>
-						<li>{{restaurant.restaurantName}}</strong></em></li>
-						<li class="open">{{restaurant.status}}</strong></em></li>
+						<li>{{restaurant.restaurantName}}</li></strong></em>
+						<li class="open">{{restaurant.status}}</li></strong></em>
 						<li><i>{{restaurant.restaurantType}}</i></li>
 						<li>10:00-22:00</li>
 					</span>
