@@ -3,10 +3,16 @@ Vue.component("home-page", {
 	data: function () {
 		    return {
 			user:null,
-		  role:null,
+		    role:null,
 			username:null,
 			restaurants:[],
 			restaurantName:"",
+			location:"",
+			restaurantType:"",
+			grade:"",
+			searchingName:"",
+			searchingLocation:"",
+			
 			sortingType:"",
 			sortingCriterion:""
 		    }
@@ -57,7 +63,25 @@ Vue.component("home-page", {
 			}
 		},
 		search(){
-			
+			this.restaurans = [];
+			if(((this.searchingName == "" && this.searchingLocation == "") && this.restaurantType == "")&& this.grade == ""){
+				alert("Potrebno je uneti kriterijum pretrage");
+			}else{
+				axios.get('/searchingRestaurants', {params:{searching:this.searching, restaurantName: this.restaurantName}})
+				.then(response => {
+		           
+		            for(var i =0;i< response.data.length;i++){
+		                var restaurant = {};
+		                restaurant = response.data[i];
+						restaurant.restaurantName = response.data[i].restaurantName;
+						restaurant.status = response.data[i].status;
+						restaurant.restaurantType = response.data[i].restaurantType;
+					    this.restaurants.push(restaurant);
+
+		            }
+		         
+		        });
+			}
 		}
 			
 	},
@@ -88,11 +112,12 @@ Vue.component("home-page", {
 		<br><br>
 		<div class="pretraga">
 			<form @submit="search">
-				<input type="text" v-model="searching" placeholder="Naziv"></input>
-				<input type="text" v-model="searching" placeholder="Lokacija"></input>
+				<input type="text" v-model="searchingName" placeholder="Naziv"></input>
+				<input type="text" v-model="searchingLocation" placeholder="Lokacija"></input>
 				
 		<strong>Tip restorana: </strong>
-		 <select name="kriterijum" id="kriterijum" @change="search">
+		 <select name="restaurantType" id="restaurantType" @change="search" v-model="restaurantType">
+			  <option value="" selected></option>
 			  <option value="chinese">Kineska hrana</option>
 			  <option value="italian">Italijanska hrana</option>
 			  <option value="pancakes">Palačinke</option>
@@ -100,7 +125,8 @@ Vue.component("home-page", {
 		</select>  
 		
 		<strong>Ocena: </strong>
-		 <select name="ocena" id="ocena" @change="search">
+		 <select name="grade" id="grade" @change="search" v-model="grade">
+			  <option value="" selected></option>
 			  <option value="1">1</option>
 			  <option value="2">2</option>
 			  <option value="3">3</option>
@@ -110,6 +136,7 @@ Vue.component("home-page", {
 		
 		<button>Pretraži</button>
 		</form>
+		
 		<label><b>Filtriranje: </b></label><label for="otvoreni">Samo otvoreni   </label>
 		<input type="checkbox" id="otvoreni" name="otvoreni" value="Samo otvoreni"><br>
 
