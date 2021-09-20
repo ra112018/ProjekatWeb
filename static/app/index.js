@@ -21,23 +21,23 @@ Vue.component("home-page", {
 			
 		},
 		
-		checkName: function(i, j){
+		checkName: function(a,b){
 			let first, second;
 			if(this.sortingCriterion == "naziv"){
-				first = i.naziv;
-				second = j.naziv;
+				first = a.restaurantName;
+				second = b.restaurantName;
 			}
-			if(first > second){
+			if(first < second){
 				if(this.sortingType == 'rastuce'){
-					return 1;
-				}else{
 					return -1;
+				}else{
+					return 1;
 				}
-			}else if(first < second){
+			}else if(first > second){
 				if(this.sortingType == 'rastuce'){
-					return -1;
-				}else{
 					return 1;
+				}else{
+					return -1;
 				}
 			}else{
 				return 0;
@@ -49,10 +49,11 @@ Vue.component("home-page", {
 			if(this.sortingType != "rastuce" && this.sortingType != "opadajuce"){
 				alert("Potrebno je uneti tip sortianja");
 			}else{
-				if(this.sortingCriterion == "naziv"){
+				if(this.sortingCriterion != "naziv" && this.sortingCriterion != "lokacija" && this.sortingCriterion!= "ocena"){
+					alert("Potrebno je uneti kriterijum sortiranja");
+				}else if(this.sortingCriterion == "naziv"){
 					this.restaurants.sort(this.checkName);
 				}
-				
 			}
 		}
 		
