@@ -8,12 +8,37 @@ Vue.component("restaurants", {
 		    user:localStorage.getItem('user'),
 			restaurants:[],
 			restaurantName:"",
+			
+			searching:"",
+			sortRestaurantType:"",
 			sortingType:"",
 			sortingCriterion:"",
 			locations:""
 		    }
 	},
-	methods:{
+	mounted: function(){
+        
+			this.refreshPage();
+
+	},
+	
+	methods: {
+		refreshPage(){
+			axios.get('/restaurants')
+				.then(response => {
+		           
+		            for(var i =0;i< response.data.length;i++){
+		                var restaurant = {};
+		                restaurant = response.data[i];
+						restaurant.restaurantName = response.data[i].restaurantName;
+						restaurant.status = response.data[i].status;
+						restaurant.restaurantType = response.data[i].restaurantType;
+					    this.restaurants.push(restaurant);
+
+		            }
+		         
+		        });
+		},
 		
 		newRestaurant(event){
 		    router.push({ path: `/addRestaurant` })
@@ -78,24 +103,31 @@ Vue.component("restaurants", {
 				
 			}
 		},
-	},
-	mounted: function(){
-        
-              this.username = window.localStorage.getItem('username');
-              this.role = window.localStorage.getItem('role');
-			  this.user=window.localStorage.getItem('user');
-			axios.get('/restaurants')
+		
+		search(){
+			this.restaurans = [];
+			if(this.restaurantName == ""){
+				alert("Potrebno je uneti kriterijum pretrage");
+			}else{
+				axios.get('/searchingRestaurants', {params:{searching:this.searching, restaurantName: this.restaurantName}})
 				.then(response => {
 		           
 		            for(var i =0;i< response.data.length;i++){
 		                var restaurant = {};
 		                restaurant = response.data[i];
-					     this.restaurants.push(restaurant);
+						restaurant.restaurantName = response.data[i].restaurantName;
+						restaurant.status = response.data[i].status;
+						restaurant.restaurantType = response.data[i].restaurantType;
+					    this.restaurants.push(restaurant);
 
 		            }
 		         
 		        });
+			}
+		}
+		
 	},
+	
 	
 
 	template: ` <div>
@@ -131,24 +163,31 @@ Vue.component("restaurants", {
 
 	
 		<div class="pretraga">
-		<input type="text" placeholder="Naziv" id="naziv" name="naziv">
-		<input type="text" placeholder="Lokacija" id="lokacija" name="lokacija">
-		<input type="text" placeholder="Tip" id="tip" name="tip">
-		<input type="text" placeholder="Ocena" id="ocena" name="ocena">
-		 <input type="submit" value="Pretraži"><br><br><strong>Filtriraj: </strong>
-		 <select name="kriterijum" id="kriterijum">
-			  <option value="brza">Brza hrana</option>
-			  <option value="giros">Giros</option>
-			  <option value="kineska">Kineska hrana</option>
-			  <option value="kuvana">Kuvana jela</option>
-			  <option value="palačinke">Palačinke</option>
-			  <option value="pizza">Pizza</option>
-			  <option value="poslasticarnica">Poslastičarnica</option>
-			  <option value="susi">Suši</option>
-		</select>  
-		<input type="checkbox" id="otvoreni" name="otvoreni" value="Samo otvoreni">
+		
+		<form @submit="search">
+				<input type="text" v-model="searching" placeholder="Naziv ili lokacija"></input>
+				<button>Pretraži</button>
+		</form><br>
+		
+		<strong>Ocena: </strong>
+		 <select name="ocena" id="ocena" @change="search">
+			  <option value="1">1</option>
+			  <option value="2">2</option>
+			  <option value="3">3</option>
+			  <option value="4">4</option>
+			  <option value="5">5</option>
+		</select> <br>
+		<strong>Tip restorana: </strong>
+		 <select name="kriterijum" id="kriterijum" @change="search">
+			  <option value="chinese">Kineska hrana</option>
+			  <option value="italian">Italijanska hrana</option>
+			  <option value="pancakes">Palačinke</option>
+			  <option value="barbecue">Roštilj</option>
+		</select>  <br>
+		
 		<label for="otvoreni">Samo otvoreni   </label>
-&nbsp;
+		<input type="checkbox" id="otvoreni" name="otvoreni" value="Samo otvoreni"><br>
+
 	  	<strong>Sortiraj prema: </strong> 
 		<select name="sortiranje" id="sort" v-model="sortingCriterion">
 			  <option value="naziv">Naziv restorana</option>
@@ -167,11 +206,36 @@ Vue.component("restaurants", {
 	<div class="grid">
 			
 		
-		<div v-for="restaurant in restaurants" class="restoran"><a v-on:click="selectRestaurant(restaurant.restaurantName)"> <img class="logo4"
-			 :src="restaurant.logo" alt="Sample photo"/></a><span class="opis1"><br><br><br><em><strong>{{restaurant.restaurantName}}
-		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> 10:00-22:00
-		</span></div>
-	
+		<div v-for="restaurant in restaurants" class="restoran">
+			<div v-if="restaurant.status === 'Open'">
+				
+				<a v-on:click="selectRestaurant(restaurant.restaurantName)"> 
+				<img class="logo4" :src="restaurant.logo" width="150em" height="130em"/></a>
+				<ul>
+					<span class="opis1"><br><em><strong>
+						<li>{{restaurant.restaurantName}}</strong></em></li>
+						<li class="open">{{restaurant.status}}</strong></em></li>
+						<li><i>{{restaurant.restaurantType}}</i></li>
+						<li>10:00-22:00</li>
+					</span>
+				</ul>
+			</div>
+		</div>	
+		<div v-for="restaurant in restaurants" class="restoran">
+			<div v-if="restaurant.status === 'Closed'">
+				
+				<a v-on:click="selectRestaurant(restaurant.restaurantName)"> 
+				<img class="logo4" :src="restaurant.logo" width="150em" height="130em"/></a>
+				<ul>
+					<span class="opis1"><br><em><strong>
+						<li>{{restaurant.restaurantName}}</strong></em></li>
+						<li class="open">{{restaurant.status}}</strong></em></li>
+						<li><i>{{restaurant.restaurantType}}</i></li>
+						<li>10:00-22:00</li>
+					</span>
+				</ul>
+			
+			</div>
 	</div>
 `,
 });	

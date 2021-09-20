@@ -55,9 +55,13 @@ Vue.component("home-page", {
 					this.restaurants.sort(this.checkName);
 				}
 			}
+		},
+		search(){
+			
 		}
-		
+			
 	},
+	
 	mounted: function(){
        		localStorage.removeItem('role');
      	    localStorage.removeItem('username');
@@ -80,27 +84,33 @@ Vue.component("home-page", {
 			<a href="#/login">Prijavi se</a>
 			&nbsp;&nbsp;
 			<a href="#/register">Registruj se</a>
-			</div>
+		</div>
 		<br><br>
 		<div class="pretraga">
-		<input type="text" placeholder="Naziv" id="naziv" name="naziv">
-		<input type="text" placeholder="Lokacija" id="lokacija" name="lokacija">
-		<input type="text" placeholder="Tip" id="tip" name="tip">
-		<input type="text" placeholder="Ocena" id="ocena" name="ocena">
-		 <input type="submit" value="Pretraži"><br><br><strong>Filtriraj: </strong>
-		 <select name="kriterijum" id="kriterijum">
-			  <option value="brza">Brza hrana</option>
-			  <option value="giros">Giros</option>
-			  <option value="kineska">Kineska hrana</option>
-			  <option value="kuvana">Kuvana jela</option>
-			  <option value="palačinke">Palačinke</option>
-			  <option value="pizza">Pizza</option>
-			  <option value="poslasticarnica">Poslastičarnica</option>
-			  <option value="susi">Suši</option>
-		</select>  
-		<input type="checkbox" id="otvoreni" name="otvoreni" value="Samo otvoreni">
+			<form @submit="search">
+				<input type="text" v-model="searching" placeholder="Naziv ili lokacija"></input>
+				<button>Pretraži</button>
+		</form><br>
+		
+		<strong>Ocena: </strong>
+		 <select name="ocena" id="ocena" @change="search">
+			  <option value="1">1</option>
+			  <option value="2">2</option>
+			  <option value="3">3</option>
+			  <option value="4">4</option>
+			  <option value="5">5</option>
+		</select> <br>
+		<strong>Tip restorana: </strong>
+		 <select name="kriterijum" id="kriterijum" @change="search">
+			  <option value="chinese">Kineska hrana</option>
+			  <option value="italian">Italijanska hrana</option>
+			  <option value="pancakes">Palačinke</option>
+			  <option value="barbecue">Roštilj</option>
+		</select>  <br>
+		
 		<label for="otvoreni">Samo otvoreni   </label>
-&nbsp;
+		<input type="checkbox" id="otvoreni" name="otvoreni" value="Samo otvoreni"><br>
+
 	  	<strong>Sortiraj prema: </strong> 
 		<select name="sortiranje" id="sort" v-model="sortingCriterion">
 			  <option value="naziv">Naziv restorana</option>
@@ -112,16 +122,46 @@ Vue.component("home-page", {
 			  <option value="opadajuce">Opadajuće</option>
 		</select>
 		<button v-on:click="sortRestaurants">Sortiraj </button>
+
 		</div>
 	
 	<div class="grid">
 			
 		
-		<div v-for="restaurant in restaurants" class="restoran"><a v-on:click="selectRestaurant(restaurant.restaurantName)"> <img class="logo4"
-			 :src="restaurant.logo" alt="Sample photo"/></a><span class="opis1"><br><br><br><em><strong>{{restaurant.restaurantName}}
-		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> 10:00-22:00
-		</span></div>
+		<div v-for="restaurant in restaurants" class="restoran">
+			<div v-if="restaurant.status === 'Open'">
+				
+				<a v-on:click="selectRestaurant(restaurant.restaurantName)"> 
+				<img class="logo4" :src="restaurant.logo" width="150em" height="130em"/></a>
+				<ul>
+					<span class="opis1"><br><em><strong>
+						<li>{{restaurant.restaurantName}}</strong></em></li>
+						<li class="open">{{restaurant.status}}</strong></em></li>
+						<li><i>{{restaurant.restaurantType}}</i></li>
+						<li>10:00-22:00</li>
+					</span>
+				</ul>
+			</div>
+		</div>	
+		<div v-for="restaurant in restaurants" class="restoran">
+			<div v-if="restaurant.status === 'Closed'">
+				
+				<a v-on:click="selectRestaurant(restaurant.restaurantName)"> 
+				<img class="logo4" :src="restaurant.logo" width="150em" height="130em"/></a>
+				<ul>
+					<span class="opis1"><br><em><strong>
+						<li>{{restaurant.restaurantName}}</strong></em></li>
+						<li class="open">{{restaurant.status}}</strong></em></li>
+						<li><i>{{restaurant.restaurantType}}</i></li>
+						<li>10:00-22:00</li>
+					</span>
+				</ul>
+			
+			</div>
 	
+		</div>
+		
+		
 	</div>
 `
 });

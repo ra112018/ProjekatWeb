@@ -300,7 +300,7 @@ Vue.component("userTableAdmin", {
 		<br>
 		<div>                     			
 			<form @submit="search">
-				<input type="text" v-model="searching"></input>
+				<input type="text" v-model="searching" placeholder="Ime/ prezime/ korisnicko ime"></input>
 				<button>Pretraži</button>
 			</form>
 		

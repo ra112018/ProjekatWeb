@@ -34,7 +34,7 @@ import dao.BuyerDao;
 import dao.DelivererDAO;
 import dao.LocationDAO;
 import dao.ManagerDAO;
-import dao.RestaurantDao;
+import dao.RestaurantDAO;
 import spark.Request;
 import spark.Service.StaticFiles;
 import spark.Session;
@@ -46,7 +46,7 @@ public class ProjekatMain {
 	private static AdministratorDAO adminDAO=new AdministratorDAO();
 	private static ManagerDAO managerDAO = new ManagerDAO();
 	private static DelivererDAO delivererDAO = new DelivererDAO();
-	private static RestaurantDao restaurant=new RestaurantDao();
+	private static RestaurantDAO restaurantDAO=new RestaurantDAO();
 	private static LocationDAO locationDAO=new LocationDAO();
 	private static ArticleDAO articleDAO=new ArticleDAO();
 	private static BasketDAO basketDAO=new BasketDAO();
@@ -218,7 +218,7 @@ public class ProjekatMain {
 			String rName =  req.queryParams("id");
 			Restaurant r;
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			r = restaurant.findRestaurantByName(rName);
+			r = restaurantDAO.findRestaurantByName(rName);
 			System.out.println(rName);
 
 			if(r != null) {
@@ -234,7 +234,7 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			System.out.println("Pokrenuo");
 			Restaurant r = gsonReg.fromJson(reqBody, Restaurant.class);
-			Restaurant checkEror=restaurant.addRestaurant(r);
+			Restaurant checkEror=restaurantDAO.addRestaurant(r);
 			if(checkEror.getManagerName()=="nepostojeci" || checkEror.getManagerName()=="zauzet") {
 				return false;
 			}
@@ -343,7 +343,7 @@ public class ProjekatMain {
 		get("/restaurants", (req, res)->{
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			ArrayList<Restaurant> restaurantList = new ArrayList<Restaurant>();
-			for (Map.Entry<String, Restaurant> entry : RestaurantDao.getRestaurants().entrySet()) {
+			for (Map.Entry<String, Restaurant> entry : RestaurantDAO.getRestaurants().entrySet()) {
 					restaurantList.add( entry.getValue());
 			}
 			return gsonReg.toJson(restaurantList);
@@ -354,7 +354,7 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			Restaurant rs;
 
-			rs = restaurant.findRestaurantByManager(uName);
+			rs = restaurantDAO.findRestaurantByManager(uName);
 			return gsonReg.toJson(rs);
 			
 		});
@@ -427,6 +427,27 @@ public class ProjekatMain {
 			return gsonReg.toJson(buyers);
 			
 		});
+		
+		get("/searchingRestaurants", (req, res)->{
+			String s =  req.queryParams("searching");
+			String n =  req.queryParams("restaurantName");
+			String l =  req.queryParams("location");
+		
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
+			
+				for (Map.Entry<String, Restaurant> entry : restaurantDAO.getRestaurants().entrySet()) {
+					if(!s.equals("")) {
+						if(entry.getValue().getRestaurantName().contains(n)) //i ovde provera da li je obrisan
+							restaurants.add( entry.getValue());
+					}
+						
+				}
+			
+			return gsonReg.toJson(restaurants);
+			
+		});
+		
 		get("/userBasket", (req, res)-> {
 			String rName =  req.queryParams("userName");
 			Basket r;

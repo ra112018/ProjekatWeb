@@ -109,7 +109,7 @@ body {
 .grid { 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 20px;
+  
   align-items: stretch;
   margin-top:3%;
   }
@@ -144,6 +144,7 @@ img.logo4{
 				margin-bottom:10%;
 				float:left;
 				max-width:300%;
+				
 
 			}
 img.logo5{

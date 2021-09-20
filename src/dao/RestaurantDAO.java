@@ -29,11 +29,11 @@ import beans.Restaurant;
 import beans.RestaurantStatus;
 import beans.UserType;
 
-public class RestaurantDao {
+public class RestaurantDAO {
 
 	private static HashMap<String,Restaurant> restaurants;
 
-	public RestaurantDao() {
+	public RestaurantDAO() {
 		// TODO Auto-generated constructor stub
 		 restaurants = new HashMap<String,Restaurant>();
 	        try {
@@ -49,7 +49,7 @@ public class RestaurantDao {
         Gson gson = new Gson();
         Type token = new TypeToken<HashMap<String,Restaurant>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/restaurants.json"));
-        RestaurantDao.restaurants = gson.fromJson(br, token);
+        RestaurantDAO.restaurants = gson.fromJson(br, token);
 
     }
 	
@@ -91,7 +91,7 @@ public class RestaurantDao {
 	public static void addRestaurantInFile() throws IOException{
 		Gson gson = new Gson();
 		FileWriter fw = new FileWriter("static/json/restaurants.json");
-		gson.toJson(RestaurantDao.restaurants, fw);
+		gson.toJson(RestaurantDAO.restaurants, fw);
 		fw.flush();
 		fw.close();
 	}
@@ -157,7 +157,7 @@ public class RestaurantDao {
 
 
 	public static void setRestaurants(HashMap<String, Restaurant> restaurants) {
-		RestaurantDao.restaurants = restaurants;
+		RestaurantDAO.restaurants = restaurants;
 	}
 
 	private boolean checkIfManagerHasRestaurant(String managerName) {
