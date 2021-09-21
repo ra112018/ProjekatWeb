@@ -57,11 +57,11 @@ public class BasketDAO {
 		int i=0;		//if buyer has something in Basket i!=0
 		ArticleDAO ad=new ArticleDAO();
 		ArrayList<Article> alist=new ArrayList<Article>();
-		Article article=ad.findArticleByName(r.getArticleName());
+		Article article=ad.findArticleByName(r.getNewArticleName());
 		alist.add(article);
  		r.setBasketArticles(alist);
 		System.out.println(r.getBasketArticles());
-		double s=ad.findPriceByName(r.getArticleName());
+		double s=ad.findPriceByName(r.getNewArticleName());
 		r.setBasketPrice(s);
 		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
 			
@@ -73,7 +73,7 @@ public class BasketDAO {
 	        	}
 	        	else {
 	        		ArrayList<Article> a=new ArrayList<Article>();
-		        	a.add(ad.findArticleByName(r.getArticleName()));
+		        	a.add(ad.findArticleByName(r.getNewArticleName()));
 		        	entry.getValue().setBasketArticles(a);
 	        	}
 	        	double totalPrice=entry.getValue().getBasketPrice();
@@ -115,28 +115,44 @@ public class BasketDAO {
 	public static Basket findBasketByUsername(String rName) {
 		// TODO Auto-generated method stub
 		BasketDAO m=new BasketDAO();
+		Basket b=new Basket();
 		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
 
 	        if(entry.getValue().getUserName().equals(rName) ) {
-	        	return entry.getValue();
+	        	b= entry.getValue();
 	        }
 	    }
-		return null;
+		ArrayList<Article> al=new ArrayList<Article>();
+
+		for (Article  entry : b.getBasketArticles()) {
+					if( !entry.getDeleted())
+						al.add( entry);
+		}
+		b.setBasketArticles(al);
+		return b;
 	}
 
-	public static BasketDAO deleteArticle(String userName, String articleName) {
+	public void deleteArticle(String userName, String articleName) {
 		// TODO Auto-generated method stub
 		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
 	        if(entry.getValue().getUserName().equals(userName) ) {
 	        	for(Article a : entry.getValue().getBasketArticles()) {
-	        		if(a.getArticleName()==articleName) {
-	        		 a.setDeleted(true);
+	    			System.out.println("Brisanje2");
+	    			System.out.println(articleName+"iz mejna");
+	    			System.out.println(a.getArticleName()+"iz jsona");
+
+	        		if(a.getArticleName().equals(articleName)) {
+	        			System.out.println("Brisanje3");
+	        			a.setDeleted(true);
+	        			System.out.println(a.getDeleted());
+	        			double totalPrice=entry.getValue().getBasketPrice();
+	        			totalPrice = totalPrice-a.getPrice();
+	        			entry.getValue().setBasketPrice(totalPrice);
 	        		}
      
 	        	}
 	        }
 	    }
-		return null;
 	}
 
 }

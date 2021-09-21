@@ -70,7 +70,7 @@ public class Article {
 		this.articlePhoto = articlePhoto;
 	}
 
-	public boolean isDeleted() {
+	public boolean getDeleted() {
 		return deleted;
 	}
 

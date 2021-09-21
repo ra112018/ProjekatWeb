@@ -16,18 +16,20 @@ Vue.component("basket", {
                     },{params:{userName: this.username,articleName:value}})
 						
 					.then(function(response){
+						alert(value);
 						alert("Uspešno izbrisano!")
 					});
-		}
-	},
+		},
 	order: function(){
+
 		axios.post('/order',{userName:this.username},{params:{userName:this.username}})
 		.then(function(response){
-			alert("Idemo na sledeci korak!")
+			alert("Porudžbina je u statusu obrade!");
+			refresh();
 		});
 	},
-	mounted: function(){
-		 let id = this.$route.params.id;
+	refresh: function(){
+		let id = this.$route.params.id;
 	
               this.username = window.localStorage.getItem('username');
               this.role = window.localStorage.getItem('role');
@@ -37,7 +39,22 @@ Vue.component("basket", {
 	          .then(response => {
 			this.basket=response.data;           
 	});	
+	
 	},
+	},
+	mounted: function(){
+
+		let id = this.$route.params.id;
+	
+              this.username = window.localStorage.getItem('username');
+              this.role = window.localStorage.getItem('role');
+			  this.user=window.localStorage.getItem('user');
+            axios
+              .get('/userBasket',{params:{userName: this.username}})
+	          .then(response => {
+			this.basket=response.data;  	});
+			},
+	
 	template: `<div>
 	 <div class="maliHeder">
 		<a href="#/">

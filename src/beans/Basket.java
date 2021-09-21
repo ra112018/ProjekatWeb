@@ -6,7 +6,7 @@ public class Basket {
 
 
 	private ArrayList<Article> basketArticles;
-	private String articleName;
+	private String newArticleName;
 	private String userName;
 	private double basketPrice;
 	
@@ -14,13 +14,16 @@ public class Basket {
 		return basketArticles;
 	}
 
-	public String getArticleName() {
-		return articleName;
+
+	public String getNewArticleName() {
+		return newArticleName;
 	}
 
-	public void setArticleName(String articleName) {
-		this.articleName = articleName;
+
+	public void setNewArticleName(String newArticleName) {
+		this.newArticleName = newArticleName;
 	}
+
 
 	public String getUserName() {
 		return userName;

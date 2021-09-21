@@ -284,17 +284,16 @@ public class ProjekatMain {
 			Basket r = gsonReg.fromJson(reqBody, Basket.class);
 			boolean succAdded=basketDAO.addArticle(r);
 			return succAdded;
-				 		
+	
 			});
 
 		post("/deleteFromCart", (req, res)-> {		
 			String reqBody = req.body();
-			String userName =  req.queryParams("userName");
-			String articleName =  req.queryParams("articleName");
-
+			String usName =  req.queryParams("userName");
+			String artName =  req.queryParams("articleName");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			BasketDAO u = null;
-			u = BasketDAO.deleteArticle(userName,articleName);
+
+			basketDAO.deleteArticle(usName,artName);
 			
 			return true;
 		});
@@ -461,8 +460,8 @@ public class ProjekatMain {
 			String rName =  req.queryParams("userName");
 			Basket r;
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			r = basketDAO.findBasketByUsername(rName);
-
+			r = BasketDAO.findBasketByUsername(rName);
+						
 			System.out.println(rName);
 			System.out.println(r);
 			return gsonReg.toJson(r);

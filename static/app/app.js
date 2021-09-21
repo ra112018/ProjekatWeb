@@ -34,8 +34,6 @@ const router = new VueRouter({
 		{ path: '/addUser',component:AddUser},
 		{ path: '/comments',component:Comments}
 
-
-
 	  ]
 });
 
