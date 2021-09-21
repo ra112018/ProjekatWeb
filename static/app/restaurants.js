@@ -248,5 +248,6 @@ Vue.component("restaurants", {
 			
 			</div>
 	</div>
+	</div>
 `,
 });	

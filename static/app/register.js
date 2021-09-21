@@ -7,7 +7,8 @@ Vue.component("register", {
 			usName: null,
 			usPass: null,
 			birthDate: null,
-			gender: null
+			gender: null,
+			role: null
 		};
 	},
 	methods: {
@@ -29,8 +30,16 @@ Vue.component("register", {
                     gender : this.gender,
                     birthDate : this.birthDate
                     })
-        .then(function(response){	alert("Uspešna registracija!");
-				router.replace({ path: `/#` })
+        .then(function(response){	
+				if(JSON.parse(JSON.stringify(response.data))[0] === "exists"){
+					alert("Korisnicko ime vec postoji!");
+				}else{
+					alert("Uspešna registracija!");
+					localStorage.setItem('usName', JSON.parse(JSON.stringify(response.data))[0]);
+					localStorage.setItem('role', JSON.parse(JSON.stringify(response.data))[1]);
+					router.replace({ path: `/#` })
+				}
+				
       })  
     }
 }

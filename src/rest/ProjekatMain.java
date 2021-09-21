@@ -99,10 +99,19 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			
 			Buyer buyerReg = gsonReg.fromJson(reqBody, Buyer.class);
-			buyerDAO.addBuyer(buyerReg);
-			return true;
+			
+			String userName = "exists";
+			ArrayList<String> answers = new ArrayList<String>();
+			if(buyerDAO.findBuyerByUsername(buyerReg.getUserName()) != null) {
+				answers.add(userName);
+				return g.toJson(answers);
+			}else {
+				buyerDAO.addBuyer(buyerReg);
+				return true;
+			}			
 			
 		});
+		
 		get("/account", (req, res)-> {
 			String uName =  req.queryParams("userName");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
