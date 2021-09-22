@@ -190,5 +190,14 @@ public class RestaurantDAO {
 	    }
 		return null;
 	}
+	public static Restaurant findRestaurant(String name) {
+		// TODO Auto-generated method stub
+		 for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+	            if(entry.getValue().getRestaurantName().equals(name) ) {
+	                return entry.getValue();
+	            }
+	        }
+	        return null;
+	}
 
 }

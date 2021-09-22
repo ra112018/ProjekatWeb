@@ -21,7 +21,7 @@ import beans.UserTypeName;
 
 public class BuyerDao {
 
-	private HashMap<String,Buyer> buyers;
+	private static HashMap<String,Buyer> buyers;
 
     public BuyerDao() {
 
@@ -90,12 +90,17 @@ public class BuyerDao {
 		fw.close();
 	}
 	
-	public Buyer findBuyerByUsername(String uName) {
-		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
-	        if(entry.getValue().getUserName().equals(uName) ) {
-	        	return entry.getValue();
-	        }
-	    }
+	public static Buyer findBuyerByUsername(String uName) {
+		try {
+			for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
+			    if(entry.getValue().getUserName().equals(uName) ) {
+			    	return entry.getValue();
+			    }
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 	public void updateBuyer(String usname, Buyer buyer) {

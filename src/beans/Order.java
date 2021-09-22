@@ -16,4 +16,60 @@ public class Order {
 	
 	public Order() {}
 
+	public String getIdOrder() {
+		return idOrder;
+	}
+
+	public void setIdOrder(String idOrder) {
+		this.idOrder = idOrder;
+	}
+
+	public ArrayList<Article> getArticles() {
+		return articles;
+	}
+
+	public void setArticles(ArrayList<Article> articles) {
+		this.articles = articles;
+	}
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
+
+	public String getTimeOfOrder() {
+		return timeOfOrder;
+	}
+
+	public void setTimeOfOrder(String timeOfOrder) {
+		this.timeOfOrder = timeOfOrder;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
 }

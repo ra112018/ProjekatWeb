@@ -34,6 +34,7 @@ import dao.BuyerDao;
 import dao.DelivererDAO;
 import dao.LocationDAO;
 import dao.ManagerDAO;
+import dao.OrderDAO;
 import dao.RestaurantDAO;
 import spark.Request;
 import spark.Service.StaticFiles;
@@ -50,6 +51,8 @@ public class ProjekatMain {
 	private static LocationDAO locationDAO=new LocationDAO();
 	private static ArticleDAO articleDAO=new ArticleDAO();
 	private static BasketDAO basketDAO=new BasketDAO();
+	private static OrderDAO orderDAO=new OrderDAO();
+
 
 
 	private static Gson g=new Gson();
@@ -472,9 +475,12 @@ public class ProjekatMain {
 			String uName = req.queryParams("userName");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			System.out.println("Porucivanje");
+			boolean orderSuccess;
+			
 			Basket basket=basketDAO.findBasketByUsername(uName);
-		
-			return true;
+			
+			orderSuccess=orderDAO.createOrder(uName);
+			return orderSuccess;
 			
 		});
 		
