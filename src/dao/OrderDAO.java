@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Map;
 
 import beans.RandomString ;
 import com.google.gson.Gson;
@@ -16,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 
 import beans.Article;
 import beans.Basket;
+import beans.Manager;
 import beans.Order;
 import beans.OrderStatus;
 
@@ -44,7 +46,7 @@ public class OrderDAO {
 
 	private void readOrders() throws FileNotFoundException{
         Gson gson = new Gson();
-        Type token = new TypeToken<HashMap<String,Basket>>(){}.getType();
+        Type token = new TypeToken<HashMap<String,Order>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/orders.json"));
         OrderDAO.orders = gson.fromJson(br, token);
 
@@ -68,7 +70,7 @@ public class OrderDAO {
 		o.setUser(BuyerDao.findBuyerByUsername(uName));
 		orders.put(id, o);
 		try {
-			this.addOrderInFile();
+			OrderDAO.addOrderInFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,6 +84,22 @@ public class OrderDAO {
 		gson.toJson(OrderDAO.orders, fw);
 		fw.flush();
 		fw.close();
+	}
+
+	public HashMap<String, Order> getOrdersByManager(String uName) {
+		// TODO Auto-generated method stub
+		System.out.println(uName+"user");
+		HashMap<String,Order> m=new HashMap<String,Order>();
+		Manager manager=ManagerDAO.findManagerByUsername(uName);
+		String mName=manager.getName()+" "+manager.getSurname();
+		for (Map.Entry<String, Order> entry : orders.entrySet()) {
+
+	        if((entry.getValue().getRestaurant().getManagerName()).equals(mName) ) {
+	        	m.put((entry.getValue().getIdOrder()),entry.getValue());
+
+	        }
+	    }
+		return m;
 	}
 
 }

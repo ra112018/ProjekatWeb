@@ -22,7 +22,7 @@ import beans.UserType;
 
 public class ManagerDAO {
 
-	private HashMap<String, Manager> managers;
+	private static HashMap<String, Manager> managers;
 
     public ManagerDAO() {
 
@@ -63,7 +63,7 @@ public class ManagerDAO {
 	}
 	
 	
-	public Manager findManagerByUsername(String uName) {
+	public static Manager findManagerByUsername(String uName) {
 		for (Map.Entry<String, Manager> entry : managers.entrySet()) {
         	System.out.println(entry.getValue().getUserName());
 

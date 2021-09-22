@@ -4,12 +4,38 @@ Vue.component("orders", {
 		return {
 			role:localStorage.getItem('role'),
 		    user:localStorage.getItem('user'),
-			restaurantName:""
+		    username:localStorage.getItem('username'),
+
+			restaurantName:"",
+			orders:[]
 
 		};
 	},
 	methods: {
 		
+	},
+	mounted: function(){
+              this.username = window.localStorage.getItem('username');
+              this.role = window.localStorage.getItem('role');
+			  this.user=window.localStorage.getItem('user');
+			axios.get('/OrdersFromMyRestaurant',{params:{userName: this.username}})
+				.then(response => {
+		            for(var i =0;i< response.data.length;i++){
+		                var order = {};
+		                order.idOrder = response.data[i].idOrder;
+		                order.articles = response.data[i].articles;
+		                order.restaurant = response.data[i].restaurant;
+						order.timeOfOrder=response.data[i].timeOfOrder;
+						order.price = response.data[i].price;
+		                order.user = response.data[i].user;
+		                order.orderStatus = response.data[i].orderStatus;
+
+		                this.users.push(order);
+		            }
+
+
+		        });
+
 	},
 	template: `<div>	
 	<div class="maliHeder">
@@ -75,26 +101,33 @@ Vue.component("orders", {
     	</div>
 		
 		<br><br><br>
-		   <table class="tabelaPorudzbine">
-            <tr>
-            <th>Restoran</th>
-                
-            <th>Artikal</th>
-            <th>Količina</th>
-            <th>Cena</th>
-            <th>Status</th>
-            <th> </th>
-            <tr>
-                <td> Restoran1 </td>
-                <td> Palacinka </td>
-                <td> 1  </td>
-                <td> 320 </td>
-                <td> Obrada </td>
-                <td> <button>Otkaži</button></td>
-            </tr>
-                
-            </tr>
-        </table>
+<table class="tabelaPorudzbine">	
+				<tr>
+					<th   id="idOrder">Id</th>
+					<th   id="restaurant">Restoran</th>
+					<th   id="articleList">Artikal</th>
+					<th>Kolicina</th>
+					<th>Cena</th>
+					<th>Status</th>
+					<th> </th>
+				</tr>
+				<tr v-for="order in orders">
+					<td>{{order.idOrder}}</td>
+					<td>{{order.restaurant.restaurantName}}</td>
+					<td><div v-for="article in order.articles">{{article.articleName}}</div></td>
+					<td> 1</td>
+					<td>{{order.price}}</td>
+					<td>{{order.orderStatus}}</td>
+					
+					<td v-if="user.role !='administrator'"> <button @click="deleteUser" :id="user.username"> Obrisi</button></td>
+                    <td v-if="user.role =='administrator'"> <button :disabled=true @click="deleteUser" :id="user.username"> Obrisi</button></td>
+                    <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer')"> <button :id="user.username">Blokiraj</button></td>
+                    <td v-if="user.role =='administrator'"> <button :disabled=true :id="user.userName"> Blokiraj</button></td>
+                  
+					
+				</tr>
+			
+			</table>
 
 		</div>`
 		

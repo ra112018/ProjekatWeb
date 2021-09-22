@@ -69,7 +69,7 @@ Vue.component("myRestaurants", {
 		<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Novi</button>
 		</span></div></div>
 	<div class="restoran" v-for="article in articles">
-	<img :src="article.logo"><p>{{article.description}}</p><p>{{article.price}}</p></div>
+	<img :src="article.articlePhoto"><p>{{article.articleName}}</p><p>{{article.description}}</p><p>{{article.price}}</p></div>
 	</div>
 `,
 });	

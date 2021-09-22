@@ -25,6 +25,8 @@ import beans.Deliverer;
 import beans.Location;
 import beans.User;
 import beans.Manager;
+import beans.Order;
+import beans.OrderStatus;
 import beans.Restaurant;
 import beans.User;
 import dao.AdministratorDAO;
@@ -482,6 +484,19 @@ public class ProjekatMain {
 			orderSuccess=orderDAO.createOrder(uName);
 			return orderSuccess;
 			
+		});
+		
+		get("/OrdersFromMyRestaurant", (req, res)->{
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			String uName =  req.queryParams("userName");
+
+			ArrayList<Order> orders = new ArrayList<Order>();
+			for (Map.Entry<String, Order> entry : orderDAO.getOrdersByManager(uName).entrySet()) {
+				if(!entry.getValue().getOrderStatus().equals(OrderStatus.Canceled))
+					orders.add( entry.getValue());
+		        
+		    }	
+			return gsonReg.toJson(orders);
 		});
 		
 		
