@@ -17,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 
 import beans.Article;
 import beans.Basket;
+import beans.Buyer;
 import beans.Manager;
 import beans.Order;
 import beans.OrderStatus;
@@ -67,7 +68,7 @@ public class OrderDAO {
 		LocalDateTime dateTime = LocalDateTime.now(); // Gets the current date and time
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		o.setTimeOfOrder(dateTime.format(formatter));
-		o.setUser(BuyerDao.findBuyerByUsername(uName));
+		o.setBuyer(BuyerDao.findBuyerByUsername(uName));
 		orders.put(id, o);
 		try {
 			OrderDAO.addOrderInFile();
@@ -88,13 +89,28 @@ public class OrderDAO {
 
 	public HashMap<String, Order> getOrdersByManager(String uName) {
 		// TODO Auto-generated method stub
-		System.out.println(uName+"user");
+		System.out.println(uName+"manager");
 		HashMap<String,Order> m=new HashMap<String,Order>();
 		Manager manager=ManagerDAO.findManagerByUsername(uName);
 		String mName=manager.getName()+" "+manager.getSurname();
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
 
 	        if((entry.getValue().getRestaurant().getManagerName()).equals(mName) ) {
+	        	m.put((entry.getValue().getIdOrder()),entry.getValue());
+
+	        }
+	    }
+		return m;
+	}
+
+	public HashMap<String, Order> getOrdersByBuyer(String uName) {
+		// TODO Auto-generated method stub
+		System.out.println(uName+"buyer");
+		HashMap<String,Order> m=new HashMap<String,Order>();
+		Buyer buyer=BuyerDao.findBuyerByUsername(uName);
+		for (Map.Entry<String, Order> entry : orders.entrySet()) {
+
+	        if((entry.getValue().getBuyer().getUserName()).equals(uName) ) {
 	        	m.put((entry.getValue().getIdOrder()),entry.getValue());
 
 	        }

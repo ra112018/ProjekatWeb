@@ -30,7 +30,7 @@ Vue.component("orders", {
 		                order.user = response.data[i].user;
 		                order.orderStatus = response.data[i].orderStatus;
 
-		                this.users.push(order);
+		                this.orders.push(order);
 		            }
 
 
@@ -119,8 +119,8 @@ Vue.component("orders", {
 					<td>{{order.price}}</td>
 					<td>{{order.orderStatus}}</td>
 					
-					<td v-if="user.role !='administrator'"> <button @click="deleteUser" :id="user.username"> Obrisi</button></td>
-                    <td v-if="user.role =='administrator'"> <button :disabled=true @click="deleteUser" :id="user.username"> Obrisi</button></td>
+					<td v-if="role =='kupac'"> <button> Otkaži</button></td>
+                    <td v-if="role ==='manager' && order.orderStatus === 'Processing'"> <button  @click="InPreparation"> Za pripremu</button></td>
                     <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer')"> <button :id="user.username">Blokiraj</button></td>
                     <td v-if="user.role =='administrator'"> <button :disabled=true :id="user.userName"> Blokiraj</button></td>
                   

@@ -11,7 +11,7 @@ public class Order {
 	private Restaurant restaurant;
 	private String timeOfOrder; 
 	private double price;
-	private User user; //samo ime i prezime treba  // misli se samo na kupca
+	private Buyer buyer; //samo ime i prezime treba  // misli se samo na kupca
 	private OrderStatus orderStatus;
 	
 	public Order() {}
@@ -56,12 +56,13 @@ public class Order {
 		this.price = price;
 	}
 
-	public User getUser() {
-		return user;
+
+	public Buyer getBuyer() {
+		return buyer;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setBuyer(Buyer buyer) {
+		this.buyer = buyer;
 	}
 
 	public OrderStatus getOrderStatus() {

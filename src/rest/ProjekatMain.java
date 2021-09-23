@@ -489,13 +489,26 @@ public class ProjekatMain {
 		get("/OrdersFromMyRestaurant", (req, res)->{
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			String uName =  req.queryParams("userName");
-
 			ArrayList<Order> orders = new ArrayList<Order>();
-			for (Map.Entry<String, Order> entry : orderDAO.getOrdersByManager(uName).entrySet()) {
-				if(!entry.getValue().getOrderStatus().equals(OrderStatus.Canceled))
-					orders.add( entry.getValue());
-		        
-		    }	
+			User us;
+			us = buyerDAO.findBuyerByUsername(uName);
+			if(us != null) {
+				for (Map.Entry<String, Order> entry : orderDAO.getOrdersByBuyer(uName).entrySet()) {
+					if(!entry.getValue().getOrderStatus().equals(OrderStatus.Canceled))
+						orders.add( entry.getValue());
+						System.out.println("Vracam");
+			        
+			    }	
+				return gsonReg.toJson(orders);
+			}
+			else {
+				for (Map.Entry<String, Order> entry : orderDAO.getOrdersByManager(uName).entrySet()) {
+					if(!entry.getValue().getOrderStatus().equals(OrderStatus.Canceled))
+						orders.add( entry.getValue());
+			        
+			    }	
+			}
+			
 			return gsonReg.toJson(orders);
 		});
 		
