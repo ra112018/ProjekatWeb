@@ -261,6 +261,7 @@ public class ProjekatMain {
 
 			String rName =  req.queryParams("id");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			System.out.println(rName);
 			ArrayList<Article> articleList = new ArrayList<Article>();
 			for (Map.Entry<String, Article> entry : ArticleDAO.getArticlesByRestaurant(rName).entrySet()) {
 					articleList.add( entry.getValue());
@@ -512,6 +513,19 @@ public class ProjekatMain {
 			return gsonReg.toJson(orders);
 		});
 		
+		post("/managerPrepareOrder" ,(req, res) -> {
+			String reqBody = req.body();
+			String uName = req.queryParams("userName");
+			String idO = req.queryParams("idOrder");
+
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			System.out.println("Menadzer menja u U pripremi");
+			boolean orderSuccess;
+			
+			
+			orderSuccess=orderDAO.prepareOrder(idO);
+			return orderSuccess;
+		});
 		
 	}
 

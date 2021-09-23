@@ -118,4 +118,21 @@ public class OrderDAO {
 		return m;
 	}
 
+	public boolean prepareOrder(String idO) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Order> entry : orders.entrySet()) {
+	        if(entry.getValue().getIdOrder().equals(idO) ) {
+	        			entry.getValue().setOrderStatus(OrderStatus.InPreparation);
+     
+	        }
+	    }
+		try {
+			addOrderInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+
 }

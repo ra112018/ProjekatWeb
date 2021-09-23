@@ -12,6 +12,16 @@ Vue.component("orders", {
 		};
 	},
 	methods: {
+		prepare: function(value){
+			axios
+					.post('/managerPrepareOrder', {userName: this.username,idOrder:value
+                    },{params:{userName: this.username,idOrder:value}})
+						
+					.then(function(response){
+						alert(value);
+						alert("Uspešno izbrisano!")
+					});
+		}
 		
 	},
 	mounted: function(){
@@ -120,7 +130,7 @@ Vue.component("orders", {
 					<td>{{order.orderStatus}}</td>
 					
 					<td v-if="role =='kupac'"> <button> Otkaži</button></td>
-                    <td v-if="role ==='manager' && order.orderStatus === 'Processing'"> <button  @click="InPreparation"> Za pripremu</button></td>
+                    <td v-if="role ==='manager' && order.orderStatus === 'Processing'"> <button  v-on:click="prepare(order.idOrder)> Za pripremu</button></td>
                     <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer')"> <button :id="user.username">Blokiraj</button></td>
                     <td v-if="user.role =='administrator'"> <button :disabled=true :id="user.userName"> Blokiraj</button></td>
                   
