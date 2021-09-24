@@ -145,6 +145,7 @@ Vue.component("restaurants", {
         <a href="#/buyerProfile" v-if="this.role==='kupac'">Moj profil</a>
  		<a href="#/buyerProfile" v-if="this.role==='administrator'">Moj profil</a>
         <a href="#/buyerProfile" v-if="this.role==='manager'">Moj profil</a>
+		<a href="#/buyerProfile" v-if="this.role==='deliverer'">Moj profil</a>
        
         <a href="#/restaurants" v-if="this.role==='kupac'" class="active">Restorani</a>
 		<a href="#/restaurants" v-if="this.role==='administrator'" class="active">Restorani</a>
@@ -157,6 +158,7 @@ Vue.component("restaurants", {
 		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
+		<a href="#/orders" v-if="this.role==='deliverer'">Porudžbine</a>
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
 		<a href="#" v-if="this.role==='manager'">Kupci</a>
 
@@ -170,29 +172,29 @@ Vue.component("restaurants", {
 		<div class="pretraga">
 		
 		<form @submit="search">
-				<input type="text" v-model="searchingName" placeholder="Naziv"></input>
-				<input type="text" v-model="searchingLocation" placeholder="Lokacija"></input>
+			<input type="text" v-model="searchingName" placeholder="Naziv"></input>
+			<input type="text" v-model="searchingLocation" placeholder="Lokacija"></input>
 					
-		<strong>Tip restorana: </strong>
-		 <select name="kriterijum" id="kriterijum" @change="search" v-model="restaurantType">
-			  <option value="" selected></option>
-			  <option value="chinese">Kineska hrana</option>
-			  <option value="italian">Italijanska hrana</option>
-			  <option value="pancakes">Palačinke</option>
-			  <option value="barbecue">Roštilj</option>
-		</select>  
-		
-		<strong>Ocena: </strong>
-		 <select name="ocena" id="ocena" @change="search"  v-model="grade">
-			  <option value="" selected></option>
-			  <option value="1">1</option>
-			  <option value="2">2</option>
-			  <option value="3">3</option>
-			  <option value="4">4</option>
-			  <option value="5">5</option>
-		</select> 
-		
-		<button>Pretraži</button>
+			<strong>Tip restorana: </strong>
+			 <select name="kriterijum" id="kriterijum" @change="search" v-model="restaurantType">
+				  <option value="" selected></option>
+				  <option value="chinese">Kineska hrana</option>
+				  <option value="italian">Italijanska hrana</option>
+				  <option value="pancakes">Palačinke</option>
+				  <option value="barbecue">Roštilj</option>
+			</select>  
+			
+			<strong>Ocena: </strong>
+			<select name="ocena" id="ocena" @change="search"  v-model="grade">
+				  <option value="" selected></option>
+				  <option value="1">1</option>
+				  <option value="2">2</option>
+				  <option value="3">3</option>
+				  <option value="4">4</option>
+				  <option value="5">5</option>
+			</select> 
+			
+			<button>Pretraži</button>
 		</form>
 		
 		<label><b>Filtriranje: </b></label><label for="otvoreni">Samo otvoreni   </label>
@@ -212,7 +214,7 @@ Vue.component("restaurants", {
 		<button v-on:click="sortRestaurants">Sortiraj </button>
 
 		</div>
-	<div v-if="role =='administrator'"> <button class="addButton" @click="newRestaurant" :id="user.username"> Novi</button></div>
+	<div v-if="role =='administrator'"> <button class="addButton" @click="newRestaurant" :id="user.username" style="margin-left: 2%;"> Novi</button></div>
 
 	<div class="grid">
 			

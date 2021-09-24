@@ -90,7 +90,7 @@ public class BuyerDao {
 		fw.close();
 	}
 	
-	public static Buyer findBuyerByUsername(String uName) {
+	public Buyer findBuyerByUsername(String uName) {
 		try {
 			for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
 			    if(entry.getValue().getUserName().equals(uName) ) {

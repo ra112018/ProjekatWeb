@@ -78,7 +78,7 @@ Vue.component("basket", {
             <th>Cena</th>
             <th>&nbsp;</th>
             <tr v-for="article in basket.basketArticles"  v-if="article.deleted !=='true'">
-				<td><img :src="article.articlePhoto">
+				<td><img :src="article.articlePhoto" class="articlePicture">
                 <td> {{article.articleName}}</td>
                 <td>
 					<input type="number" value="1">
@@ -91,8 +91,8 @@ Vue.component("basket", {
                 
             </tr>
         </table>
-
-        <button v-on:click="order" style="max-height: 50%; font-size: 120%; float:right; margin-right:10%; margin-top: -1%;">Poruči</button>
+		<br>
+        <button v-on:click="order" style="max-height: 50%; font-size: 120%; float:left; margin-left:2%; margin-top:auto;">Poruči</button>
 
 		</div>`
 		

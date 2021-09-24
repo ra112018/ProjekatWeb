@@ -26,7 +26,8 @@ import beans.OrderStatus;
 public class OrderDAO {
 
 	private static HashMap<String,Order> orders; //idOrder is key value
-
+	private static BuyerDao buyerDAO=new BuyerDao();				//ovo sam dodala
+	private static ManagerDAO managerDAO = new ManagerDAO();		//ovo sam dodala
 
 	public static HashMap<String, Order> getOrders() {
 		return orders;
@@ -55,6 +56,7 @@ public class OrderDAO {
 
 	public boolean createOrder(String uName) {
 		// TODO Auto-generated method stub
+		Buyer buyer = null;									//ovo sam dodala
 		Basket b=BasketDAO.findBasketByUsername(uName);
 		Order o=new Order();
 		o.setArticles(b.getBasketArticles());
@@ -67,8 +69,11 @@ public class OrderDAO {
 		}
 		LocalDateTime dateTime = LocalDateTime.now(); // Gets the current date and time
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		
+		buyer = buyerDAO.findBuyerByUsername(uName);		//ovo sam dodala
 		o.setTimeOfOrder(dateTime.format(formatter));
-		o.setBuyer(BuyerDao.findBuyerByUsername(uName));
+		//o.setBuyer(BuyerDao.findBuyerByUsername(uName));
+		o.setBuyer(buyer);									//ovo sam dodala
 		orders.put(id, o);
 		try {
 			OrderDAO.addOrderInFile();
@@ -89,9 +94,11 @@ public class OrderDAO {
 
 	public HashMap<String, Order> getOrdersByManager(String uName) {
 		// TODO Auto-generated method stub
+		Manager manager = null; 				//ovo sam dodala 
 		System.out.println(uName+"manager");
 		HashMap<String,Order> m=new HashMap<String,Order>();
-		Manager manager=ManagerDAO.findManagerByUsername(uName);
+		//Manager manager=ManagerDAO.findManagerByUsername(uName);
+		manager = managerDAO.findManagerByUsername(uName);        	//ovo sam dodala
 		String mName=manager.getName()+" "+manager.getSurname();
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
 
@@ -107,7 +114,10 @@ public class OrderDAO {
 		// TODO Auto-generated method stub
 		System.out.println(uName+"buyer");
 		HashMap<String,Order> m=new HashMap<String,Order>();
-		Buyer buyer=BuyerDao.findBuyerByUsername(uName);
+		//Buyer buyer=BuyerDao.findBuyerByUsername(uName);
+		Buyer buyer = null; 									//ovo sam dodala
+		buyer = buyerDAO.findBuyerByUsername(uName);			//ovo sam dodala
+		
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
 
 	        if((entry.getValue().getBuyer().getUserName()).equals(uName) ) {

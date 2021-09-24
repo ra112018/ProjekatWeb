@@ -63,7 +63,7 @@ public class ManagerDAO {
 	}
 	
 	
-	public static Manager findManagerByUsername(String uName) {
+	public Manager findManagerByUsername(String uName) {
 		for (Map.Entry<String, Manager> entry : managers.entrySet()) {
         	System.out.println(entry.getValue().getUserName());
 

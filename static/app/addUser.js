@@ -64,7 +64,7 @@ Vue.component("addUser", {
 		
 		</div>
 		
-		<div>
+		<div class="tabela">
 			<table>
 			<tbody>
 				<tr>

@@ -117,7 +117,7 @@ Vue.component("addRestaurant", {
 
                             <tr>
                                 <td colspan="2" style="text-align: right;">
-                                <input type="submit" value="Dodaj" style="font-size: medium; margin-top: 2%;"/>
+                                <input type="submit" value="Dodaj" style="width: 25%; margin-top: 2%;"/>
                                 </td>
                             </tr>
                         

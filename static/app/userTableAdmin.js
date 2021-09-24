@@ -292,18 +292,17 @@ Vue.component("userTableAdmin", {
 			<a href="#/restaurants">Restorani</a>
 			<a href="#/userTableAdmin" class="active">Korisnici</a>
 			<a href="#/addUser">Dodaj korisnika</a>
-			 <a href="#" >Utisci i komentari</a> 
-
+			<a href="#" >Utisci i komentari</a> 
 		
 		</div>
 		
 		<br>
-		<div>                     			
-			<form @submit="search">
+		<div class="tabela">                      			
+			<form @submit="search" >
 				<input type="text" v-model="searching" placeholder="Ime/ prezime/ korisnicko ime"></input>
 				<button>Pretraži</button>
 			</form>
-		
+			
 		    <label>Uloga:</label>
 			<select v-model="role" @change="search">
 				<option value="" selected>Svi</option>
@@ -321,8 +320,9 @@ Vue.component("userTableAdmin", {
 					<option value="Usual">Usual</option>
 			</select>
 		</div>
+		<br>
 		<div>
-			<table>	
+			<table class="tabela">	
 				<tr>
 					<th @click="sortTable" v-bind:class="nameSort" id="name">Ime</th>
 					<th @click="sortTable" v-bind:class="surnameSort" id="surname">Prezime</th>

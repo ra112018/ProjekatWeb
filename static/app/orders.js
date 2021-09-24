@@ -58,7 +58,9 @@ Vue.component("orders", {
 		<a href="#/buyerProfile" v-if="this.role==='deliverer'">Moj profil</a>
 		
         <a href="#/restaurants" v-if="this.role==='kupac'">Restorani</a>
-		 <a href="#/restaurants" v-if="this.role==='manager'">Restorani</a>
+		<a href="#/restaurants" v-if="this.role==='manager'">Restorani</a>
+	
+		<a href="#/myRestaurants" v-if="this.role==='manager'" >Moji restorani</a>
 	
         <a href="#/orders" v-if="this.role==='kupac'" class="active">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'" class="active">Porudžbine</a>
@@ -73,41 +75,42 @@ Vue.component("orders", {
 		<p class="naslov"><b>Porudžbine</b></p>
      
       <div class="pretraga">
-		<input type="text" id="naziv" name="naziv" placeholder="Naziv restorana">
-        <input type="text" id="lokacija" name="lokacija" placeholder="Cena">
-        <input type="date" id="tip" name="tip" placeholder="Datum od">
-        <input type="date" id="tip" name="tip" placeholder="Datum do">
-        
-         <input type="submit" value="Pretraži"><br><strong>&nbsp;Filtriraj: </strong>
-        <label>Tip restorana</label>
-        <select name="kriterijum" id="kriterijum">
-            <option value="brza">Brza hrana</option>
-            <option value="giros">Giros</option>
-            <option value="kineska">Kineska hrana</option>
-            <option value="kuvana">Kuvana jela</option>
-            <option value="palačinke">Palačinke</option>
-            <option value="pizza">Pizza</option>
-            <option value="poslasticarnica">Poslastičarnica</option>
-            <option value="susi">Suši</option>
-        </select> <label>Status</label>
-        <select name="status" id="status">
-            <option value="brza">Obrada</option>
-            <option value="giros">U pripremi</option>
-            <option value="kineska">Čeka dostavljača</option>
-            <option value="kuvana">U transportu</option>
-            <option value="palačinke">Dostavljena</option>
-            <option value="pizza">Otkazana</option>
-        </select>
-        &nbsp;
-        <strong>Sortiraj prema: </strong> <select name="sortiranje" id="sort">
-        <option value="naziv">Naziv restorana</option>
-        <option value="lokacija">Cena porudžbine</option>
-        <option value="ocena">Datum porudžbine</option>
-        </select>  <select name="kriterijum" id="kriterijum">
-        <option value="rastuće">Rastuće</option>
-        <option value="opadajuće">Opadajuće</option>
-        </select>
-        
+			<input type="text" id="naziv" name="naziv" placeholder="Naziv restorana">
+	        <input type="text" id="lokacija" name="lokacija" placeholder="Cena">
+	        <input type="date" id="tip" name="tip" placeholder="Datum od">
+	        <input type="date" id="tip" name="tip" placeholder="Datum do">
+	        
+	         <input type="submit" value="Pretraži"><br><strong>&nbsp;Filtriraj: </strong>
+	        <label>Tip restorana</label>
+	        <select name="kriterijum" id="kriterijum">
+	            <option value="brza">Brza hrana</option>
+	            <option value="giros">Giros</option>
+	            <option value="kineska">Kineska hrana</option>
+	            <option value="kuvana">Kuvana jela</option>
+	            <option value="palačinke">Palačinke</option>
+	            <option value="pizza">Pizza</option>
+	            <option value="poslasticarnica">Poslastičarnica</option>
+	            <option value="susi">Suši</option>
+	        </select> <label>Status</label>
+	        <select name="status" id="status">
+	            <option value="brza">Obrada</option>
+	            <option value="giros">U pripremi</option>
+	            <option value="kineska">Čeka dostavljača</option>
+	            <option value="kuvana">U transportu</option>
+	            <option value="palačinke">Dostavljena</option>
+	            <option value="pizza">Otkazana</option>
+	        </select>
+	        &nbsp;
+	        <strong>Sortiraj prema: </strong> <select name="sortiranje" id="sort">
+	        <option value="naziv">Naziv restorana</option>
+	        <option value="lokacija">Cena porudžbine</option>
+	        <option value="ocena">Datum porudžbine</option>
+	        </select>  <select name="kriterijum" id="kriterijum">
+	        <option value="rastuće">Rastuće</option>
+	        <option value="opadajuće">Opadajuće</option>
+		
+	        </select>
+	         <button> Sortiraj</button></td>
     	</div>
 		
 		<br><br><br>

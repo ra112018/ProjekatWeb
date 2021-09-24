@@ -35,7 +35,7 @@ Vue.component("comments", {
 					<a href="#/comments" class="active">Utisci i komentari</a> 
 				</div>
 				<p class="naslov"><b>Komentari kupaca</b></p>
-                <div>
+                <div class="tabela">
                     <table> 
                         <tr>
                             <th>Kupac</th>
