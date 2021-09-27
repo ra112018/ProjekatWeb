@@ -61,6 +61,7 @@ public class OrderDAO {
 		Order o=new Order();
 		o.setArticles(b.getBasketArticles());
 		String id=RandomString.getAlphaNumericString(10);
+		id = checkUnique(id);
 		o.setIdOrder(id);
 		o.setOrderStatus(OrderStatus.Processing);
 		o.setPrice(b.getBasketPrice());
@@ -71,6 +72,7 @@ public class OrderDAO {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		
 		buyer = buyerDAO.findBuyerByUsername(uName);		//ovo sam dodala
+		buyer.setCustomerPoints(buyer.getCustomerPoints()+b.getBasketPrice()/1000 *133);
 		o.setTimeOfOrder(dateTime.format(formatter));
 		//o.setBuyer(BuyerDao.findBuyerByUsername(uName));
 		o.setBuyer(buyer);									//ovo sam dodala
@@ -82,6 +84,16 @@ public class OrderDAO {
 			e.printStackTrace();
 		}
 		return true;
+	}
+
+	private String checkUnique(String id) {
+		for (Map.Entry<String, Order> entry : orders.entrySet()) {			//provera jedinstvenosti
+
+	        if((entry.getValue().getIdOrder()).equals(id) ) {
+	        	id=RandomString.getAlphaNumericString(10);
+	        }
+	    }
+		return id;
 	}
 
 	public static void addOrderInFile() throws IOException{
@@ -134,6 +146,24 @@ public class OrderDAO {
 	        if(entry.getValue().getIdOrder().equals(idO) ) {
 	        			entry.getValue().setOrderStatus(OrderStatus.InPreparation);
      
+	        }
+	    }
+		try {
+			addOrderInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	public boolean cancelOrder(String idO) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Order> entry : orders.entrySet()) {
+	        if(entry.getValue().getIdOrder().equals(idO) ) {
+	        			entry.getValue().setOrderStatus(OrderStatus.Canceled);
+	        			Buyer b=entry.getValue().getBuyer();
+	        			b.setCustomerPoints(b.getCustomerPoints()- entry.getValue().getPrice()/1000*133*4);
 	        }
 	    }
 		try {

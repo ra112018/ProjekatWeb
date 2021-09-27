@@ -12,19 +12,9 @@ Vue.component("orders", {
 		};
 	},
 	methods: {
-		prepare: function(value){
-			axios
-					.post('/managerPrepareOrder', {userName: this.username,idOrder:value
-                    },{params:{userName: this.username,idOrder:value}})
-						
-					.then(function(response){
-						alert(value);
-						alert("Uspešno izbrisano!")
-					});
-		}
-		
-	},
-	mounted: function(){
+		refreshPage(){
+			
+
               this.username = window.localStorage.getItem('username');
               this.role = window.localStorage.getItem('role');
 			  this.user=window.localStorage.getItem('user');
@@ -45,6 +35,34 @@ Vue.component("orders", {
 
 
 		        });
+			},
+		prepare: function(value){
+			axios
+					.post('/managerPrepareOrder', {userName: this.username,idOrder:value
+                    },{params:{userName: this.username,idOrder:value}})
+						
+					.then(function(response){
+						alert(value);
+						alert("Porudzbina je u pripremi!")
+					   this.refreshPage();
+
+					});
+		},
+		cancel: function(value){
+			axios
+					.post('/buyerCancelOrder', {userName: this.username,idOrder:value
+                    },{params:{userName: this.username,idOrder:value}})
+						
+					.then(function(response){
+						alert("Uspešno otkazana porudžbina!")
+					    this.refreshPage();
+
+					});
+		}
+		
+	},
+	mounted: function(){
+		        		this.refreshPage();	 
 
 	},
 	template: `<div>	
@@ -132,7 +150,7 @@ Vue.component("orders", {
 					<td>{{order.price}}</td>
 					<td>{{order.orderStatus}}</td>
 					
-					<td v-if="role =='kupac'"> <button> Otkaži</button></td>
+					<td v-if="role =='kupac'"> <button v-on:click="cancel(order.idOrder)> Otkaži</button></td>
                     <td v-if="role ==='manager' && order.orderStatus === 'Processing'"> <button  v-on:click="prepare(order.idOrder)> Za pripremu</button></td>
                     <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer')"> <button :id="user.username">Blokiraj</button></td>
                     <td v-if="user.role =='administrator'"> <button :disabled=true :id="user.userName"> Blokiraj</button></td>

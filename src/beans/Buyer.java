@@ -7,7 +7,7 @@ public class Buyer extends User {
 
 	private ArrayList<Order> customerOrders;	//sve porudzbine za kupca
 	private Basket basket;  //za kupca
-	private int customerPoints; //za kupca
+	private double customerPoints; //za kupca
 	//private UserType customerType;
 	private String buyerType;
 
@@ -31,12 +31,12 @@ public class Buyer extends User {
 		this.basket = basket;
 	}
 
-	public int getCustomerPoints() {
+	public double getCustomerPoints() {
 		return customerPoints;
 	}
 
-	public void setCustomerPoints(int customerPoints) {
-		this.customerPoints = customerPoints;
+	public void setCustomerPoints(double d) {
+		this.customerPoints = d;
 	}
 
 	public String getBuyerType() {

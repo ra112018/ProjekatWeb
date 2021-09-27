@@ -233,7 +233,6 @@ public class ProjekatMain {
 			Restaurant r;
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			r = restaurantDAO.findRestaurantByName(rName);
-			System.out.println(rName);
 
 			if(r != null) {
 				return gsonReg.toJson(r);
@@ -246,7 +245,6 @@ public class ProjekatMain {
 			String reqBody = req.body();
 
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			System.out.println("Pokrenuo");
 			Restaurant r = gsonReg.fromJson(reqBody, Restaurant.class);
 			Restaurant checkEror=restaurantDAO.addRestaurant(r);
 			if(checkEror.getManagerName()=="nepostojeci" || checkEror.getManagerName()=="zauzet") {
@@ -286,7 +284,6 @@ public class ProjekatMain {
 			String reqBody = req.body();
 			
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			System.out.println("Pokrenuo");
 			Basket r = gsonReg.fromJson(reqBody, Basket.class);
 			boolean succAdded=basketDAO.addArticle(r);
 			return succAdded;
@@ -468,8 +465,6 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			r = BasketDAO.findBasketByUsername(rName);
 						
-			System.out.println(rName);
-			System.out.println(r);
 			return gsonReg.toJson(r);
 			
 		});
@@ -477,7 +472,6 @@ public class ProjekatMain {
 			String reqBody = req.body();
 			String uName = req.queryParams("userName");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			System.out.println("Porucivanje");
 			boolean orderSuccess;
 			
 			Basket basket=basketDAO.findBasketByUsername(uName);
@@ -497,7 +491,6 @@ public class ProjekatMain {
 				for (Map.Entry<String, Order> entry : orderDAO.getOrdersByBuyer(uName).entrySet()) {
 					if(!entry.getValue().getOrderStatus().equals(OrderStatus.Canceled))
 						orders.add( entry.getValue());
-						System.out.println("Vracam");
 			        
 			    }	
 				return gsonReg.toJson(orders);
@@ -519,11 +512,20 @@ public class ProjekatMain {
 			String idO = req.queryParams("idOrder");
 
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			System.out.println("Menadzer menja u U pripremi");
 			boolean orderSuccess;
 			
 			
 			orderSuccess=orderDAO.prepareOrder(idO);
+			return orderSuccess;
+		});
+		post("/buyerCancelOrder",(req, res) -> {
+			String reqBody = req.body();
+			String uName = req.queryParams("userName");
+			String idO = req.queryParams("idOrder");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			boolean orderSuccess;
+			
+			orderSuccess=orderDAO.cancelOrder(idO);
 			return orderSuccess;
 		});
 		
