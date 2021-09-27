@@ -493,25 +493,32 @@ public class ProjekatMain {
 						orders.add( entry.getValue());
 			        
 			    }	
-				return gsonReg.toJson(orders);
 			}
 			else {
+				us = managerDAO.findManagerByUsername(uName);
+				if(us != null) {
 				for (Map.Entry<String, Order> entry : orderDAO.getOrdersByManager(uName).entrySet()) {
 					if(!entry.getValue().getOrderStatus().equals(OrderStatus.Canceled))
 						orders.add( entry.getValue());
-			        
-			    }	
+				}
+			    }
+				else {
+					us=delivererDAO.findDelivererByUsername(uName);
+					if(us != null){
+						for (Map.Entry<String, Order> entry : orderDAO.getOrders().entrySet()) {
+							if(entry.getValue().getOrderStatus().equals(OrderStatus.WaitingDeliverer))
+								orders.add( entry.getValue());
+						}
+					}
+				}
 			}
 			
 			return gsonReg.toJson(orders);
 		});
 		
-		post("/managerPrepareOrder" ,(req, res) -> {
-			String reqBody = req.body();
-			String uName = req.queryParams("userName");
+		post("/prepareOrder" ,(req, res) -> {
 			String idO = req.queryParams("idOrder");
 
-			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			boolean orderSuccess;
 			
 			
@@ -519,10 +526,7 @@ public class ProjekatMain {
 			return orderSuccess;
 		});
 		post("/buyerCancelOrder",(req, res) -> {
-			String reqBody = req.body();
-			String uName = req.queryParams("userName");
 			String idO = req.queryParams("idOrder");
-			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			boolean orderSuccess;
 			
 			orderSuccess=orderDAO.cancelOrder(idO);

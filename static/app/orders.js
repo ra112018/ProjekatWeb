@@ -36,13 +36,13 @@ Vue.component("orders", {
 
 		        });
 			},
+			
 		prepare: function(value){
 			axios
-					.post('/managerPrepareOrder', {userName: this.username,idOrder:value
+					.post('/prepareOrder', {userName: this.username,idOrder:value
                     },{params:{userName: this.username,idOrder:value}})
 						
 					.then(function(response){
-						alert(value);
 						alert("Porudzbina je u pripremi!")
 					   this.refreshPage();
 
@@ -150,10 +150,11 @@ Vue.component("orders", {
 					<td>{{order.price}}</td>
 					<td>{{order.orderStatus}}</td>
 					
-					<td v-if="role =='kupac'"> <button v-on:click="cancel(order.idOrder)> Otkaži</button></td>
-                    <td v-if="role ==='manager' && order.orderStatus === 'Processing'"> <button  v-on:click="prepare(order.idOrder)> Za pripremu</button></td>
-                    <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer')"> <button :id="user.username">Blokiraj</button></td>
-                    <td v-if="user.role =='administrator'"> <button :disabled=true :id="user.userName"> Blokiraj</button></td>
+					<td v-if="role =='kupac'"> <button v-on:click="cancel(order.idOrder)"> Otkaži</button></td>
+                    <td v-if="role ==='manager' && order.orderStatus === 'Processing'"> <button  v-on:click="prepare(order.idOrder)"> Za pripremu</button></td>
+                    <td v-if="role ==='manager' && order.orderStatus === 'InPreparation'"> <button  v-on:click="prepare(order.idOrder)"> Čeka dostavljača</button></td>
+                    <td v-if="role ==='deliverer' && order.orderStatus === 'WaitingDeliverer'"> <button  v-on:click="prepare(order.idOrder)"> Zatraži porudžbinu</button></td>
+
                   
 					
 				</tr>

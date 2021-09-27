@@ -144,8 +144,15 @@ public class OrderDAO {
 		// TODO Auto-generated method stub
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
 	        if(entry.getValue().getIdOrder().equals(idO) ) {
+	        			if(entry.getValue().getOrderStatus()==OrderStatus.Processing) {
 	        			entry.getValue().setOrderStatus(OrderStatus.InPreparation);
-     
+	        			}
+	        			else if(entry.getValue().getOrderStatus()==OrderStatus.InPreparation) {
+		        			entry.getValue().setOrderStatus(OrderStatus.WaitingDeliverer);
+	        			}
+	        			else if(entry.getValue().getOrderStatus()==OrderStatus.WaitingDeliverer) {
+	        				entry.getValue().setOrderStatus(OrderStatus.InTransport);		//Ne treba ovako nego preko zahteva
+	        			}
 	        }
 	    }
 		try {
