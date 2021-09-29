@@ -22,7 +22,7 @@ import beans.UserType;
 
 public class ManagerDAO {
 
-	private static HashMap<String, Manager> managers;
+	private HashMap<String, Manager> managers;
 
     public ManagerDAO() {
 

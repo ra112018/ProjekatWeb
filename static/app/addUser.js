@@ -41,14 +41,16 @@ Vue.component("addUser", {
 										role: this.role}, {params:{role:this.role}})
 						
 					.then(function(response){
+							
 						alert("Dodat korisnik!")
 						router.replace({ path: `/success`})
+
 					});
 				}
 			}
 		},
 
-	template: `<div>
+	template: `<div>	
 		<div class="maliHeder">
 				<a href="#/">
 				<button style="font-size: 100%;">Odjavi se</button></a>

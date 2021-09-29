@@ -25,16 +25,16 @@ import beans.OrderStatus;
 
 public class OrderDAO {
 
-	private static HashMap<String,Order> orders; //idOrder is key value
-	private static BuyerDao buyerDAO=new BuyerDao();				//ovo sam dodala
-	private static ManagerDAO managerDAO = new ManagerDAO();		//ovo sam dodala
+	private HashMap<String,Order> orders; //idOrder is key value
+	private BuyerDao buyerDAO=new BuyerDao();				//ovo sam dodala
+	private ManagerDAO managerDAO = new ManagerDAO();		//ovo sam dodala
 
-	public static HashMap<String, Order> getOrders() {
+	public HashMap<String, Order> getOrders() {
 		return orders;
 	}
 
-	public static void setOrders(HashMap<String, Order> orders) {
-		OrderDAO.orders = orders;
+	public void setOrders(HashMap<String, Order> orders) {
+		this.orders = orders;
 	}
 	public OrderDAO() {
 		// TODO Auto-generated constructor stub
@@ -50,7 +50,7 @@ public class OrderDAO {
         Gson gson = new Gson();
         Type token = new TypeToken<HashMap<String,Order>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/orders.json"));
-        OrderDAO.orders = gson.fromJson(br, token);
+        this.orders = gson.fromJson(br, token);
 
     }
 
@@ -78,7 +78,7 @@ public class OrderDAO {
 		o.setBuyer(buyer);									//ovo sam dodala
 		orders.put(id, o);
 		try {
-			OrderDAO.addOrderInFile();
+			addOrderInFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -96,10 +96,10 @@ public class OrderDAO {
 		return id;
 	}
 
-	public static void addOrderInFile() throws IOException{
+	public void addOrderInFile() throws IOException{
 		Gson gson = new Gson();
 		FileWriter fw = new FileWriter("static/json/orders.json");
-		gson.toJson(OrderDAO.orders, fw);
+		gson.toJson(this.orders, fw);
 		fw.flush();
 		fw.close();
 	}

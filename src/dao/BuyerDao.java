@@ -14,14 +14,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Buyer;
-import beans.User;
 import beans.Order;
 import beans.UserType;
 import beans.UserTypeName;
 
 public class BuyerDao {
 
-	private static HashMap<String,Buyer> buyers;
+	private HashMap<String,Buyer> buyers;
 
     public BuyerDao() {
 
