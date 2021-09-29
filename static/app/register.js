@@ -76,7 +76,7 @@ Vue.component("register", {
                             </tr>
                             <tr>
                                 <td> Pol: </td>
-                                <td> <input type="radio" required v-model="gender" name="pol" value="Muški"/> <label>Muški</label> <input type="radio" required v-model="gender" name="pol" value="Ženski" /> <label> Ženski</label></td>
+                                <td> <input type="radio" required v-model="gender" value="Male"/> <label>Muški</label> <input type="radio" required v-model="gender" value="Female" /> <label> Ženski</label></td>
                             </tr>
                             <tr>
                                 <td> Datum rođenja: </td>

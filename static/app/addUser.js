@@ -89,10 +89,10 @@ Vue.component("addUser", {
 					<td><label>Pol:</label></td>
 					<td>
 					
-						<input type="radio" v-model="gender" value="Muski"/>
+						<input type="radio" v-model="gender" value="Male"/>
 						<label>Muski</label>
 						
-						<input type="radio" v-model="gender" value="Zenski"/>
+						<input type="radio" v-model="gender" value="Female"/>
 						<label>Zenski</label></td>
 						
 					

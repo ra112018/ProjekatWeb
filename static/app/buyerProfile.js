@@ -137,7 +137,7 @@ Vue.component("buyer-profile", {
                     </tr>
                     <tr>
                         <td> Pol: </td>
-                        <td> <input type="radio" value="Male" name="pol" v-model="gender" v-bind:disabled="gray"/> <label>Muški</label> <input type="radio" value="Female" name="pol" v-model="gender" v-bind:disabled="gray"/> <label> Ženski</label></td>
+                        <td> <input type="radio" value="Male" v-model="gender" v-bind:disabled="gray"/> <label>Muški</label> <input type="radio" value="Female" name="pol" v-model="gender" v-bind:disabled="gray"/> <label> Ženski</label></td>
                     </tr>
                     <tr>
                         <td> Datum rođenja: </td>

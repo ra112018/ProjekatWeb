@@ -10,14 +10,15 @@ public abstract class User {
 	private String password;
 	private String name;
 	private String surname;
-	private Gender gender;
+	//private Gender gender;
+	private String gender;
 	private String birthDate;	
 	private Role role;
 	private boolean deleted;
 	
 	public User() {}
 
-	public User(String userName, String password, String name, String surname, Gender gender) {
+	public User(String userName, String password, String name, String surname, String gender) {
 		super();
 		this.userName = userName;
 		this.password = password;
@@ -58,11 +59,11 @@ public abstract class User {
 		this.surname = surname;
 	}
 
-	public Gender getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(Gender gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 
