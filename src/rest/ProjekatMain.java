@@ -187,15 +187,48 @@ public class ProjekatMain {
 			String reqBody = req.body();
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			
+			String userNameExists="exists";
+			ArrayList<String> answers=new ArrayList<String>();
 			if(rola.equals("Deliverer")) {
 				
 				Deliverer deliverer = gsonReg.fromJson(reqBody, Deliverer.class);
-				delivererDAO.addDeliverer(deliverer);
 				
+				if(delivererDAO.findDelivererByUsername(deliverer.getUserName())!=null) {
+					answers.add(userNameExists);
+					return g.toJson(answers);
+				}
+				else if(managerDAO.findManagerByUsername(deliverer.getUserName())!=null) {
+					answers.add(userNameExists);
+					return g.toJson(answers);
+				}
+				else if(buyerDAO.findBuyerByUsername(deliverer.getUserName())!=null) {
+					answers.add(userNameExists);
+					return g.toJson(answers);
+				}
+				else 
+				{
+					delivererDAO.addDeliverer(deliverer);
+					return true;
+				}
 			}else if(rola.equals("Manager")) {
 				Manager manager = gsonReg.fromJson(reqBody, Manager.class);
-				managerDAO.addManager(manager);
 				
+				if(managerDAO.findManagerByUsername(manager.getUserName())!=null) {
+					answers.add(userNameExists);
+					return g.toJson(answers);
+				}
+				else if(delivererDAO.findDelivererByUsername(manager.getUserName())!=null) {
+					answers.add(userNameExists);
+					return g.toJson(answers);
+				}
+				else if(buyerDAO.findBuyerByUsername(manager.getUserName())!=null) {
+					answers.add(userNameExists);
+					return g.toJson(answers);
+				}
+				else {
+					managerDAO.addManager(manager);
+					return true;
+				}
 			}
 			
 			
@@ -204,7 +237,6 @@ public class ProjekatMain {
 		
 		post("/deleteUser", (req, res)-> {
 			String uName = req.queryParams("userName");
-			
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			User u = null;
 			u = buyerDAO.findBuyerByUsername(uName);

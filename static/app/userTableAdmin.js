@@ -351,7 +351,7 @@ Vue.component("userTableAdmin", {
 			
 			</table>
 		</div>
-      </div>
+      </div></div>
 `
     ,
     

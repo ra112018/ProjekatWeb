@@ -42,8 +42,15 @@ Vue.component("addUser", {
 						
 					.then(function(response){
 							
-						alert("Dodat korisnik!")
-						router.replace({ path: `/success`})
+						if(JSON.parse(JSON.stringify(response.data))[0]==="exists"){
+							alert("Korisnicko ime vec postoji");
+				
+						}
+						else{
+							alert("Dodat korisnik!")
+							router.replace({ path: `/success`})
+							
+						}
 
 					});
 				}

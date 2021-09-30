@@ -126,6 +126,12 @@ public class ManagerDAO {
 	        	entry.getValue().deleted(true);
 	        }
 	    }
+		try {
+			addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
