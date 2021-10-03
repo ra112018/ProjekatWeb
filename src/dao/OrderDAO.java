@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import beans.RandomString ;
+import beans.Request;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -140,7 +142,7 @@ public class OrderDAO {
 		return m;
 	}
 
-	public boolean prepareOrder(String idO) {
+	public boolean prepareOrder(String idO,String usName) {
 		// TODO Auto-generated method stub
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
 	        if(entry.getValue().getIdOrder().equals(idO) ) {
@@ -151,7 +153,13 @@ public class OrderDAO {
 		        			entry.getValue().setOrderStatus(OrderStatus.WaitingDeliverer);
 	        			}
 	        			else if(entry.getValue().getOrderStatus()==OrderStatus.WaitingDeliverer) {
-	        				entry.getValue().setOrderStatus(OrderStatus.InTransport);		//Ne treba ovako nego preko zahteva
+	        				Request r=new Request();
+	        				DelivererDAO delivererDAO = new DelivererDAO();
+							r.setDeliverer(delivererDAO.findDelivererByUsername(usName));
+							r.setIdOrder(idO);
+							RequestDAO req=new RequestDAO();
+							boolean e=req.addRequest(r);
+							return e;
 	        			}
 	        }
 	    }

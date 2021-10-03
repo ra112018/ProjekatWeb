@@ -551,11 +551,11 @@ public class ProjekatMain {
 		
 		post("/prepareOrder" ,(req, res) -> {
 			String idO = req.queryParams("idOrder");
-
+			String userName=req.queryParams("userName");
 			boolean orderSuccess;
 			
 			
-			orderSuccess=orderDAO.prepareOrder(idO);
+			orderSuccess=orderDAO.prepareOrder(idO,userName);
 			return orderSuccess;
 		});
 		post("/buyerCancelOrder",(req, res) -> {
