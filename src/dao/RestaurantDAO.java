@@ -55,7 +55,6 @@ public class RestaurantDAO {
 	
 
 	public Restaurant addRestaurant(Restaurant restaurant) {
-		restaurants.put(restaurant.getRestaurantName(),restaurant);
 		if(restaurant.getLogo()!=null) {
 		String logoName=getNiceImageFormat(restaurant.getLogo(),restaurant.getRestaurantName());
 
@@ -66,8 +65,10 @@ public class RestaurantDAO {
         if(exist==true) {
         	restaurant.setArticles(new ArrayList<Article>());
         	restaurant.setStatus(RestaurantStatus.Open);
+        	
         	if(alreadyHasRestaurant==false) {
         	try {
+        		restaurants.put(restaurant.getRestaurantName(),restaurant);
     			this.addRestaurantInFile();
     		} catch (IOException e) {
     			// TODO Auto-generated catch block
@@ -166,6 +167,7 @@ public class RestaurantDAO {
 
 	        if(entry.getValue().getManagerName().equals(managerName) ) {
 	        	System.out.println(managerName);
+	        	System.out.println(entry.getValue().getRestaurantName());
 	        	return true;
 	        }
 	    }

@@ -280,6 +280,7 @@ public class ProjekatMain {
 			Restaurant r = gsonReg.fromJson(reqBody, Restaurant.class);
 			Restaurant checkEror=restaurantDAO.addRestaurant(r);
 			if(checkEror.getManagerName()=="nepostojeci" || checkEror.getManagerName()=="zauzet") {
+				System.out.println(checkEror.getManagerName());
 				return false;
 			}
 		
