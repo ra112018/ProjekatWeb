@@ -7,7 +7,8 @@ Vue.component("orders", {
 		    username:localStorage.getItem('username'),
 
 			restaurantName:"",
-			orders:[]
+			orders:[],
+			requests:[]
 
 		};
 	},
@@ -35,6 +36,21 @@ Vue.component("orders", {
 
 
 		        });
+		if(this.role=="manager"){
+			axios.get('/requestsForMyRestaurant',{params:{userName: this.username}})
+				.then(response => {
+		            for(var i =0;i< response.data.length;i++){
+		                var request = {};
+		                request.idOrder = response.data[i].idOrder;
+		                request.idRequest = response.data[i].idRequest;
+		                request.deliverer = response.data[i].deliverer;
+
+		                this.requests.push(request);
+		            }
+
+
+		        });
+		}
 			},
 			
 		prepare: function(value){
@@ -44,6 +60,17 @@ Vue.component("orders", {
 						
 					.then(function(response){
 						alert("Porudzbina je u pripremi!")
+					   this.refreshPage();
+
+					});
+		},
+		approve:function(id){
+			axios
+					.post('/approveOrder', {userName: this.username,idRequest:id
+                    },{params:{userName: this.username,idRequest:id}})
+						
+					.then(function(response){
+						alert("Porudzbina odobrena za dostavljača!")
 					   this.refreshPage();
 
 					});
@@ -160,6 +187,16 @@ Vue.component("orders", {
 				</tr>
 			
 			</table>
+			<div v-if="this.role==='manager'"><p>Zahtevi dostavljača</p>
+			<table><tr><td>id zahteva</td><td>id Porudžbine</td><td>Dostavljač</td><td></td></tr>
+			<tr v-for="request in requests">
+			<td>{{request.idRequest}}</td>
+			<td>{{request.idOrder}}</td>
+			<td>{{request.deliverer.userName}}</td>
+			<td><button v-on:click="approve(request.idRequest)">Odobri</button></td>
+			</tr>
+			
+			</table></div>
 
 		</div>`
 		

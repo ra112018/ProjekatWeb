@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,6 +37,7 @@ import dao.DelivererDAO;
 import dao.LocationDAO;
 import dao.ManagerDAO;
 import dao.OrderDAO;
+import dao.RequestDAO;
 import dao.RestaurantDAO;
 import spark.Request;
 import spark.Service.StaticFiles;
@@ -54,6 +55,8 @@ public class ProjekatMain {
 	private static ArticleDAO articleDAO=new ArticleDAO();
 	private static BasketDAO basketDAO=new BasketDAO();
 	private static OrderDAO orderDAO=new OrderDAO();
+	private static RequestDAO requestDAO=new RequestDAO();
+
 
 
 
@@ -547,6 +550,27 @@ public class ProjekatMain {
 			}
 			
 			return gsonReg.toJson(orders);
+		});
+		
+		get("/requestsForMyRestaurant", (req, res)->{
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			String uName =  req.queryParams("userName");
+			ArrayList<beans.Request> requests = new ArrayList<beans.Request>();
+
+			for (Map.Entry<String, Order> entry : orderDAO.getOrdersByManager(uName).entrySet()) {
+				if(entry.getValue().getOrderStatus().equals(OrderStatus.WaitingDeliverer)) {
+					for (Map.Entry<Integer, beans.Request> entryR : RequestDAO.getRequests().entrySet()) {
+					if(entry.getValue().getIdOrder().equals(entryR.getValue().getIdOrder())) {
+						requests.add( entryR.getValue());
+					}
+				}
+				}
+				
+			}
+			
+			
+			return gsonReg.toJson(requests);
+
 		});
 		
 		post("/prepareOrder" ,(req, res) -> {
