@@ -12,7 +12,8 @@ public class Article {
 	private boolean deleted;
 	
 	public Article() {}
-
+	
+	
 	public String getArticleName() {
 		return articleName;
 	}

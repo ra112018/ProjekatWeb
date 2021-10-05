@@ -497,8 +497,13 @@ public class ProjekatMain {
 			Basket r;
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			r = BasketDAO.findBasketByUsername(rName);
-						
+			if(r!=null) {
 			return gsonReg.toJson(r);
+			}
+			else {
+				r=new Basket();
+				return gsonReg.toJson(r);
+			}
 			
 		});
 		post("/order", (req, res) -> {

@@ -191,6 +191,14 @@ h4{
 			margin:3%;
 			min-width:250%;
 			}
+.opisRestorana{
+			font-size:15px;
+		    display: block;
+		    text-align:center;
+			padding:2%;
+			margin:3%;
+			min-width:100%;
+			}
 .opis1{
 			font-size:15px;
 		    display: inline;

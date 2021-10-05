@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 
 import beans.Article;
 import beans.Basket;
+import beans.BasketArticle;
 import beans.Buyer;
 import beans.Manager;
 import beans.Restaurant;
@@ -56,9 +57,10 @@ public class BasketDAO {
 		// TODO Auto-generated method stub
 		int i=0;		//if buyer has something in Basket i!=0
 		ArticleDAO ad=new ArticleDAO();
-		ArrayList<Article> alist=new ArrayList<Article>();
+		ArrayList<BasketArticle> alist=new ArrayList<BasketArticle>();
 		Article article=ad.findArticleByName(r.getNewArticleName());
-		alist.add(article);
+		BasketArticle ba=new BasketArticle(article);
+		alist.add(ba);
  		r.setBasketArticles(alist);
 		System.out.println(r.getBasketArticles());
 		double s=ad.findPriceByName(r.getNewArticleName());
@@ -67,13 +69,15 @@ public class BasketDAO {
 			
 	        if(entry.getValue().getUserName().equals(r.getUserName()) ) {
 	        	if(entry.getValue().getBasketArticles()!=null ) {
-	        	ArrayList<Article> a=entry.getValue().getBasketArticles();
+	        	ArrayList<BasketArticle> a=entry.getValue().getBasketArticles();
 	        	a.addAll(r.getBasketArticles());
 	        	entry.getValue().setBasketArticles(a);
 	        	}
 	        	else {
-	        		ArrayList<Article> a=new ArrayList<Article>();
-		        	a.add(ad.findArticleByName(r.getNewArticleName()));
+	        		ArrayList<BasketArticle> a=new ArrayList<BasketArticle>();
+		        	Article articleForBasket=ad.findArticleByName(r.getNewArticleName());
+		        	BasketArticle b=new BasketArticle(articleForBasket);
+		        	a.add(b);
 		        	entry.getValue().setBasketArticles(a);
 	        	}
 	        	double totalPrice=entry.getValue().getBasketPrice();
@@ -123,9 +127,9 @@ public class BasketDAO {
 	        	b= entry.getValue();
 	        }
 	    }
-		ArrayList<Article> al=new ArrayList<Article>();
+		ArrayList<BasketArticle> al=new ArrayList<BasketArticle>();
 
-		for (Article  entry : b.getBasketArticles()) {
+		for (BasketArticle  entry : b.getBasketArticles()) {
 					if( !entry.getDeleted())
 						al.add( entry);
 		}

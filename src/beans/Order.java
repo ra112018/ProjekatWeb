@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Order {
 	
 	private String idOrder;
-	private ArrayList<Article> articles;
+	private ArrayList<BasketArticle> articles;
 	private Restaurant restaurant;
 	private String timeOfOrder; 
 	private double price;
@@ -24,11 +24,11 @@ public class Order {
 		this.idOrder = idOrder;
 	}
 
-	public ArrayList<Article> getArticles() {
+	public ArrayList<BasketArticle> getArticles() {
 		return articles;
 	}
 
-	public void setArticles(ArrayList<Article> articles) {
+	public void setArticles(ArrayList<BasketArticle> articles) {
 		this.articles = articles;
 	}
 

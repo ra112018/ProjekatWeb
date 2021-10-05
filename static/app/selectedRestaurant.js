@@ -93,17 +93,15 @@
 		
 	<div class="restoran">
 		<img class="logo3" :src="restaurant.logo"/>
-		<span class="opis"><br><br>{{restaurant.restaurantName}}<br><p class="open">{{restaurant.status}}</p><p>{{restaurant.restaurantType}}</p>
+		<span class="opisRestorana"><br><br>{{restaurant.restaurantName}}<br><p class="open">{{restaurant.status}}</p><p>{{restaurant.restaurantType}}</p>
 		Bulevar cara Lazara 92
 		</span>
 		</div>
 		
-<div class="meni"><h2><br>Palačinke</h2></div>
-<div class="slatke"><h2>-slatke</h2></div>
 	<div class="restoran" v-for="(article,value) in articles">
-	<img :src="article.articlePhoto"><p>{{article.articleName}}</p>
-	<p>{{article.description}}</p>
-	<p>{{article.price}}</p>
+	<img class="logo4" :src="article.articlePhoto" width="200em" height="160em" ><p>{{article.articleName}}</p>
+	<p>{{article.description}}</p><br>
+	<p>{{article.price}}</p><br>
 	<p v-if="role=='kupac'"> <button v-on:click="addToCart(article.articleName)">Dodaj u korpu </button></p></div>
 	
 	</div></div>

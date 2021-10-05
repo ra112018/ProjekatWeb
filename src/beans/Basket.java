@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class Basket {
 
 
-	private ArrayList<Article> basketArticles;
+	private ArrayList<BasketArticle> basketArticles;
 	private String newArticleName;
 	private String userName;
 	private double basketPrice;
 	private boolean empty;
-	public ArrayList<Article> getBasketArticles() {
+	public ArrayList<BasketArticle> getBasketArticles() {
 		return basketArticles;
 	}
 
@@ -33,7 +33,7 @@ public class Basket {
 		this.userName = userName;
 	}
 
-	public void setBasketArticles(ArrayList<Article> basketArticles) {
+	public void setBasketArticles(ArrayList<BasketArticle> basketArticles) {
 		this.basketArticles = basketArticles;
 	}
 
