@@ -9,7 +9,7 @@ public class Basket {
 	private String newArticleName;
 	private String userName;
 	private double basketPrice;
-	
+	private boolean empty;
 	public ArrayList<Article> getBasketArticles() {
 		return basketArticles;
 	}
@@ -47,5 +47,15 @@ public class Basket {
 	}
 
 	public Basket() {}
+
+
+	public boolean isEmpty() {
+		return empty;
+	}
+
+
+	public void setEmpty(boolean empty) {
+		this.empty = empty;
+	}
 
 }

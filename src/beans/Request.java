@@ -5,6 +5,7 @@ public class Request {
 	private Deliverer deliverer;
 	private String idOrder;
 	private int idRequest;
+	boolean approved;
 	public Deliverer getDeliverer() {
 		return deliverer;
 	}
@@ -22,6 +23,12 @@ public class Request {
 	}
 	public void setIdRequest(int idRequest) {
 		this.idRequest = idRequest;
+	}
+	public boolean isApproved() {
+		return approved;
+	}
+	public void setApproved(boolean approved) {
+		this.approved = approved;
 	}
 	
 

@@ -15,7 +15,10 @@ import com.google.gson.reflect.TypeToken;
 
 import beans.Article;
 import beans.Basket;
+import beans.Buyer;
 import beans.Deliverer;
+import beans.Order;
+import beans.OrderStatus;
 import beans.Request;
 import beans.Restaurant;
 import beans.RestaurantStatus;
@@ -65,6 +68,7 @@ public class RequestDAO {
 		}
 		i+=1;
         request.setIdRequest(i);
+        request.setApproved(false);
         try {
         		requests.put(request.getIdRequest(),request);
     			addRequestInFile();
@@ -74,6 +78,33 @@ public class RequestDAO {
     		}
 		
 		return true;
+	}
+
+	public static void deleteRequest(String idRequest) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<Integer, Request> entry : requests.entrySet()) {
+	        if(entry.getValue().getIdRequest()==Integer.parseInt(idRequest) ) {
+	        			entry.getValue().setApproved(true);
+	        }
+	    }
+		try {
+			addRequestInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public static Request findRequestById(String idR) {
+		// TODO Auto-generated method stub
+		int id=Integer.parseInt(idR);
+		for (Map.Entry<Integer, Request> entry : requests.entrySet()) {
+            if(entry.getValue().getIdRequest() ==id) {
+                return entry.getValue();
+            }
+        }
+        return null;
 	}
 
 }

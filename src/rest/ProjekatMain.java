@@ -57,9 +57,6 @@ public class ProjekatMain {
 	private static OrderDAO orderDAO=new OrderDAO();
 	private static RequestDAO requestDAO=new RequestDAO();
 
-
-
-
 	private static Gson g=new Gson();
 
 	public static void main(String[] args) throws Exception {
@@ -510,7 +507,7 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			boolean orderSuccess;
 			
-			Basket basket=basketDAO.findBasketByUsername(uName);
+			basketDAO.emptyBasketByUsername(uName);
 			
 			orderSuccess=orderDAO.createOrder(uName);
 			return orderSuccess;
@@ -525,7 +522,7 @@ public class ProjekatMain {
 			us = buyerDAO.findBuyerByUsername(uName);
 			if(us != null) {
 				for (Map.Entry<String, Order> entry : orderDAO.getOrdersByBuyer(uName).entrySet()) {
-					if(!entry.getValue().getOrderStatus().equals(OrderStatus.Canceled))
+					if(!entry.getValue().getOrderStatus().equals(OrderStatus.Canceled)&& !entry.getValue().getOrderStatus().equals(OrderStatus.Delivered))
 						orders.add( entry.getValue());
 			        
 			    }	
@@ -539,16 +536,27 @@ public class ProjekatMain {
 				}
 			    }
 				else {
-					us=delivererDAO.findDelivererByUsername(uName);
-					if(us != null){
+					Deliverer deliverer=delivererDAO.findDelivererByUsername(uName);
+					if(deliverer != null){
 						for (Map.Entry<String, Order> entry : orderDAO.getOrders().entrySet()) {
-							if(entry.getValue().getOrderStatus().equals(OrderStatus.WaitingDeliverer))
+							if(entry.getValue().getOrderStatus().equals(OrderStatus.WaitingDeliverer) ) {
 								orders.add( entry.getValue());
+							}
+							else if(entry.getValue().getOrderStatus().equals(OrderStatus.InTransport)) {
+								System.out.println("Dosao do ovde");
+								System.out.println(entry.getValue().getIdOrder()+"  Id porudzbine");
+								for ( Order o : deliverer.getDeliveryOrders()) {
+									System.out.println(o.getIdOrder()+"  Id porudzbine iz liste");
+
+									if(o.getIdOrder().equals(entry.getValue().getIdOrder())) {
+										orders.add( entry.getValue());
+									}
+							}
 						}
+					}
 					}
 				}
 			}
-			
 			return gsonReg.toJson(orders);
 		});
 		
@@ -560,14 +568,13 @@ public class ProjekatMain {
 			for (Map.Entry<String, Order> entry : orderDAO.getOrdersByManager(uName).entrySet()) {
 				if(entry.getValue().getOrderStatus().equals(OrderStatus.WaitingDeliverer)) {
 					for (Map.Entry<Integer, beans.Request> entryR : RequestDAO.getRequests().entrySet()) {
-					if(entry.getValue().getIdOrder().equals(entryR.getValue().getIdOrder())) {
+					if(entry.getValue().getIdOrder().equals(entryR.getValue().getIdOrder()) && entryR.getValue().isApproved()!=true) {
 						requests.add( entryR.getValue());
 					}
 				}
 				}
 				
 			}
-			
 			
 			return gsonReg.toJson(requests);
 
@@ -582,6 +589,15 @@ public class ProjekatMain {
 			orderSuccess=orderDAO.prepareOrder(idO,userName);
 			return orderSuccess;
 		});
+		post("/deliveredOrder" ,(req, res) -> {
+			String idO = req.queryParams("idOrder");
+			String userName=req.queryParams("userName");
+			boolean orderSuccess;
+			
+			
+			orderSuccess=orderDAO.deliverOrder(idO,userName);
+			return orderSuccess;
+		});
 		post("/buyerCancelOrder",(req, res) -> {
 			String idO = req.queryParams("idOrder");
 			boolean orderSuccess;
@@ -589,7 +605,14 @@ public class ProjekatMain {
 			orderSuccess=orderDAO.cancelOrder(idO);
 			return orderSuccess;
 		});
+		post("/approveOrder" ,(req, res) -> {
+			String idR = req.queryParams("idRequest");
+			String userName=req.queryParams("userName");
+			boolean approveSuccess;
+			approveSuccess=orderDAO.approveOrder(idR,userName);
+			return approveSuccess;
+		});
+		
 		
 	}
-
 }

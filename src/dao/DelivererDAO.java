@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import beans.Administrator;
 import beans.Buyer;
 import beans.Deliverer;
 import beans.Manager;
+import beans.Order;
 
 public class DelivererDAO {
 
@@ -125,6 +127,29 @@ public class DelivererDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void addOrder(Deliverer deliverer, Order order) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Deliverer> entry : deliverers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(deliverer.getUserName()) ) {
+	        	if(entry.getValue().getDeliveryOrders()!=null) {
+	        	entry.getValue().getDeliveryOrders().add(order);
+	        	}
+	        	else {
+	        		ArrayList<Order> orders=new ArrayList<Order>();
+	        		orders.add(order);
+	        		entry.getValue().setDeliveryOrders(orders);
+	        	}
+	        }
+	    }
+		try {
+			addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	

@@ -190,4 +190,43 @@ public class OrderDAO {
 		return true;
 	}
 
+	public boolean approveOrder(String idR, String userName) {
+		// TODO Auto-generated method stub
+		Request r=RequestDAO.findRequestById(idR);
+		for (Map.Entry<String, Order> entry : orders.entrySet()) {
+	        if(entry.getValue().getIdOrder().equals(r.getIdOrder()) ) {
+	        			entry.getValue().setOrderStatus(OrderStatus.InTransport);
+	        			DelivererDAO delivererDAO = new DelivererDAO();
+						delivererDAO.addOrder(r.getDeliverer(), entry.getValue());
+	        }
+	    }
+		try {
+			addOrderInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		RequestDAO.deleteRequest(idR);
+
+		return true;
+	}
+
+	public boolean deliverOrder(String idO, String userName) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Order> entry : orders.entrySet()) {
+	        if(entry.getValue().getIdOrder().equals(idO) ) {
+	        			if(entry.getValue().getOrderStatus()==OrderStatus.InTransport) {
+	        			entry.getValue().setOrderStatus(OrderStatus.Delivered);
+	        			}
+	        }
+	    }
+		try {
+			addOrderInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+
 }

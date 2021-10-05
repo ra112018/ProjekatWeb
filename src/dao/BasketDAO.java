@@ -79,6 +79,7 @@ public class BasketDAO {
 	        	double totalPrice=entry.getValue().getBasketPrice();
 	        	totalPrice += r.getBasketPrice();
 	        	entry.getValue().setBasketPrice(totalPrice);
+	        	entry.getValue().setEmpty(false);
 	        	i=1;
 	        }
 	    }
@@ -129,7 +130,12 @@ public class BasketDAO {
 						al.add( entry);
 		}
 		b.setBasketArticles(al);
+		if(b.isEmpty()!=true) {
 		return b;
+		}
+		else {
+			return null;
+		}
 	}
 
 	public void deleteArticle(String userName, String articleName) {
@@ -137,9 +143,6 @@ public class BasketDAO {
 		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
 	        if(entry.getValue().getUserName().equals(userName) ) {
 	        	for(Article a : entry.getValue().getBasketArticles()) {
-	    			System.out.println("Brisanje2");
-	    			System.out.println(articleName+"iz mejna");
-	    			System.out.println(a.getArticleName()+"iz jsona");
 
 	        		if(a.getArticleName().equals(articleName)) {
 	        			System.out.println("Brisanje3");
@@ -159,6 +162,22 @@ public class BasketDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void emptyBasketByUsername(String uName) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
+	        if(entry.getValue().getUserName().equals(uName) ) {
+	        			entry.getValue().setEmpty(true);
+	        }
+	    }
+		try {
+			addBasketInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }
