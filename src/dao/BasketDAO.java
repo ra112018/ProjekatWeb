@@ -52,43 +52,61 @@ public class BasketDAO {
         System.out.println(BasketDAO.baskets);
 
     }
-
-	public boolean addArticle(Basket r) {
+	
+	public boolean addArticle(String username,String articleName) {			//buyer adds one article
 		// TODO Auto-generated method stub
 		int i=0;		//if buyer has something in Basket i!=0
+		boolean buyerHasThatArticle=false;
 		ArticleDAO ad=new ArticleDAO();
 		ArrayList<BasketArticle> alist=new ArrayList<BasketArticle>();
-		Article article=ad.findArticleByName(r.getNewArticleName());
+		Article article=ad.findArticleByName(articleName);
 		BasketArticle ba=new BasketArticle(article);
-		alist.add(ba);
- 		r.setBasketArticles(alist);
-		System.out.println(r.getBasketArticles());
-		double s=ad.findPriceByName(r.getNewArticleName());
-		r.setBasketPrice(s);
+		System.out.println("artikal"+article.getArticleName());
 		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
 			
-	        if(entry.getValue().getUserName().equals(r.getUserName()) ) {
+	        if(entry.getValue().getUserName().equals(username) && entry.getValue().isEmpty()!=true) {
 	        	if(entry.getValue().getBasketArticles()!=null ) {
-	        	ArrayList<BasketArticle> a=entry.getValue().getBasketArticles();
-	        	a.addAll(r.getBasketArticles());
-	        	entry.getValue().setBasketArticles(a);
+	        		for (BasketArticle b : entry.getValue().getBasketArticles()) {
+	        			if(b.getArticleName()==articleName) {						//in buyer basket already exists same article
+	        				buyerHasThatArticle=true;
+	        				ba.setNumberOfArticles(b.getNumberOfArticles()+1);
+	        				ArrayList<BasketArticle> a=entry.getValue().getBasketArticles();
+	        				a.add(ba);
+	        				entry.getValue().setBasketArticles(a);
+	        			}
+	        															
+	        		}
+	        		if(buyerHasThatArticle==false) {		//basket has articles but not the one buyer wants to add
+	        			ba.setNumberOfArticles(1);
+        				ArrayList<BasketArticle> a=entry.getValue().getBasketArticles();
+        				a.add(ba);
+        				entry.getValue().setBasketArticles(a);
+	        		}
 	        	}
-	        	else {
+	        	else {										//basket has no articles
 	        		ArrayList<BasketArticle> a=new ArrayList<BasketArticle>();
-		        	Article articleForBasket=ad.findArticleByName(r.getNewArticleName());
-		        	BasketArticle b=new BasketArticle(articleForBasket);
-		        	a.add(b);
+		        	Article articleForBasket=ad.findArticleByName(articleName);
+		        	ba=new BasketArticle(articleForBasket);
+		        	a.add(ba);
 		        	entry.getValue().setBasketArticles(a);
 	        	}
 	        	double totalPrice=entry.getValue().getBasketPrice();
-	        	totalPrice += r.getBasketPrice();
+	        	totalPrice += ba.getPrice();
 	        	entry.getValue().setBasketPrice(totalPrice);
 	        	entry.getValue().setEmpty(false);
 	        	i=1;
 	        }
 	    }
+		Basket basket=new Basket();
+		alist.add(ba);
+ 		basket.setBasketArticles(alist);
+		double s=ad.findPriceByName(articleName);
+		basket.setBasketPrice(s);
+		basket.setUserName(username);
+		basket.setEmpty(false);
+		
 		if(i==0) {
-			baskets.put(r.getUserName(),r);
+			baskets.put(username,basket);
 
 			try {
 				this.addBasketInFile();

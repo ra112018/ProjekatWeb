@@ -315,10 +315,10 @@ public class ProjekatMain {
 		
 		post("/addArticleToCart", (req, res) -> {
 			String reqBody = req.body();
-			
+			String usName =  req.queryParams("userName");
+			String articleName=req.queryParams("articleName");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			Basket r = gsonReg.fromJson(reqBody, Basket.class);
-			boolean succAdded=basketDAO.addArticle(r);
+			boolean succAdded=basketDAO.addArticle(usName,articleName);
 			return succAdded;
 	
 			});
