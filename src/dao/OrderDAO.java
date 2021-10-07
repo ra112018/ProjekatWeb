@@ -8,11 +8,13 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import beans.RandomString ;
 import beans.Request;
+import beans.Restaurant;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -229,4 +231,24 @@ public class OrderDAO {
 		return true;
 	}
 
+	public HashMap<String,Restaurant> findRestaurantsWhereBuyerOrdered(String uName) {
+		// TODO Auto-generated method stub
+		Buyer buyer = null; 									
+		buyer = buyerDAO.findBuyerByUsername(uName);			
+		HashMap<String,Restaurant> restList=new HashMap<String,Restaurant>();
+		for (Map.Entry<String, Order> entry : orders.entrySet()) {
+
+	        if((entry.getValue().getBuyer().getUserName()).equals(uName) && entry.getValue().getOrderStatus() == OrderStatus.Delivered ) {
+	        	restList.put((entry.getValue().getRestaurant().getRestaurantName()),entry.getValue().getRestaurant());
+	        }
+		}
+	        
+	    
+		
+		return restList;
+	
+		}
+
+
 }
+	

@@ -392,6 +392,15 @@ public class ProjekatMain {
 			}
 			return gsonReg.toJson(restaurantList);
 		});
+		get("/orderedFromRestaurant", (req, res)->{
+			String uName =  req.queryParams("userName");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			ArrayList<Restaurant> restaurantList = new ArrayList<Restaurant>();
+			for (Map.Entry<String, Restaurant> entry : RestaurantDAO.getRestaurantsWhereBuyerOrdered(uName).entrySet()) {
+					restaurantList.add( entry.getValue());
+			}
+			return gsonReg.toJson(restaurantList);
+		});
 		get("/findMyRestaurant", (req, res)->{
 
 			String uName =  req.queryParams("userName");

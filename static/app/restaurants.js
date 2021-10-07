@@ -3,7 +3,7 @@ Vue.component("restaurants", {
 	data: function () {
 		    return {
 			
-			username:"",
+		    username:"",
       	    role:localStorage.getItem('role'),
 		    user:localStorage.getItem('user'),
 			restaurants:[],
@@ -13,7 +13,7 @@ Vue.component("restaurants", {
 			location:"",
 			searchingName:"",
 			searchingLocation:"",
-			
+			orderedFromRestaurants:[],
 			
 			sortRestaurantType:"",
 			sortingType:"",
@@ -29,6 +29,7 @@ Vue.component("restaurants", {
 	
 	methods: {
 		refreshPage(){
+
 			axios.get('/restaurants')
 				.then(response => {
 		           
@@ -43,6 +44,23 @@ Vue.component("restaurants", {
 		            }
 		         
 		        });
+				if(this.role==='kupac'){
+			 this.username = window.localStorage.getItem('username');
+
+			axios.get('/orderedFromRestaurant',{params:{userName: this.username}}).then(response => {
+		           
+		            for(var i =0;i< response.data.length;i++){
+		                var orderedRestaurant = {};
+		                orderedRestaurant = response.data[i];
+						orderedRestaurant.restaurantName = response.data[i].restaurantName;
+						orderedRestaurant.status = response.data[i].status;
+						orderedRestaurant.restaurantType = response.data[i].restaurantType;
+					    this.orderedFromRestaurants.push(orderedRestaurant);
+
+		            }
+		         
+		        });
+		}
 		},
 		
 		newRestaurant(event){
@@ -230,6 +248,11 @@ Vue.component("restaurants", {
 						<li class="open">{{restaurant.status}}</li></strong></em>
 						<li><i>{{restaurant.restaurantType}}</i></li>
 						<li>10:00-22:00</li>
+						<div v-if="role==='kupac' && orderedFromRestaurants">
+						<div v-for="orderedRestaurant in orderedFromRestaurants">
+						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button> Oceni</button</div>
+						</div>
+						</div>
 					</span>
 				</ul>
 			</div>
@@ -245,6 +268,11 @@ Vue.component("restaurants", {
 						<li class="open">{{restaurant.status}}</li></strong></em>
 						<li><i>{{restaurant.restaurantType}}</i></li>
 						<li>10:00-22:00</li>
+						<div v-if="role==='kupac' && orderedFromRestaurants">
+						<div v-for="orderedRestaurant in orderedFromRestaurants">
+						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button> Oceni</button</div>
+						</div>
+						</div>
 					</span>
 				</ul>
 			

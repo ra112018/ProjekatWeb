@@ -151,6 +151,8 @@ public class RestaurantDAO {
 		}
         return imageName;
 	}
+	
+	
 	public static HashMap<String, Restaurant> getRestaurants() {
 		return restaurants;
 	}
@@ -201,5 +203,17 @@ public class RestaurantDAO {
 	        }
 	        return null;
 	}
+
+
+
+	public static HashMap<String, Restaurant> getRestaurantsWhereBuyerOrdered(String uName) {
+		// TODO Auto-generated method stub
+		OrderDAO o=new OrderDAO();
+		HashMap<String, Restaurant> restaurantsOrdered=new HashMap<String, Restaurant>();
+		
+		restaurantsOrdered=o.findRestaurantsWhereBuyerOrdered(uName);
+		return restaurantsOrdered;
+	}
+
 
 }
