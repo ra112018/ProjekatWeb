@@ -2,7 +2,8 @@
 	name: "evaluateRestaurant",
 	data: function(){
 		return {
-			
+		text:"",
+		mark:null,
         username: localStorage.getItem('username'),
 		user:localStorage.getItem('user'),
 		role:localStorage.getItem('role'),
@@ -21,15 +22,23 @@
               .get('/restaurantDetails?id='+id,{params:{restaurantName: id}})
 	          .then(response => {
 			this.restaurant=response.data;
-               
 	});	
-	
-
 		},
 	
 	methods: {
- 
-		
+ 	addComment: function(){
+					axios
+					.post('/addComment', {customerOfOrder: this.username, 
+										restaurant: this.restaurant, 
+										text: this.text, 
+										mark: this.mark})
+						
+					.then(function(response){
+							alert("Dodat komentar!")
+							router.replace({ path: `/restaurants`})		
+
+					});
+				}
 		},
 
 	template: ` 
@@ -46,24 +55,14 @@
 	
 	<div class="vertical-menu">
        <a href="#/buyerProfile" v-if="this.role==='kupac'">Moj profil</a>
- 		<a href="#/buyerProfile" v-if="this.role==='administrator'">Moj profil</a>
-        <a href="#/buyerProfile" v-if="this.role==='manager'">Moj profil</a>
        
         <a href="#/restaurants" v-if="this.role==='kupac'" class="active">Restorani</a>
-		<a href="#/restaurants" v-if="this.role==='administrator'" class="active">Restorani</a>
-		<a href="#/restaurants" v-if="this.role==='manager'" >Restorani</a>
 		
-		<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
-		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>
 
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
-		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
-		<a href="#" v-if="this.role==='kupac'">Kupci</a>
 
         <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
-		<a href="#" v-if="this.role==='administrator'">Utisci i komentari</a>
-		<a href="#" v-if="this.role==='manager'">Utisci i komentari</a>
 	 </div>
 	
 		
@@ -73,8 +72,22 @@
 		Bulevar cara Lazara 92
 		</span>
 		</div>
-		
-	
+		<p>Ocena</p> <div class="rate">
+    <input type="radio" id="star5" v-model="mark" name="rate" value="5" />
+    <label for="star5" title="text">5 stars</label>
+    <input type="radio" id="star4" v-model="mark"  name="rate" value="4" />
+    <label for="star4" title="text">4 stars</label>
+    <input type="radio" id="star3" v-model="mark"  name="rate" value="3" />
+    <label for="star3" title="text">3 stars</label>
+    <input type="radio" id="star2" v-model="mark"  name="rate" value="2" />
+    <label for="star2" title="text">2 stars</label>
+    <input type="radio" id="star1" v-model="mark"  name="rate" value="1" />
+    <label for="star1" title="text">1 star</label>
+  </div><br><br>
+		<p>Komentar</p><input v-model="text" type="text"/><br>
+		 <button @click="addComment">Pošalji</button>
+
+	 
 	</div></div>
 
 `

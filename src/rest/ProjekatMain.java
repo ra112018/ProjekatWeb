@@ -21,6 +21,7 @@ import beans.Administrator;
 import beans.Article;
 import beans.Basket;
 import beans.Buyer;
+import beans.Comment;
 import beans.Deliverer;
 import beans.Location;
 import beans.User;
@@ -33,6 +34,7 @@ import dao.AdministratorDAO;
 import dao.ArticleDAO;
 import dao.BasketDAO;
 import dao.BuyerDao;
+import dao.CommentDAO;
 import dao.DelivererDAO;
 import dao.LocationDAO;
 import dao.ManagerDAO;
@@ -56,6 +58,8 @@ public class ProjekatMain {
 	private static BasketDAO basketDAO=new BasketDAO();
 	private static OrderDAO orderDAO=new OrderDAO();
 	private static RequestDAO requestDAO=new RequestDAO();
+	private static CommentDAO commentDAO=new CommentDAO();
+
 
 	private static Gson g=new Gson();
 
@@ -626,6 +630,15 @@ public class ProjekatMain {
 			approveSuccess=orderDAO.approveOrder(idR,userName);
 			return approveSuccess;
 		});
+		post("/addComment",(req, res) -> {
+			String reqBody = req.body();
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			Comment comment = gsonReg.fromJson(reqBody, Comment.class);
+			boolean addSuccess;
+			addSuccess=commentDAO.addComment(comment);
+			return addSuccess;
+		});
+
 		
 		
 	}
