@@ -62,6 +62,10 @@ Vue.component("restaurants", {
 		        });
 		}
 		},
+		evaluate: function(id){
+			router.push({ path: `/evaluateRestaurant/${id}` });
+
+		},
 		
 		newRestaurant(event){
 		    router.push({ path: `/addRestaurant` })
@@ -250,7 +254,7 @@ Vue.component("restaurants", {
 						<li>10:00-22:00</li>
 						<div v-if="role==='kupac' && orderedFromRestaurants">
 						<div v-for="orderedRestaurant in orderedFromRestaurants">
-						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button> Oceni</button</div>
+						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button v-on:click="evaluate(orderedRestaurant.restaurantName)"> Oceni</button</div>
 						</div>
 						</div>
 					</span>
@@ -267,10 +271,9 @@ Vue.component("restaurants", {
 						<li>{{restaurant.restaurantName}}</li></strong></em>
 						<li class="open">{{restaurant.status}}</li></strong></em>
 						<li><i>{{restaurant.restaurantType}}</i></li>
-						<li>10:00-22:00</li>
 						<div v-if="role==='kupac' && orderedFromRestaurants">
 						<div v-for="orderedRestaurant in orderedFromRestaurants">
-						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button> Oceni</button</div>
+						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button v-on:click="evaluate(restaurant.restaurantName)"> Oceni</button</div>
 						</div>
 						</div>
 					</span>

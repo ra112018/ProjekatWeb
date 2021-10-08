@@ -13,6 +13,7 @@ const AddRestaurant= {template:'<addRestaurant></addRestaurant>'}
 const AddArticle= {template:'<addArticle></addArticle>'}
 const AddUser = {template:'<addUser></addUser>'}
 const Comments = {template:'<comments></comments>'}
+const EvaluateRestaurant = {template:'<evaluateRestaurant></evaluateRestaurant>'}
 
 
 const router = new VueRouter({
@@ -32,9 +33,9 @@ const router = new VueRouter({
 		{ path: '/addRestaurant',component:AddRestaurant},
 		{ path: '/addArticle',component:AddArticle},
 		{ path: '/addUser',component:AddUser},
-		{ path: '/comments',component:Comments}
-
-	  ]
+		{ path: '/comments',component:Comments},
+		{ path: '/evaluateRestaurant/:id',component: EvaluateRestaurant}
+	]
 });
 
 var app = new Vue({
