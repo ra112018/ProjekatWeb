@@ -60,6 +60,8 @@ Vue.component("restaurants", {
 		            }
 		         
 		        });
+
+			
 		}
 		},
 		evaluate: function(id){

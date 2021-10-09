@@ -8,7 +8,8 @@ Vue.component("myRestaurants", {
 		   user:localStorage.getItem('user'),
 			restaurantName:"",
 			restaurant:null,
-			articles:null
+			articles:null,
+			comments:null
 	    }
 	},
 	methods:{
@@ -20,7 +21,27 @@ Vue.component("myRestaurants", {
 				axios.get('/articles?id='+id).then(response => {
 				this.articles=response.data;
 			});
-		}
+		},
+		approve:function(id){
+			axios
+					.post('/approveComment', {idComment:id
+                    },{params:{idComment:id}})
+						
+					.then(function(response){
+						alert("Komentar odobren")
+					  // this.refreshPage();
+					});
+		},
+		decline:function(id){
+			axios
+					.post('/declineComment', {idComment:id
+                    },{params:{idComment:id}})
+						
+					.then(function(response){
+						alert("Komentar odbijen")
+					  // this.refreshPage();
+					});
+		},
 	},
 	mounted: function(){
               this.username = window.localStorage.getItem('username');
@@ -36,6 +57,10 @@ Vue.component("myRestaurants", {
 		        });
 
 			this.findArticles(window.localStorage.getItem('restaurantName'));
+			
+			axios.get('/comments',{params:{restaurantName: window.localStorage.getItem('restaurantName')}}).then(response => {
+				this.comments=response.data;
+				});
 	},
 	
 
@@ -70,6 +95,23 @@ Vue.component("myRestaurants", {
 		</span></div></div>
 	<div class="restoran" v-for="article in articles">
 	<img :src="article.articlePhoto"><p>{{article.articleName}}</p><p>{{article.description}}</p><p>{{article.price}}</p></div>
+	<div v-if="role==='manager'"><p>Komentari</p>
+		<table>
+			<th>Kupac</th>
+			<th>Komentar</th>
+			<th>Ocena</th>
+			<th>Status komentara</th>
+			<tr v-for="comment in comments">
+				<td>{{comment.customerOfOrder}}</td>
+				<td>{{comment.text}}</td>
+				<td>{{comment.mark}}</td>
+				<td>{{comment.approved}}</td>
+				<td v-if="comment.approved==='WaitingForApproval'"><button v-on:click="approve(comment.idComment)">Odobri komentar</button></td>
+				<td v-if="comment.approved==='WaitingForApproval'"><button v-on:click="decline(request.idComment)">Odbij komentar</button></td>
+
+			</tr>
+		</table>
+	</div>
 	</div>
 `,
 });	

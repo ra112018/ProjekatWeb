@@ -16,7 +16,8 @@
 		
         backup: {},
 		restaurant:null,
-		articles:null
+		articles:null,
+		comments:null
 
 		//decodeVar: null
 		};
@@ -40,6 +41,11 @@
 			  this.user=window.localStorage.getItem('user');
 				this.articles=response.data;
 				});
+				
+				axios.get('/comments',{params:{restaurantName: id}}).then(response => {
+				this.comments=response.data;
+				});
+				
 
 		},
 	
@@ -92,9 +98,8 @@
 	
 		
 	<div class="restoran">
-		<img class="logo3" :src="restaurant.logo"/>
+		<img class="logo4" :src="restaurant.logo"/>
 		<span class="opisRestorana"><br><br>{{restaurant.restaurantName}}<br><p class="open">{{restaurant.status}}</p><p>{{restaurant.restaurantType}}</p>
-		Bulevar cara Lazara 92
 		</span>
 		</div>
 		
@@ -103,8 +108,24 @@
 	<p>{{article.description}}</p><br>
 	<p>{{article.price}}</p><br>
 	<p v-if="role=='kupac'"> <button v-on:click="addToCart(article.articleName)">Dodaj u korpu </button></p></div>
+	<div><p>Komentari</p>
+		<table>
+			<th>Kupac</th>
+			<th>Komentar</th>
+			<th>Ocena</th>
+			<th>Status komentara</th>
+			<tr v-for="comment in comments" v-if="comment.approved==='Approved'">
+				<td>{{comment.customerOfOrder}}</td>
+				<td>{{comment.text}}</td>
+				<td>{{comment.mark}}</td>
+			</tr>
+		</table>
+	</div>
 	
-	</div></div>
+	
+	
+	</div>
+	</div>
 
 `
 		

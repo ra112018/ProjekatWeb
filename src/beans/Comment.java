@@ -7,7 +7,7 @@ public class Comment {
 	private Restaurant restaurant;
 	private String text;
 	private int mark; //ovde treba od 1 do 5
-	private boolean approved;
+	private CommentStatus approved;
 	
 	public Comment() {}
 
@@ -43,11 +43,11 @@ public class Comment {
 		this.mark = mark;
 	}
 
-	public boolean isApproved() {
+	public CommentStatus getApproved() {
 		return approved;
 	}
 
-	public void setApproved(boolean approved) {
+	public void setApproved(CommentStatus approved) {
 		this.approved = approved;
 	}
 

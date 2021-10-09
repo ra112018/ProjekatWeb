@@ -13,9 +13,12 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import beans.Article;
 import beans.Buyer;
 import beans.Comment;
+import beans.CommentStatus;
 import beans.Order;
+import beans.OrderStatus;
 import beans.Request;
 import beans.UserType;
 import beans.UserTypeName;
@@ -55,7 +58,7 @@ public class CommentDAO {
 
 	public boolean addComment(Comment comment) {
 		// TODO Auto-generated method stub
-		comment.setApproved(false);
+		comment.setApproved(CommentStatus.WaitingForApproval);
 		int i=0;
 		if(comments!=null) {
 			for(Map.Entry<Integer, Comment> entry : comments.entrySet()) {
@@ -80,6 +83,54 @@ public class CommentDAO {
 		gson.toJson(CommentDAO.comments, fw);
 		fw.flush();
 		fw.close();
+	}
+
+
+	public static HashMap<Integer,Comment> getCommentsByRestaurant(String rName) {
+		// TODO Auto-generated method stub
+		HashMap<Integer,Comment> c=new HashMap<Integer,Comment>();
+		for (Map.Entry<Integer, Comment> entry : comments.entrySet()) {
+
+	        if((entry.getValue().getRestaurant().getRestaurantName()).equals(rName) ) {
+	        	c.put((entry.getValue().getIdComment()),entry.getValue());
+
+	        }
+	    }
+		return c;
+	}
+
+
+	public boolean approveComment(String idC) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<Integer, Comment> entry : comments.entrySet()) {
+	        if(entry.getValue().getIdComment()==Integer.parseInt(idC) ) {
+	        	entry.getValue().setApproved(CommentStatus.Approved);
+	        }
+	    }
+		try {
+			addCommentInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return true;
+	}
+	public boolean declineComment(String idC) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<Integer, Comment> entry : comments.entrySet()) {
+	        if(entry.getValue().getIdComment()==Integer.parseInt(idC) ) {
+	        	entry.getValue().setApproved(CommentStatus.Rejected);
+	        }
+	    }
+		try {
+			addCommentInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return true;
 	}
 
 }

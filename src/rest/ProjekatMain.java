@@ -296,7 +296,6 @@ public class ProjekatMain {
 
 			String rName =  req.queryParams("id");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			System.out.println(rName);
 			ArrayList<Article> articleList = new ArrayList<Article>();
 			for (Map.Entry<String, Article> entry : ArticleDAO.getArticlesByRestaurant(rName).entrySet()) {
 					articleList.add( entry.getValue());
@@ -637,6 +636,30 @@ public class ProjekatMain {
 			boolean addSuccess;
 			addSuccess=commentDAO.addComment(comment);
 			return addSuccess;
+		});
+		get("/comments",(req,res) -> {
+
+			String rName =  req.queryParams("restaurantName");
+			System.out.println("Radi ovde");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			ArrayList<Comment> commentList = new ArrayList<Comment>();
+			for (Map.Entry<Integer, Comment> entry : CommentDAO.getCommentsByRestaurant(rName).entrySet()) {
+					commentList.add( entry.getValue());
+			}
+			return gsonReg.toJson(commentList);
+						
+		});
+		post("/approveComment",(req, res) -> {
+			String idC = req.queryParams("idComment");
+			boolean approveSuccess;
+			approveSuccess=commentDAO.approveComment(idC);
+			return approveSuccess;
+		});
+		post("/declineComment",(req, res) -> {
+			String idC = req.queryParams("idComment");
+			boolean approveSuccess;
+			approveSuccess=commentDAO.declineComment(idC);
+			return approveSuccess;
 		});
 
 		
