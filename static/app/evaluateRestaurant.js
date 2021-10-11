@@ -67,9 +67,9 @@
 	
 		
 	<div class="restoran">
-		<img class="logo3" :src="restaurant.logo"/>
+		<img class="logo4" :src="restaurant.logo"/>
 		<span class="opisRestorana"><br><br>{{restaurant.restaurantName}}<br><p class="open">{{restaurant.status}}</p><p>{{restaurant.restaurantType}}</p>
-		Bulevar cara Lazara 92
+		Bulevar cara Lazara 92		DODATI LOKACIJU
 		</span>
 		</div>
 		<p>Ocena</p> <div class="rate">

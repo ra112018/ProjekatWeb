@@ -88,13 +88,14 @@ Vue.component("myRestaurants", {
 	<div class="grid">
 			
 		
-		<div  class="restoran"><a href="#/selectedRestaurant"><img class="logo4"
-			 :src="restaurant.logo" alt="Sample photo"/></a><span class="opis1"><br><br><br><em><strong>{{restaurant.restaurantName}}
-		</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> {{restaurant.articles}}
-		<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Novi</button>
+		<div class="restoran"><img class="logo4" :src="restaurant.logo"/>
+		<span class="opis1">
+			<br><br><br><em><strong>{{restaurant.restaurantName}}
+			</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> 
+			<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Novi </button>
 		</span></div></div>
 	<div class="restoran" v-for="article in articles">
-	<img :src="article.articlePhoto"><p>{{article.articleName}}</p><p>{{article.description}}</p><p>{{article.price}}</p></div>
+	<img class="articlePicture" :src="article.articlePhoto">&nbsp;<p>{{article.articleName}}</p><br>&#8943;&#8943;<p>{{article.description}}</p><br>&#8943;&#8943;<p>{{article.price}}</p></div>
 	<div v-if="role==='manager'"><p>Komentari</p>
 		<table>
 			<th>Kupac</th>
@@ -112,6 +113,6 @@ Vue.component("myRestaurants", {
 			</tr>
 		</table>
 	</div>
-	</div>
+	</div></div></div>
 `,
 });	

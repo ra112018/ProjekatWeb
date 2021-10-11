@@ -89,7 +89,7 @@
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
-		<a href="#" v-if="this.role==='kupac'">Kupci</a>
+		<a href="#" v-if="this.role==='manager'">Kupci</a>
 
         <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
 		<a href="#" v-if="this.role==='administrator'">Utisci i komentari</a>
@@ -100,13 +100,15 @@
 	<div class="restoran">
 		<img class="logo4" :src="restaurant.logo"/>
 		<span class="opisRestorana"><br><br>{{restaurant.restaurantName}}<br><p class="open">{{restaurant.status}}</p><p>{{restaurant.restaurantType}}</p>
+		LOKACIJU DODATI
 		</span>
 		</div>
 		
 	<div class="restoran" v-for="(article,value) in articles">
-	<img class="logo4" :src="article.articlePhoto" width="200em" height="160em" ><p>{{article.articleName}}</p><br> &#8943;&#8943;
+	<img class="logo4" :src="article.articlePhoto" width="200em" height="160em">&nbsp;&nbsp;<p>{{article.articleName}}</p><br> &#8943;&#8943;
+	<p>{{article.articleType}}</p><br>&#8943;&#8943;
 	<p>{{article.description}}</p><br>&#8943;&#8943;
-	<p>{{article.price}}</p><br>
+	<p>{{article.price}}</p><br>&#8943;&#8943;
 	<p v-if="role=='kupac'"> <button v-on:click="addToCart(article.articleName)">Dodaj u korpu </button></p></div>
 	<div><p>Komentari</p>
 		<table>
@@ -123,7 +125,7 @@
 	</div>
 	
 	
-	
+	</div>
 	</div>
 	</div>
 
