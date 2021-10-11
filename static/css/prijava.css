@@ -143,8 +143,9 @@ img.logo4{
 				margin-top:1%;
 				margin-bottom:10%;
 				float:left;
-				max-width:300%;
-				
+				max-width:90%;
+				margin-left:auto;
+				margin-right:auto;
 
 			}
 img.logo5{

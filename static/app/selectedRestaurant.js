@@ -104,8 +104,8 @@
 		</div>
 		
 	<div class="restoran" v-for="(article,value) in articles">
-	<img class="logo4" :src="article.articlePhoto" width="200em" height="160em" ><p>{{article.articleName}}</p>
-	<p>{{article.description}}</p><br>
+	<img class="logo4" :src="article.articlePhoto" width="200em" height="160em" ><p>{{article.articleName}}</p><br> &#8943;&#8943;
+	<p>{{article.description}}</p><br>&#8943;&#8943;
 	<p>{{article.price}}</p><br>
 	<p v-if="role=='kupac'"> <button v-on:click="addToCart(article.articleName)">Dodaj u korpu </button></p></div>
 	<div><p>Komentari</p>
