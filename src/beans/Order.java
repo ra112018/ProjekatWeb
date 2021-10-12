@@ -8,7 +8,7 @@ public class Order {
 	
 	private String idOrder;
 	private ArrayList<BasketArticle> articles;
-	private Restaurant restaurant;
+	private String restaurantName;
 	private String timeOfOrder; 
 	private double price;
 	private Buyer buyer; //samo ime i prezime treba  // misli se samo na kupca
@@ -32,12 +32,12 @@ public class Order {
 		this.articles = articles;
 	}
 
-	public Restaurant getRestaurant() {
-		return restaurant;
+	public String getRestaurant() {
+		return restaurantName;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
-		this.restaurant = restaurant;
+	public void setRestaurant(String restaurant) {
+		this.restaurantName = restaurant;
 	}
 
 	public String getTimeOfOrder() {

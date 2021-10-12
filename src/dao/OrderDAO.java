@@ -70,7 +70,10 @@ public class OrderDAO {
 		o.setOrderStatus(OrderStatus.Processing);
 		o.setPrice(b.getBasketPrice());
 		for(Article a : b.getBasketArticles()) {
-			o.setRestaurant(RestaurantDAO.findRestaurant(a.getRestaurantName()));
+			ArticleDAO articleDAO=new ArticleDAO();
+			a=articleDAO.findArticleByName(a.getArticleName());
+			o.setRestaurant(a.getRestaurantName());
+			System.out.println("Restoran "+a.getRestaurantName());
 		}
 		LocalDateTime dateTime = LocalDateTime.now(); // Gets the current date and time
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -118,7 +121,7 @@ public class OrderDAO {
 		String mName=manager.getName()+" "+manager.getSurname();
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
 
-	        if((entry.getValue().getRestaurant().getManagerName()).equals(mName) ) {
+	        if((RestaurantDAO.findRestaurant(entry.getValue().getRestaurant()).getManagerName()).equals(mName) ) {
 	        	m.put((entry.getValue().getIdOrder()),entry.getValue());
 
 	        }
@@ -239,7 +242,7 @@ public class OrderDAO {
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
 
 	        if((entry.getValue().getBuyer().getUserName()).equals(uName) && entry.getValue().getOrderStatus() == OrderStatus.Delivered ) {
-	        	restList.put((entry.getValue().getRestaurant().getRestaurantName()),entry.getValue().getRestaurant());
+	        	restList.put((entry.getValue().getRestaurant()),RestaurantDAO.findRestaurant(entry.getValue().getRestaurant()));
 	        }
 		}
 	        

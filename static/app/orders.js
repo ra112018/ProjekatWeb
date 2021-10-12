@@ -25,12 +25,12 @@ Vue.component("orders", {
 		                var order = {};
 		                order.idOrder = response.data[i].idOrder;
 		                order.articles = response.data[i].articles;
-		                order.restaurant = response.data[i].restaurant;
+		                order.restaurantName = response.data[i].restaurantName;
 						order.timeOfOrder=response.data[i].timeOfOrder;
 						order.price = response.data[i].price;
 		                order.user = response.data[i].user;
 		                order.orderStatus = response.data[i].orderStatus;
-
+						alert(order.orderStatus);
 		                this.orders.push(order);
 		            }
 
@@ -182,7 +182,7 @@ Vue.component("orders", {
 				</tr>
 				<tr v-for="order in orders">
 					<td>{{order.idOrder}}</td>
-					<td>{{order.restaurant.restaurantName}}</td>
+					<td>{{order.restaurantName}}</td>
 					<td><div v-for="article in order.articles">{{article.articleName}}</div></td>
 					<td> 1</td>
 					<td>{{order.price}}</td>
