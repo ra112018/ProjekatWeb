@@ -189,7 +189,7 @@ Vue.component("home-page", {
 			</div>
 	
 		</div>
-		
+		</div>
 		
 	</div>
 `
