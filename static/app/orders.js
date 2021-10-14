@@ -30,7 +30,6 @@ Vue.component("orders", {
 						order.price = response.data[i].price;
 		                order.user = response.data[i].user;
 		                order.orderStatus = response.data[i].orderStatus;
-						alert(order.orderStatus);
 		                this.orders.push(order);
 		            }
 
@@ -209,7 +208,7 @@ Vue.component("orders", {
 			</tr>
 			
 			</table></div>
-
+		</div>
 		</div>`
 		
 });

@@ -12,6 +12,8 @@ Vue.component("addRestaurant", {
 			showLogo:null,
 			image:null,
 			
+            geografskaDuzina: null,
+            geografskaSirina: null,
 			role:localStorage.getItem('role'),
 			user:localStorage.getItem('user'),
 			
@@ -62,6 +64,28 @@ Vue.component("addRestaurant", {
             reader.readAsDataURL(file);
         },
 	},
+	mounted : function() {
+		map = new ol.Map({
+            target: 'map',
+            layers: [
+              new ol.layer.Tile({
+                source: new ol.source.OSM()
+              })
+            ],
+            view: new ol.View({
+              center: ol.proj.fromLonLat([19.83,45.26]),
+              zoom: 13
+            })
+          });
+        vm=this;
+        map.on('singleclick', function (evt) {
+            
+            coordinate = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+            vm.geografskaDuzina = coordinate[0];
+            vm.geografskaSirina = coordinate[1];
+        });
+	},
+	
 	template: `<div>
 		<div class="maliHeder">
 		<a href="#/">
@@ -107,6 +131,9 @@ Vue.component("addRestaurant", {
                                 <td> Adresa: </td>
                                 <td> <input type="text" required v-model="address" /> </td>
                             </tr>
+							<tr><td>Geografska duzina:</td><td><input type="text" v-model="geografskaDuzina"</td></tr>
+							<tr><td>Geografska sirina:</td><td><input type="text" v-model="geografskaSirina"</td></tr>
+
                             <tr><td>Logo</td>
              				 <td><input type="file" v-on:change="addLogo" > </td>
                             </tr>
@@ -123,6 +150,9 @@ Vue.component("addRestaurant", {
                         
                     </tbody>
                 </table>
+				
+              	<div style="width:50%;height:420px;" id="map">
+        		</div>
             </form>
 		</div>`
 		
