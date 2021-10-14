@@ -113,12 +113,8 @@ public class DelivererDAO {
 	
 	public void deleteDeliverer(String uName) {
 		for (Map.Entry<String, Deliverer> entry : deliverers.entrySet()) {
-        	System.out.println(uName+"24");
-        	System.out.println(entry.getValue().getUserName()+"44");
-
 	        if(entry.getValue().getUserName().equals(uName) ) {
-	        	entry.getValue().deleted(true);
-	        	System.out.println("1");
+	        	entry.getValue().setDeleted(true);
 	        }
 	    }
 		try {

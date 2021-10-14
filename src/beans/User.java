@@ -87,7 +87,7 @@ public abstract class User {
 		return deleted;
 	}
 	
-	public void deleted(boolean deleted) {
+	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
 		

@@ -26,9 +26,11 @@ Vue.component("userTableAdmin", {
 		                user.name = response.data[i].name;
 		                user.lastName = response.data[i].surname;
 		                user.username = response.data[i].userName;
-						user.type=response.data[i].buyerType;
+						user.type = response.data[i].buyerType;
 						user.points = response.data[i].customerPoints;
-		                user.role = "kupac";
+		                user.suspicious = response.data[i].suspicious;
+						user.blocked = response.data[i].blocked;
+						user.role = "kupac";
 		                this.users.push(user);
 		            }
 		         
@@ -54,6 +56,7 @@ Vue.component("userTableAdmin", {
 		                user.name = response.data[i].name;
 		                user.lastName = response.data[i].surname;
 		                user.username = response.data[i].userName;
+						user.blocked = response.data[i].blocked;
 		                user.role = "manager";
 		                this.users.push(user);
 		            }
@@ -67,6 +70,7 @@ Vue.component("userTableAdmin", {
 		                user.name = response.data[i].name;
 		                user.lastName = response.data[i].surname;
 		                user.username = response.data[i].userName;
+						user.blocked = response.data[i].blocked;
 		                user.role = "deliverer";
 		                this.users.push(user);
 		            }
@@ -108,7 +112,9 @@ Vue.component("userTableAdmin", {
                     user.role = "kupac";
                     user.points = response.data[i].customerPoints;
                     user.type= response.data[i].buyerType;
-                   
+					user.suspicious = response.data[i].suspicious;
+					user.blocked = response.data[i].blocked;                   
+
                     this.users.push(user);
                 }
 			});
@@ -129,10 +135,11 @@ Vue.component("userTableAdmin", {
 		            .then(response => {
 		                for(var i =0;i< response.data.length;i++){
 		                    var user = {};
-		                     user.name = response.data[i].name;
+		                    user.name = response.data[i].name;
 		                    user.lastName = response.data[i].surname;
 		                    user.username = response.data[i].userName;
-		                    user.role = "manager";
+		                    user.blocked = response.data[i].blocked;
+							user.role = "manager";
 		                    this.users.push(user);
 		                }
 		             
@@ -141,10 +148,11 @@ Vue.component("userTableAdmin", {
 		            .then(response => {
 		                for(var i =0;i< response.data.length;i++){
 		                    var user = {};
-		                     user.name = response.data[i].name;
+		                    user.name = response.data[i].name;
 		                    user.lastName = response.data[i].surname;
 		                    user.username = response.data[i].userName;
-		                    user.role = "deliverer";
+		                    user.blocked = response.data[i].blocked;
+							user.role = "deliverer";
 		                    this.users.push(user);
 		                }
 		             
@@ -159,7 +167,8 @@ Vue.component("userTableAdmin", {
 	                    user.role = "kupac";
 	                    user.points = response.data[i].customerPoints;
 	                    user.type= response.data[i].buyerType;
-	                   
+	                    user.suspicious = response.data[i].suspicious;
+						user.blocked = response.data[i].blocked;                   
 	                    this.users.push(user);
 					}
 				});
@@ -343,7 +352,7 @@ Vue.component("userTableAdmin", {
 					
 					<td v-if="user.role !='administrator'"> <button @click="deleteUser" :id="user.username"> Obrisi</button></td>
                     <td v-if="user.role =='administrator'"> <button :disabled=true @click="deleteUser" :id="user.username"> Obrisi</button></td>
-                    <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer')"> <button :id="user.username">Blokiraj</button></td>
+                    <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer') && user.blocked == false"> <button :id="user.username">Blokiraj</button></td>
                     <td v-if="user.role =='administrator'"> <button :disabled=true :id="user.userName"> Blokiraj</button></td>
                   
 					
@@ -351,7 +360,8 @@ Vue.component("userTableAdmin", {
 			
 			</table>
 		</div>
-      </div></div>
+      </div>
+	</div>
 `
     ,
     

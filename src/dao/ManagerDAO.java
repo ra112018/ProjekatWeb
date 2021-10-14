@@ -123,7 +123,7 @@ public class ManagerDAO {
 	public void deleteManager(String uName) {
 		for (Map.Entry<String, Manager> entry : managers.entrySet()) {
 	        if(entry.getValue().getUserName().equals(uName) ) {
-	        	entry.getValue().deleted(true);
+	        	entry.getValue().setDeleted(true);
 	        }
 	    }
 		try {

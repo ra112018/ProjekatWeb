@@ -64,7 +64,7 @@ public class BuyerDao {
 
 	public Buyer addBuyer(Buyer buyer) {
 		buyer.setCustomerPoints(0);
-		buyer.deleted(false);
+		buyer.setDeleted(false);
 		buyer.setCustomerOrders(new ArrayList<Order>());
 		UserType ut = new UserType();
 		ut.setUserTypeName(UserTypeName.Usual);
@@ -123,7 +123,7 @@ public class BuyerDao {
 	public void deleteBuyer(String uName) {
 		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
 	        if(entry.getValue().getUserName().equals(uName) ) {
-	        	entry.getValue().deleted(true);
+	        	entry.getValue().setDeleted(true);
 	        }
 	    }
 		try {
@@ -132,6 +132,25 @@ public class BuyerDao {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void setSuspiciousBuyers(ArrayList<Buyer> newBuyers) {
+		for(Map.Entry<String, Buyer> entry: buyers.entrySet()) {
+			for(Buyer buyer: newBuyers) {
+				if(buyer.getUserName().equals(entry.getValue().getUserName())) {
+					if(buyer.isSuspicious()) {
+						entry.getValue().setSuspicious(true);
+					}
+				}
+			}
+		}
+		try {
+			addAccount();
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 

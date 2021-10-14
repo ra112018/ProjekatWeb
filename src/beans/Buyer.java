@@ -10,6 +10,8 @@ public class Buyer extends User {
 	private double customerPoints; //za kupca
 	//private UserType customerType;
 	private String buyerType;
+	private boolean blocked;
+	private boolean suspicious;
 
 	public Buyer() {
 		// TODO Auto-generated constructor stub
@@ -55,7 +57,21 @@ public class Buyer extends User {
 		this.customerType = customerType;
 	}*/
 	
+	public boolean isSuspicious() {
+		return suspicious;
+	}
 	
+	public void setSuspicious(boolean suspicious) {
+		this.suspicious = suspicious;
+	}
+	
+	public boolean isBlocked() {
+		return blocked;
+	}
+	
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
 
 
 }
