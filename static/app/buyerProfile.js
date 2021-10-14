@@ -100,6 +100,7 @@ Vue.component("buyer-profile", {
 		
 		<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
 		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>
+		<a href="#/suspiciousUsersTable" v-if="this.role==='administrator'">Pregled sumnjivih korisnika</a>
 		
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
@@ -155,9 +156,10 @@ Vue.component("buyer-profile", {
 
                         </td>
                     </tr>
-            </tbody>
-        </table>
-      </div></div>
+            	</tbody>
+        	</table>
+      	</div>
+	</div>
 `
 		
 });

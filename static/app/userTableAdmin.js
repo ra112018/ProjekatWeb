@@ -301,6 +301,7 @@ Vue.component("userTableAdmin", {
 			<a href="#/restaurants">Restorani</a>
 			<a href="#/userTableAdmin" class="active">Korisnici</a>
 			<a href="#/addUser">Dodaj korisnika</a>
+			<a href="#/suspiciousUsersTable">Pregled sumnjivih korisnika</a>
 			<a href="#" >Utisci i komentari</a> 
 		
 		</div>
@@ -360,6 +361,7 @@ Vue.component("userTableAdmin", {
 			
 			</table>
 		</div>
+		
       </div>
 	</div>
 `
