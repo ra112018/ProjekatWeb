@@ -14,7 +14,7 @@ const AddArticle= {template:'<addArticle></addArticle>'}
 const AddUser = {template:'<addUser></addUser>'}
 const Comments = {template:'<comments></comments>'}
 const EvaluateRestaurant = {template:'<evaluateRestaurant></evaluateRestaurant>'}
-
+const SuspiciousUsersTable  = {template:'<suspiciousUsersTable></suspiciousUsersTable>'}
 
 const router = new VueRouter({
 	  mode: 'hash',
@@ -34,7 +34,8 @@ const router = new VueRouter({
 		{ path: '/addArticle',component:AddArticle},
 		{ path: '/addUser',component:AddUser},
 		{ path: '/comments',component:Comments},
-		{ path: '/evaluateRestaurant/:id',component: EvaluateRestaurant}
+		{ path: '/evaluateRestaurant/:id',component: EvaluateRestaurant},
+		{ path: '/suspiciousUsersTable',component:SuspiciousUsersTable}
 	]
 });
 
