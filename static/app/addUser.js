@@ -38,7 +38,7 @@ Vue.component("addUser", {
 										surname: this.surname, 
 										gender: this.gender,
 										birthDate: this.birthDate,		
-										role: this.role}, {params:{role:this.role}})
+										role: this.role}, {params:{role:this.role, userName: this.userName}})
 						
 					.then(function(response){
 							

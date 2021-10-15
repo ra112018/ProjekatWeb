@@ -188,6 +188,8 @@ public class ProjekatMain {
 		post("/addUser", (req, res)-> {
 			
 			String rola = req.queryParams("role");
+			String username = req.queryParams("userName");
+			
 			String reqBody = req.body();
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			
@@ -674,7 +676,6 @@ public class ProjekatMain {
 			approveSuccess=commentDAO.declineComment(idC);
 			return approveSuccess;
 		});
-
 		
 		
 	}

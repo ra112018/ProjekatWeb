@@ -104,7 +104,7 @@ Vue.component("buyer-profile", {
 		
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
-		
+		<a href="#/orders" v-if="this.role==='deliverer'">Porudžbine</a>
 		
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
 		<a href="#" v-if="this.role==='manager'">Kupci</a>
