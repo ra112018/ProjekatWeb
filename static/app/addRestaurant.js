@@ -131,8 +131,8 @@ Vue.component("addRestaurant", {
                                 <td> Adresa: </td>
                                 <td> <input type="text" required v-model="address" /> </td>
                             </tr>
-							<tr><td>Geografska duzina:</td><td><input type="text" v-model="geografskaDuzina"</td></tr>
-							<tr><td>Geografska sirina:</td><td><input type="text" v-model="geografskaSirina"</td></tr>
+							<tr><td>Geografska duzina:</td><td><input type="text" v-model="geografskaDuzina"/></td></tr>
+							<tr><td>Geografska sirina:</td><td><input type="text" v-model="geografskaSirina"/></td></tr>
 
                             <tr><td>Logo</td>
              				 <td><input type="file" v-on:change="addLogo" > </td>
