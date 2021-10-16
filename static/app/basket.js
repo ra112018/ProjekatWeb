@@ -72,19 +72,18 @@ Vue.component("basket", {
         <table class="tabelaKorpe">
             <tr>
 			<th></th>
-            <th>Naziv artikla</th>
-                
+            <th>Naziv artikla</th>               
             <th>Količina</th>
             <th>Cena</th>
             <th>&nbsp;</th>
             <tr v-for="article in basket.basketArticles"  v-if="article.deleted !=='true'">
-				<td><img :src="article.articlePhoto" class="articlePicture">
+				<td><img :src="article.articlePhoto" alt="articlePhoto"></td>
                 <td> {{article.articleName}}</td>
                 <td>
-					<input type="number" value="1">
+					<input type="number" value="1" min="1">
 
                 </td>
-                <td> {{article.price}}  </td>
+                <td>{{article.price}}</td>
                 <td> <button v-on:click="inTrash(article.articleName)">Obriši</button></td>
             </tr>
 			<tr><td>Ukupna cena porudžbine: {{basket.basketPrice}}</td></tr>

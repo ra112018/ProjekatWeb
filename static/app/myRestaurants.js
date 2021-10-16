@@ -95,7 +95,12 @@ Vue.component("myRestaurants", {
 			<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Novi </button>
 		</span></div></div>
 	<div class="restoran" v-for="article in articles">
-	<img class="articlePicture" :src="article.articlePhoto">&nbsp;<p>{{article.articleName}}</p><br>&#8943;&#8943;<p>{{article.description}}</p><br>&#8943;&#8943;<p>{{article.price}}</p></div>
+	
+		<img class="articlePicture" :src="article.articlePhoto">&nbsp;
+		<p>{{article.articleName}}</p><br>&#8943;&#8943;
+		<p>{{article.description}}</p><br>&#8943;&#8943;
+		<p>{{article.price}}</p>&nbsp;&nbsp;<div v-if="role==='manager'"><button> Izmeni artikal</button></div>
+	</div>
 	<div v-if="role==='manager'"><p>Komentari</p>
 		<table>
 			<th>Kupac</th>
@@ -113,6 +118,9 @@ Vue.component("myRestaurants", {
 			</tr>
 		</table>
 	</div>
-	</div></div></div>
+	</div>
+	</div>
+	</div>
+	
 `,
 });	

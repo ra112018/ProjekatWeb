@@ -575,7 +575,7 @@ public class ProjekatMain {
 								orders.add( entry.getValue());
 							}
 							else if(entry.getValue().getOrderStatus().equals(OrderStatus.InTransport)) {
-								System.out.println("Dosao do ovde");
+								
 								System.out.println(entry.getValue().getIdOrder()+"  Id porudzbine");
 								for ( Order o : deliverer.getDeliveryOrders()) {
 									System.out.println(o.getIdOrder()+"  Id porudzbine iz liste");
@@ -655,7 +655,6 @@ public class ProjekatMain {
 		get("/comments",(req,res) -> {
 
 			String rName =  req.queryParams("restaurantName");
-			System.out.println("Radi ovde");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			ArrayList<Comment> commentList = new ArrayList<Comment>();
 			for (Map.Entry<Integer, Comment> entry : CommentDAO.getCommentsByRestaurant(rName).entrySet()) {

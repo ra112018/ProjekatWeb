@@ -151,7 +151,7 @@ Vue.component("addRestaurant", {
                     </tbody>
                 </table>
 				
-              	<div style="width:50%;height:420px;" id="map">
+              	<div class="map" style="width:50%;height:420px;" id="map">
         		</div>
             </form>
 		</div>`
