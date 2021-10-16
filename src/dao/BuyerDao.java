@@ -152,6 +152,22 @@ public class BuyerDao {
 		}
 		
 	}
+
+	public void changeBuyerPoints(Buyer buyer, double points) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(buyer.getUserName()) ) {
+	        	entry.getValue().setCustomerPoints(points);
+	        }
+	    }
+		try {
+			addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 
 	

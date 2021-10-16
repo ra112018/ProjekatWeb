@@ -183,10 +183,14 @@ public class OrderDAO {
 	        if(entry.getValue().getIdOrder().equals(idO) ) {
 	        			entry.getValue().setOrderStatus(OrderStatus.Canceled);
 	        			Buyer b=entry.getValue().getBuyer();
-	        			b.setCustomerPoints(b.getCustomerPoints()- entry.getValue().getPrice()/1000*133*4);
+	        			double newPoints=b.getCustomerPoints()- entry.getValue().getPrice()/1000*133*4;
+	        			b.setCustomerPoints(newPoints);
 	        			if(b.getCustomerPoints() < 0.0) {
 	        				b.setCustomerPoints(0.0);
+	        				newPoints=0.0;
 	        			}
+	        			buyerDAO.changeBuyerPoints(b,newPoints);
+
 	        }
 	    }
 		try {
