@@ -52,7 +52,10 @@ Vue.component("basket", {
             axios
               .get('/userBasket',{params:{userName: this.username}})
 	          .then(response => {
-			this.basket=response.data;  	});
+			this.basket=response.data;  
+			
+				});
+				 
 			},
 	
 	template: `<div>
@@ -76,7 +79,7 @@ Vue.component("basket", {
             <th>Količina</th>
             <th>Cena</th>
             <th>&nbsp;</th>
-            <tr v-for="article in basket.basketArticles"  v-if="article.deleted !=='true'">
+            <tr v-for="article in basket.basketArticles" v-if="article.deleted !=='true'">
 				<td><img :src="article.articlePhoto" alt="articlePhoto"></td>
                 <td> {{article.articleName}}</td>
                 <td>

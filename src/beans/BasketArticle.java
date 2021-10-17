@@ -16,6 +16,10 @@ public class BasketArticle extends Article {
 	public BasketArticle(Article a) {
 		// TODO Auto-generated constructor stub
 		this.setArticleName(a.getArticleName());
+		this.setArticlePhoto(a.getArticlePhoto());
+		this.setPrice(a.getPrice());
+		this.setQuantity(a.getQuantity());
+		this.setRestaurantName(a.getRestaurantName());
 		this.setDeleted(a.getDeleted());
 		this.setNumberOfArticles(1);
 	}

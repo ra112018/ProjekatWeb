@@ -58,23 +58,18 @@ public class BasketDAO {
 		int i=0;		//if buyer has something in Basket i!=0
 		boolean buyerHasThatArticle=false;
 		ArticleDAO ad=new ArticleDAO();
-		ArrayList<BasketArticle> alist=new ArrayList<BasketArticle>();
-		Article article=ad.findArticleByName(articleName);
+		Article article=ad.findArticleByName(articleName);				
 		BasketArticle ba=new BasketArticle(article);
-		System.out.println("artikal"+article.getArticleName());
 		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
 			
-	        if(entry.getValue().getUserName().equals(username) && entry.getValue().isEmpty()!=true) {
-	        	if(entry.getValue().getBasketArticles()!=null ) {
+	        if(entry.getValue().getUserName().equals(username) && entry.getValue().isEmpty()!=true ) {
 	        		for (BasketArticle b : entry.getValue().getBasketArticles()) {
-	        			if(b.getArticleName()==articleName) {						//in buyer basket already exists same article
+	        			if( b.getArticleName().equals( articleName)) {						//in buyer basket already exists same article
+
 	        				buyerHasThatArticle=true;
 	        				ba.setNumberOfArticles(b.getNumberOfArticles()+1);
-	        				ArrayList<BasketArticle> a=entry.getValue().getBasketArticles();
-	        				a.add(ba);
-	        				entry.getValue().setBasketArticles(a);
-	        			}
-	        															
+	        				b.setNumberOfArticles(b.getNumberOfArticles()+1);
+	        			}				
 	        		}
 	        		if(buyerHasThatArticle==false) {		//basket has articles but not the one buyer wants to add
 	        			ba.setNumberOfArticles(1);
@@ -82,30 +77,26 @@ public class BasketDAO {
         				a.add(ba);
         				entry.getValue().setBasketArticles(a);
 	        		}
+	        		double totalPrice=entry.getValue().getBasketPrice();
+		        	totalPrice += ba.getPrice();
+		        	entry.getValue().setBasketPrice(totalPrice);
+		        	entry.getValue().setEmpty(false);
+		        	i=1;
+	        		
 	        	}
-	        	else {										//basket has no articles
-	        		ArrayList<BasketArticle> a=new ArrayList<BasketArticle>();
-		        	Article articleForBasket=ad.findArticleByName(articleName);
-		        	ba=new BasketArticle(articleForBasket);
-		        	a.add(ba);
-		        	entry.getValue().setBasketArticles(a);
-	        	}
-	        	double totalPrice=entry.getValue().getBasketPrice();
-	        	totalPrice += ba.getPrice();
-	        	entry.getValue().setBasketPrice(totalPrice);
-	        	entry.getValue().setEmpty(false);
-	        	i=1;
+	        	
 	        }
-	    }
-		Basket basket=new Basket();
-		alist.add(ba);
- 		basket.setBasketArticles(alist);
-		double s=ad.findPriceByName(articleName);
-		basket.setBasketPrice(s);
-		basket.setUserName(username);
-		basket.setEmpty(false);
+		
 		
 		if(i==0) {
+			ArrayList<BasketArticle> alist=new ArrayList<BasketArticle>();
+			Basket basket=new Basket();
+			alist.add(ba);
+	 		basket.setBasketArticles(alist);
+			double s=ad.findPriceByName(articleName);
+			basket.setBasketPrice(s);
+			basket.setUserName(username);
+			basket.setEmpty(false);
 			baskets.put(username,basket);
 
 			try {
@@ -118,6 +109,7 @@ public class BasketDAO {
 		else {
 			
 		try {
+
 			this.addBasketInFile();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
