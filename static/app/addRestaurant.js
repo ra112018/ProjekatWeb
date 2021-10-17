@@ -16,6 +16,11 @@ Vue.component("addRestaurant", {
             geografskaSirina: null,
 			role:localStorage.getItem('role'),
 			user:localStorage.getItem('user'),
+			grad:null,
+			postanskiBroj:null,
+			idLokacije:null,
+			ulica:null,
+			broj:null,
 			
 		};
 	},
@@ -63,6 +68,7 @@ Vue.component("addRestaurant", {
             }
             reader.readAsDataURL(file);
         },
+	
 	},
 	mounted : function() {
 		map = new ol.Map({
@@ -81,9 +87,22 @@ Vue.component("addRestaurant", {
         map.on('singleclick', function (evt) {
             
             coordinate = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+
             vm.geografskaDuzina = coordinate[0];
             vm.geografskaSirina = coordinate[1];
-        });
+		fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + coordinate[0] + '&lat=' + coordinate[1])
+		.then(response => { 
+            return response.json().then((data) => {
+	            this.grad = data;
+				alert(this.grad);
+
+				console.log(this.grad);
+                return data;
+            });
+
+			});
+			
+	});
 	},
 	
 	template: `<div>

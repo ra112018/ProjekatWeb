@@ -8,20 +8,20 @@ public class Restaurant {
 	private RestaurantType restaurantType;
 	private ArrayList<Article> articles;
 	private RestaurantStatus status;
-	private Location location;
+	private int locationId;
 	private String logo;
 	private String managerName;
 
 	public Restaurant() {}
 
 	public Restaurant(String restaurantName, RestaurantType restaurantType, ArrayList<Article> articles,
-			RestaurantStatus status, Location location, String logo) {
+			RestaurantStatus status, int locationId, String logo) {
 		super();
 		this.restaurantName = restaurantName;
 		this.restaurantType = restaurantType;
 		this.articles = articles;
 		this.status = status;
-		this.location = location;
+		this.locationId = locationId;
 		this.logo = logo;
 	}
 
@@ -57,12 +57,12 @@ public class Restaurant {
 		this.status = status;
 	}
 
-	public Location getLocation() {
-		return location;
+	public int getLocationId() {
+		return locationId;
 	}
 
-	public void setLocation(Location location) {
-		this.location = location;
+	public void setLocationId(int location) {
+		this.locationId = location;
 	}
 
 	public String getLogo() {

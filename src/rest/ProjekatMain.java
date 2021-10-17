@@ -676,6 +676,5 @@ public class ProjekatMain {
 			return approveSuccess;
 		});
 		
-		
 	}
 }

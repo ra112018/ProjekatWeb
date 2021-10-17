@@ -192,7 +192,7 @@ Vue.component("restaurants", {
 		<a href="#/comments" v-if="this.role==='manager'">Utisci i komentari</a>
  
 	</div>
-
+	</div>
 	
 		<div class="pretraga">
 		
@@ -283,6 +283,8 @@ Vue.component("restaurants", {
 				</ul>
 			
 			</div>
+	</div>
+	</div>
 	</div>
 	</div>
 `,
