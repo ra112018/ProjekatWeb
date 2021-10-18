@@ -134,6 +134,20 @@ public class BuyerDao {
 		}
 	}
 	
+	public void blockBuyer(String uName) {
+		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(uName) ) {
+	        	entry.getValue().setBlocked(true);
+	        }
+	    }
+		try {
+			addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void setSuspiciousBuyers(ArrayList<Buyer> newBuyers) {
 		for(Map.Entry<String, Buyer> entry: buyers.entrySet()) {
 			for(Buyer buyer: newBuyers) {

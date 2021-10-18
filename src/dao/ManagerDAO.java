@@ -134,6 +134,20 @@ public class ManagerDAO {
 		}
 	}
 	
+	public void blockManager(String uName) {
+		for (Map.Entry<String, Manager> entry : managers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(uName) ) {
+	        	entry.getValue().setBlocked(true);
+	        }
+	    }
+		try {
+			addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	
 }

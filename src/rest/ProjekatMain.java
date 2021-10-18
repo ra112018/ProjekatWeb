@@ -692,5 +692,26 @@ public class ProjekatMain {
 			return approveSuccess;
 		});
 		
+		post("/blockUser", (req, res)-> {
+			String uName = req.queryParams("userName");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			User u = null;
+			u = buyerDAO.findBuyerByUsername(uName);
+			if(u != null) {
+				buyerDAO.blockBuyer(uName);
+			}else {
+					u = managerDAO.findManagerByUsername(uName);
+					if(u != null) {
+						managerDAO.blockManager(uName);
+					}else {
+						u = delivererDAO.findDelivererByUsername(uName);
+						if(u != null) {
+							delivererDAO.blockDeliverer(uName);
+						
+						}	
+					}
+			}
+			return true;
+		});
 	}
 }

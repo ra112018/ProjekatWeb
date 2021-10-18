@@ -97,6 +97,24 @@ Vue.component("userTableAdmin", {
           }
 			
 		},
+		
+		blockUser(event){
+			
+			username = event.target.id;
+			 for(var i =0;i<this.users.length;i++){
+              if(this.users[i].username == username){
+                    axios
+				.post('/blockUser',{}, {params:{userName:username}})
+				.then((response)=> {
+					alert("Korisnik je blokiran");
+					this.users = [];
+					this.refreshPage();
+				})
+                
+              }
+          }					
+		
+		},
 		search(){
 			this.users = [];
 			if(this.type == "" && this.role == "" && this.searching == ""){
@@ -353,8 +371,9 @@ Vue.component("userTableAdmin", {
 					
 					<td v-if="user.role !='administrator'"> <button @click="deleteUser" :id="user.username"> Obrisi</button></td>
                     <td v-if="user.role =='administrator'"> <button :disabled=true @click="deleteUser" :id="user.username"> Obrisi</button></td>
-                    <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer') && user.blocked == false"> <button :id="user.username">Blokiraj</button></td>
-                    <td v-if="user.role =='administrator'"> <button :disabled=true :id="user.userName"> Blokiraj</button></td>
+                    <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer') && user.blocked == false"> <button @click="blockUser" :id="user.username">Blokiraj</button></td>
+                    <td v-if="(user.role =='kupac' |  user.role =='manager' |  user.role =='deliverer') && user.blocked == true"> <button :disabled=true @click="blockUser" :id="user.username">Blokiraj</button></td>
+					<td v-if="user.role =='administrator'"> <button @click="blockUser" :disabled=true :id="user.userName"> Blokiraj</button></td>
                   
 					
 				</tr>
