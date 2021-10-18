@@ -16,11 +16,10 @@ Vue.component("addRestaurant", {
             geografskaSirina: null,
 			role:localStorage.getItem('role'),
 			user:localStorage.getItem('user'),
-			grad:null,
-			postanskiBroj:null,
+			postcode:null,
 			idLokacije:null,
-			ulica:null,
-			broj:null,
+			street:null,
+			houseNumber:null,
 			
 		};
 	},
@@ -93,10 +92,18 @@ Vue.component("addRestaurant", {
 		fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + coordinate[0] + '&lat=' + coordinate[1])
 		.then(response => { 
             return response.json().then((data) => {
-	            this.grad = data;
-				alert(this.grad);
-
-				console.log(this.grad);
+	            var nesto = data;
+				var drugo=nesto.address;
+				var kucnibr=drugo.house_number;
+				vm.houseNumber=kucnibr;
+				var ulica=drugo.road;
+				vm.street=ulica;
+				var gradic=drugo.city;
+				vm.city=gradic;
+				var postanskibr=drugo.postcode;
+				vm.postcode=postanskibr;
+				
+				console.log(nesto);
                 return data;
             });
 
@@ -146,10 +153,12 @@ Vue.component("addRestaurant", {
 
   								</select></td>
                             </tr>
-                              <tr>
-                                <td> Adresa: </td>
-                                <td> <input type="text" required v-model="address" /> </td>
-                            </tr>
+							<tr><td>Grad:</td><td><input type="text" v-model="city"/></td></tr>
+							<tr><td>Poštanski broj:</td><td><input type="text" v-model="postcode"/></td></tr>
+							<tr><td>Ulica:</td><td><input type="text" v-model="street"/></td></tr><tr>
+								<td>Broj:</td><td><input type="text" v-model="houseNumber"/></td>
+							</tr>
+
 							<tr><td>Geografska duzina:</td><td><input type="text" v-model="geografskaDuzina"/></td></tr>
 							<tr><td>Geografska sirina:</td><td><input type="text" v-model="geografskaSirina"/></td></tr>
 
