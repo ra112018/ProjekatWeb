@@ -80,10 +80,14 @@ public class ProjekatMain {
 
             ArrayList<String> response = new ArrayList<String>();
             if(buyerDAO.findBuyer(name, pass) != null) {
-				korisnicko = name;
-				
-               response.add(korisnicko);
-			   response.add("kupac");
+            	if(!buyerDAO.findBuyer(name, pass).isBlocked()) {
+            		korisnicko = name;   				
+                    response.add(korisnicko);
+     			    response.add("kupac");
+            	}else {
+            		korisnicko = "blocked";
+            		response.add(korisnicko);
+            	}			
 
             }
             else if(adminDAO.findAdmin(name, pass)!=null) {
@@ -91,15 +95,27 @@ public class ProjekatMain {
             	response.add(korisnicko);
             	response.add("administrator");
             } else if(managerDAO.findManager(name, pass)!=null) {
-            	korisnicko=name;
-            	response.add(korisnicko);
-            	response.add("manager");
+            	if(!managerDAO.findManager(name, pass).isBlocked()) {
+            		korisnicko=name;
+                	response.add(korisnicko);
+                	response.add("manager");
+            	}else {
+            		korisnicko = "blocked";
+            		response.add(korisnicko);
+            	}           	
+            	
             }else if(delivererDAO.findDeliverer(name, pass)!=null) {
-            	korisnicko=name;
-            	response.add(korisnicko);
-            	response.add("deliverer");
+            	
+            	if(!delivererDAO.findDeliverer(name, pass).isBlocked()) {
+            		korisnicko=name;
+                	response.add(korisnicko);
+                	response.add("deliverer");
+            	}else {
+            		korisnicko = "blocked";
+            		response.add(korisnicko);
+            	}           	
             }
-            response.add(korisnicko);
+            
             return g.toJson(response);
         });
 		

@@ -17,6 +17,8 @@ Vue.component("login", {
 				.then(function(response){
 					if(JSON.parse(JSON.stringify(response.data))[0]===" "){
 						alert("Pogresan unos korisnickog imena ili lozinke");
+					}else if(JSON.parse(JSON.stringify(response.data))[0]==="blocked"){
+						alert("Korisnik je blokiran");
 					}else{
 						localStorage.setItem("username", JSON.parse(JSON.stringify(response.data))[0]);
 						localStorage.setItem("role", JSON.parse(JSON.stringify(response.data))[1]);
