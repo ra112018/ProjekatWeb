@@ -9,7 +9,10 @@ Vue.component("myRestaurants", {
 			restaurantName:"",
 			restaurant:null,
 			articles:null,
-			comments:null
+			comments:null,
+			editingName:false,
+			editingType:false,
+			editingStatus:false
 	    }
 	},
 	methods:{
@@ -42,6 +45,30 @@ Vue.component("myRestaurants", {
 					  // this.refreshPage();
 					});
 		},
+		enableEditingName: function(value){
+      this.tempValueName = value;
+      this.editingName = true;
+    },
+	disableEditingName: function(){
+      this.tempValueName = null;
+      this.editingName = false;
+    },
+	enableEditingType: function(value){
+      this.tempValueType = value;
+      this.editingType = true;
+    },
+	disableEditingType: function(){
+      this.tempValueType = null;
+      this.editingType = false;
+    },
+	enableEditingStatus: function(value){
+      this.tempValueStatus = value;
+      this.editingStatus = true;
+    },
+	disableEditingStatus: function(){
+      this.tempValueStatus = null;
+      this.editingStatus = false;
+    },
 	},
 	mounted: function(){
               this.username = window.localStorage.getItem('username');
@@ -89,11 +116,24 @@ Vue.component("myRestaurants", {
 			
 		
 		<div class="restoran"><img class="logo4" :src="restaurant.logo"/>
+		
 		<span class="opis1">
-			<br><br><br><em><strong>{{restaurant.restaurantName}}
-			</strong></em><br>{{restaurant.restaurantType}}<br><p class="open">{{restaurant.status}}</p> 
-			<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Novi </button>
-		</span></div></div>
+			<br><em><strong><div v-if="!editingName" @click="enableEditingName(restaurant.restaurantName)">{{restaurant.restaurantName}} </div>
+			<div v-if="editingName"> <input v-model="tempValueName"/></div>
+			</strong></em><br><div v-if="!editingType" @click="enableEditingType(restaurant.restaurantType)">{{restaurant.restaurantType}} </div>
+			 <div v-if="editingType"> <input v-model="tempValueType"/></div><br>
+			<p class="open"><div v-if="!editingStatus" @click="enableEditingStatus(restaurant.status)">{{restaurant.status}}</div></p>
+			<div v-if="editingStatus"> <select v-model="tempValueStatus"><option value="Open">Otvoreno</option>
+			<option value="Closed">Zatvoreno</option></select></div><br>
+			<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Dodaj artikal </button>
+		</span>
+		<span class="opis1"><br><button  v-if="editingName" >
+			Sačuvaj</button> <button  v-if="editingName"  @click="disableEditingName">
+			Otkaži</button><br><br><button v-if="editingType" >Sačuvaj</button><button v-if="editingType" @click="disableEditingType">Otkaži</button><br>
+			<br><br><button  v-if="editingStatus" >Sačuvaj</button><button  v-if="editingStatus" @click="disableEditingStatus">Otkaži</button>
+		</span>
+		
+		<br></div></div>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<button>Promeni sliku</button><br><br><br>
 	<div class="restoran" v-for="article in articles">
 	
 		<img class="articlePicture" :src="article.articlePhoto">&nbsp;

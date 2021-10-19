@@ -143,7 +143,7 @@ img.logo4{
 				margin-top:1%;
 				margin-bottom:10%;
 				float:left;
-				max-width:90%;				
+				max-width:100%;				
 				margin-left:auto;
 				margin-right:auto;
 
@@ -205,10 +205,9 @@ h4{
 		    display: inline;
 			text-align: justify;
 			padding:5%;
-			margin-top:1%;
-			margin-bottom:2%;
-			
-			min-width:250%;
+			margin:8%;
+			line-height:1.2;
+			min-width:50%;
 			}
 
 .restoran{
@@ -234,7 +233,7 @@ h4{
 .addButton{
 			margin:1%;
 			color:green;
-			width: 8%;
+			width: 58%;
 }
 #type{
 			width:100%;
@@ -290,3 +289,4 @@ h4{
 .rate > label:hover ~ input:checked ~ label {
     color: #c59b08;
 }
+
