@@ -3,7 +3,6 @@ Vue.component("addRestaurant", {
 	data: function(){
 		return {
 			name:"",
-			address:"",
 			logo:"",
 			locations:null,
 			city:null,
@@ -17,7 +16,7 @@ Vue.component("addRestaurant", {
 			role:localStorage.getItem('role'),
 			user:localStorage.getItem('user'),
 			postcode:null,
-			idLokacije:null,
+			idLocation:null,
 			street:null,
 			houseNumber:null,
 			
@@ -28,19 +27,25 @@ Vue.component("addRestaurant", {
     add: function (e) {
       e.preventDefault();
       this.errors = null;
-			if(!this.name || !this.type || !this.address  || !this.managerName ){
+			if(!this.name || !this.type || !this.city  || !this.managerName ){
 				this.showErrorMessage = true;
 				alert("Morate uneti sve podatke.")
 				e.preventDefault();
 			}else{
-				this.locations={};
-            this.locations.locationAddress = this.address;
-
+				
+	axios
+        .post('/addLocation', {idLocation: this.idLocation, postcode:this.postcode,city:this.city,
+					longitude:this.geografskaDuzina,latitude:this.geografskaSirina,street:this.street,
+                    houseNumber : this.houseNumber
+                    })
+        .then(response =>{
+                
+            })
 
 			
 
         axios
-        .post('/addRestaurant', {restaurantName: this.name, restaurantType:this.type,location:this.locations,
+        .post('/addRestaurant', {restaurantName: this.name, restaurantType:this.type,locationId:this.idLocation,
 					logo:this.image,
                     managerName : this.managerName,
                     })
@@ -102,7 +107,7 @@ Vue.component("addRestaurant", {
 				vm.city=gradic;
 				var postanskibr=drugo.postcode;
 				vm.postcode=postanskibr;
-				
+				vm.idLocation=nesto.place_id;
 				console.log(nesto);
                 return data;
             });

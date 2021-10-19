@@ -323,6 +323,16 @@ public class ProjekatMain {
 			return true;
 			
 		});
+		post("/addLocation", (req, res) -> {
+			String reqBody = req.body();
+
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			Location r = gsonReg.fromJson(reqBody, Location.class);
+			boolean checkEror=locationDAO.addLocation(r);
+		
+			return true;
+			
+		});
 		
 		get("/articles",(req,res) -> {
 

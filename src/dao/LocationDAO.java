@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,10 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import beans.Article;
 import beans.Location;
+import beans.Restaurant;
+import beans.RestaurantStatus;
 
 public class LocationDAO {
 
@@ -42,16 +46,16 @@ public class LocationDAO {
 		public Location locationRestaurant(int id) {
 			for(Location l : locations.values()) 
 			{
-				if(l.getId() == id) {
+				if(l.getIdLocation() == id) {
 					return l;
 				}
 			}
 			
 			return null;
 		}
-		public Location findLocation(String address) {
+		public Location findLocation(int id) {
 			for (Map.Entry<Integer, Location> entry : locations.entrySet()) {
-		        if(entry.getValue().getLocationAddress().equals(address)){
+		        if(entry.getValue().getIdLocation()==id){
 		        	return entry.getValue();
 		        }
 		    }	
@@ -77,9 +81,9 @@ public class LocationDAO {
 
 		public boolean checkLocation(Location location, int id) {
 			for(Location l : this.locations.values()) {
-				if(l.getId() != id) {
+				if(l.getIdLocation() != id) {
 					if(l.getLongitude() == location.getLatitude() && location.getLongitude() == l.getLatitude()
-							|| (l.getLocationAddress().equals(location.getLocationAddress()) )) {
+							/*|| (l.getLocationAddress().equals(location.getLocationAddress())) */) {
 						return false;
 					}
 				}
@@ -89,6 +93,20 @@ public class LocationDAO {
 		public int findNextId() {
 			int maxValueKey = Collections.max(this.locations.keySet());
 			return maxValueKey + 1;
+		}
+
+		public boolean addLocation(Location r) {
+			// TODO Auto-generated method stub
+				
+		  	locations.put(r.getIdLocation(),r);
+			try {
+				this.addToLocations();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		        
+			return true;
 		}
 
 		
