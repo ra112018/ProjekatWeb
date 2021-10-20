@@ -355,16 +355,16 @@ public class ProjekatMain {
 		});
 		post("/changeStatus", (req, res) -> {
 
-			String rName =  req.queryParams("restaurantName");
+			String rName =  req.queryParams("rName");
 			String status =  req.queryParams("status");
 			boolean checkEror=restaurantDAO.changeStatus(rName,status);
 		
 			return checkEror;
 			
 		});
-		post("/changeStatus", (req, res) -> {
+		post("/changeType", (req, res) -> {
 
-			String rName =  req.queryParams("restaurantName");
+			String rName =  req.queryParams("rName");
 			String type =  req.queryParams("type");
 			boolean checkEror=restaurantDAO.changeType(rName,type);
 			return checkEror;

@@ -265,10 +265,11 @@ public class RestaurantDAO {
 	public boolean changeStatus(String rName, String status) {
 		// TODO Auto-generated method stub
 		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
-	        if(entry.getValue().getRestaurantName().equals(rName) ) {
-	        		if(status.equals(RestaurantStatus.valueOf("Open"))) {
-		    	        entry.getValue().setStatus(RestaurantStatus.Open);
 
+
+	        if(entry.getValue().getRestaurantName().equals(rName) ) {
+	        		if(status.equals("Open")) {
+		    	        entry.getValue().setStatus(RestaurantStatus.Open);
 	        		}
 	        		else {
 		    	        entry.getValue().setStatus(RestaurantStatus.Closed);
@@ -291,11 +292,18 @@ public class RestaurantDAO {
 		// TODO Auto-generated method stub
 		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
 	        if(entry.getValue().getRestaurantName().equals(rName) ) {
-	        		if(type.equals(RestaurantType.valueOf("Pancakes"))) {
+	        		if(type.equals("Pancakes")) {
 		    	        entry.getValue().setRestaurantType(RestaurantType.Pancakes);
-
 	        		}
-	        		//treba dopravak ovde i dodati ostale ako ovo valja uopse
+	        		else if(type.equals("Barbecue")) {
+		    	        entry.getValue().setRestaurantType(RestaurantType.Barbecue);
+	        		}
+	        		else if(type.equals("Italian")) {
+		    	        entry.getValue().setRestaurantType(RestaurantType.Italian);
+	        		}
+	        		else if(type.equals("Chinese")) {
+		    	        entry.getValue().setRestaurantType(RestaurantType.Chinese);
+	        		}
 	    			
 	        }
 	    }

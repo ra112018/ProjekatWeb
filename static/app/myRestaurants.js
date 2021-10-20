@@ -79,14 +79,14 @@ Vue.component("myRestaurants", {
 			
 		},
 		changeStatus:function(){
-			axios.post('/changeStatus', {restaurantName: this.restaurant.restaurantName,status:this.tempValueStatus})
+			axios.post('/changeStatus',{rName: this.restaurant.restaurantName,status:this.tempValueStatus}, {params: {rName: this.restaurant.restaurantName,status:this.tempValueStatus}})
         .then(response =>{
           		alert("Uspešno promenjen status restorana");
 
             });
 		},
 		changeType:function(){
-			axios.post('/changeType', {restaurantName: this.restaurant.restaurantName,type:this.tempValueType})
+			axios.post('/changeType', {rName: this.restaurant.restaurantName,type:this.tempValueType},{params:{rName:  this.restaurant.restaurantName,type:this.tempValueType}})
         .then(response =>{
           		alert("Uspešno promenjen tip restorana");
 
@@ -101,8 +101,7 @@ Vue.component("myRestaurants", {
         .then(response =>{
                 
             });
-			axios.post('/addLocationToRestaurant', {restaurantName: this.restaurant.restaurantName,locationId:this.idLocation,
-                    })
+			axios.post('/addLocationToRestaurant', {restaurantName:this.restaurant.restaurantName,locationId:this.idLocation},{params:{restaurantName: this.restaurant.restaurantName,locationId:this.idLocation}})
 						
 					.then(function(response){
 						alert("Lokacija dodata");
@@ -148,13 +147,12 @@ Vue.component("myRestaurants", {
 					});
 		},
 		changeImage:function(event){
-			alert("Da idi");
 			const file = event.target.files[0];
             this.createImage(file);
             this.showLogo = (URL.createObjectURL(file));
-			axios.post('/changeRestaurantImg', {restaurantName: this.restaurant.restaurantName, 
-					logo:this.image,
-                    })
+			axios.post('/changeRestaurantImg', {restaurantName: this.restaurant.restaurantName, logo:this.image,
+                    },{params:{restaurantName: this.restaurant.restaurantName, logo:this.image,
+                    }})
         .then(response =>{
                 if(response.data){
                     alert("Uspešno promenjena slika.")
@@ -247,7 +245,12 @@ Vue.component("myRestaurants", {
 			<br><em><strong>{{restaurant.restaurantName}}
 			
 			</strong></em><br><div v-if="!editingType" @click="enableEditingType(restaurant.restaurantType)">{{restaurant.restaurantType}} </div>
-			 <div v-if="editingType"> <input v-model="tempValueType"/></div><br>
+			 <div v-if="editingType"> <select v-model="tempValueType">
+								<option value="Italian">Italijanska hrana</option>
+								  <option value="Chinese">Kineska hrana</option>
+								  <option value="Barbecue">Roštilj</option>
+								  <option value="Pancakes">Palačinke</option>
+  								</select></div><br>
 			<p class="open"><div v-if="!editingStatus" @click="enableEditingStatus(restaurant.status)">{{restaurant.status}}</div></p>
 			<div v-if="editingStatus"> <select v-model="tempValueStatus"><option value="Open">Otvoreno</option>
 			<option value="Closed">Zatvoreno</option></select></div><br>
