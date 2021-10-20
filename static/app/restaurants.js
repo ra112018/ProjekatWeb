@@ -185,7 +185,6 @@ Vue.component("restaurants", {
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='deliverer'">Porudžbine</a>
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
-		<a href="#" v-if="this.role==='manager'">Kupci</a>
 
         <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
 		<a href="#" v-if="this.role==='administrator'">Utisci i komentari</a>

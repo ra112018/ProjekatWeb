@@ -122,7 +122,6 @@ Vue.component("orders", {
 		<a href="#/orders" v-if="this.role==='deliverer'" class="active">Porudžbine</a>
   
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
-		<a href="#" v-if="this.role==='manager'">Kupci</a>
 		
         <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a> 
         <a href="#/comments" v-if="this.role==='manager'">Utisci i komentari</a> </div>

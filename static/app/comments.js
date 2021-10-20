@@ -30,8 +30,8 @@ Vue.component("comments", {
 				<div class="vertical-menu">
 					<a href="#/buyerProfile">Moj profil</a>
 					<a href="#/restaurants">Restorani</a>
+					<a href="#/myRestaurants">Moj restoran</a>
 					<a href="#/orders">Porudžbine</a>
-					<a href="#">Kupci</a>
 					<a href="#/comments" class="active">Utisci i komentari</a> 
 				</div>
 				<p class="naslov"><b>Komentari kupaca</b></p>
