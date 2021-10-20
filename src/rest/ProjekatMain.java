@@ -29,7 +29,6 @@ import beans.Manager;
 import beans.Order;
 import beans.OrderStatus;
 import beans.Restaurant;
-import beans.User;
 import dao.AdministratorDAO;
 import dao.ArticleDAO;
 import dao.BasketDAO;
@@ -771,5 +770,23 @@ public class ProjekatMain {
 			}
 			return true;
 		});
+		
+		post("/blockSuspiciousBuyers", (req, res) -> {
+			String uName = req.queryParams("userName");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			Buyer buyer = buyerDAO.findBuyerByUsername(uName);
+			if(buyer != null) {
+				buyerDAO.blockBuyer(uName);
+			}
+		
+			return true;
+		});
+		
+	/*	get("/suspiciousBuyers", (req, res) -> {
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			return gsonReg.toJson();
+		});
+		*/
 	}
 }

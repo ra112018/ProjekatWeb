@@ -239,7 +239,7 @@ Vue.component("restaurants", {
 		<button v-on:click="sortRestaurants">Sortiraj </button>
 
 		</div>
-	<div v-if="role =='administrator'"> <button class="addButton" @click="newRestaurant" :id="user.username" style="margin-left: 2%;"> Novi</button></div>
+	<div v-if="role =='administrator'"> <button class="addButton" @click="newRestaurant" :id="user.username" style="margin-left: 2%; max-width:5%;"> Novi</button></div>
 
 	<div class="grid">
 			

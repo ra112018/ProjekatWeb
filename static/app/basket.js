@@ -80,7 +80,7 @@ Vue.component("basket", {
             <th>Cena</th>
             <th>&nbsp;</th>
             <tr v-for="article in basket.basketArticles" v-if="article.deleted !=='true'">
-				<td><img :src="article.articlePhoto" class="articlePhoto" alt="articlePhoto"></td>
+				<td><img :src="article.articlePhoto" class="articlePicture" alt="articlePhoto"></td>
                 <td> {{article.articleName}}</td>
                 <td>
 					<input type="number" value="1" min="1">
