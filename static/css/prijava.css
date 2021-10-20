@@ -165,6 +165,16 @@ img.logo6{
 				margin-right:10%;
 				margin-top:8%;
 			}
+img.logoMyRestaurants{
+				margin-top:1%;
+				margin-bottom:1%;
+				padding:0;
+				float:left;
+				border:none;
+				max-width:100%;				
+				margin-left:auto;
+				margin-right:auto;
+			}
 
             
 footer{
@@ -243,7 +253,12 @@ h4{
 
 .map {
 			max-width:30%;
-			max-height:15%;
+			max-height:20%;
+			margin-top:1%;
+}
+.mapica{
+			max-width:200%;
+			max-height:150%;
 			margin-top:1%;
 }
 
@@ -290,3 +305,25 @@ h4{
     color: #c59b08;
 }
 
+.linkinimg{
+	background-color:white;
+	margin-left:8%;
+	padding:0;
+	content:"Promeni sliku";
+	visibility:hidden;
+}
+.buttonforimg{
+	border:0;
+	content:"Promeni sliku";
+	padding:0;
+	padding-right:1%;
+	margin:0;
+	background-color:white;
+}
+.sakrijMapicu{
+	border:0;
+	background-color:  white;
+}
+.tabelaEditLocation{
+	margin-left: 40%;
+}

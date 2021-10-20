@@ -323,14 +323,51 @@ public class ProjekatMain {
 			return true;
 			
 		});
-		post("/addLocation", (req, res) -> {
+		post("/changeRestaurantImg", (req, res) -> {
 			String reqBody = req.body();
+			String rName =  req.queryParams("restaurantName");
+			String logo =  req.queryParams("logo");
 
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			boolean checkEror=restaurantDAO.changeRestaurantImage(rName,logo);
+		
+			return checkEror;
+			
+		});
+		post("/addLocation", (req, res) -> {
+			String reqBody = req.body();
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			Location r = gsonReg.fromJson(reqBody, Location.class);
+			System.out.println(r.getIdLocation());
 			boolean checkEror=locationDAO.addLocation(r);
 		
 			return true;
+			
+		});
+		post("/addLocationToRestaurant", (req, res) -> {
+
+			String rName =  req.queryParams("restaurantName");
+			String location =  req.queryParams("locationId");
+			boolean checkEror=restaurantDAO.addLocation(rName,location);
+		
+			return checkEror;
+			
+		});
+		post("/changeStatus", (req, res) -> {
+
+			String rName =  req.queryParams("restaurantName");
+			String status =  req.queryParams("status");
+			boolean checkEror=restaurantDAO.changeStatus(rName,status);
+		
+			return checkEror;
+			
+		});
+		post("/changeStatus", (req, res) -> {
+
+			String rName =  req.queryParams("restaurantName");
+			String type =  req.queryParams("type");
+			boolean checkEror=restaurantDAO.changeType(rName,type);
+			return checkEror;
 			
 		});
 		
@@ -345,6 +382,17 @@ public class ProjekatMain {
 			}
 
 			return gsonReg.toJson(articleList);
+						
+		});
+		get("/location",(req,res) -> {
+
+			String locationId =  req.queryParams("id");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			Location l;
+
+			l = locationDAO.findLocation(Integer.valueOf(locationId));
+			return gsonReg.toJson(l);
+
 						
 		});
 		

@@ -27,6 +27,7 @@ import beans.Manager;
 import beans.Order;
 import beans.Restaurant;
 import beans.RestaurantStatus;
+import beans.RestaurantType;
 import beans.UserType;
 
 public class RestaurantDAO {
@@ -213,6 +214,98 @@ public class RestaurantDAO {
 		
 		restaurantsOrdered=o.findRestaurantsWhereBuyerOrdered(uName);
 		return restaurantsOrdered;
+	}
+
+
+
+	public boolean changeRestaurantImage(String rName,String logo) {
+		// TODO Auto-generated method stub
+		
+		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+	        if(entry.getValue().getRestaurantName().equals(rName) ) {
+	        	if(entry.getValue().getLogo()!=null) {
+	    			String logoName=getNiceImageFormat(entry.getValue().getLogo(),entry.getValue().getRestaurantName());
+
+	    	        entry.getValue().setLogo("../img/" + logoName);
+	    			}
+	        }
+	    }
+		try {
+			addRestaurantInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+
+
+	public boolean addLocation(String rName, String location) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+	        if(entry.getValue().getRestaurantName().equals(rName) ) {
+	        	
+	    			int locationId=Integer.valueOf(location);
+	    	        entry.getValue().setLocationId(locationId);
+	    			
+	        }
+	    }
+		try {
+			addRestaurantInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+
+
+	public boolean changeStatus(String rName, String status) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+	        if(entry.getValue().getRestaurantName().equals(rName) ) {
+	        		if(status.equals(RestaurantStatus.valueOf("Open"))) {
+		    	        entry.getValue().setStatus(RestaurantStatus.Open);
+
+	        		}
+	        		else {
+		    	        entry.getValue().setStatus(RestaurantStatus.Closed);
+	        		}
+	    			
+	        }
+	    }
+		try {
+			addRestaurantInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+
+
+	public boolean changeType(String rName, String type) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+	        if(entry.getValue().getRestaurantName().equals(rName) ) {
+	        		if(type.equals(RestaurantType.valueOf("Pancakes"))) {
+		    	        entry.getValue().setRestaurantType(RestaurantType.Pancakes);
+
+	        		}
+	        		//treba dopravak ovde i dodati ostale ako ovo valja uopse
+	    			
+	        }
+	    }
+		try {
+			addRestaurantInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 

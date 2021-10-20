@@ -10,9 +10,21 @@ Vue.component("myRestaurants", {
 			restaurant:null,
 			articles:null,
 			comments:null,
-			editingName:false,
 			editingType:false,
-			editingStatus:false
+			editingStatus:false,
+			showLogo:null,
+			image:null,
+			editingLocation:false,
+			inputLocation:false,
+			
+			 geografskaDuzina: null,
+            geografskaSirina: null,
+			city:null,
+			postcode:null,
+			idLocation:null,
+			street:null,
+			houseNumber:null,
+			location:null
 	    }
 	},
 	methods:{
@@ -20,9 +32,99 @@ Vue.component("myRestaurants", {
 		    router.push({ path: `/addArticle` })
 
 		},
+		addLocation:function(value){
+			map = new ol.Map({
+            target: 'map',
+            layers: [
+              new ol.layer.Tile({
+                source: new ol.source.OSM()
+              })
+            ],
+            view: new ol.View({
+              center: ol.proj.fromLonLat([19.83,45.26]),
+              zoom: 13
+            })
+          });
+        vm=this;
+        map.on('singleclick', function (evt) {
+            
+            coordinate = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+
+            vm.geografskaDuzina = coordinate[0];
+            vm.geografskaSirina = coordinate[1];
+			vm.inputLocation=true;
+			
+				fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + coordinate[0] + '&lat=' + coordinate[1])
+		.then(response => { 
+            return response.json().then((data) => {
+	            var nesto = data;
+				var drugo=nesto.address;
+				var kucnibr=drugo.house_number;
+				vm.houseNumber=kucnibr;
+				var ulica=drugo.road;
+				vm.street=ulica;
+				var gradic=drugo.city;
+				vm.city=gradic;
+				var postanskibr=drugo.postcode;
+				vm.postcode=postanskibr;
+				vm.idLocation=nesto.place_id;
+				console.log(nesto);
+                return data;
+            });
+});
+			});
+			this.editingLocation=true;
+			
+			
+			
+		},
+		changeStatus:function(){
+			axios.post('/changeStatus', {restaurantName: this.restaurant.restaurantName,status:this.tempValueStatus})
+        .then(response =>{
+          		alert("Uspešno promenjen status restorana");
+
+            });
+		},
+		changeType:function(){
+			axios.post('/changeType', {restaurantName: this.restaurant.restaurantName,type:this.tempValueType})
+        .then(response =>{
+          		alert("Uspešno promenjen tip restorana");
+
+            });
+		},
+		saveAddress:function(){
+			axios
+        .post('/addLocation', {idLocation: this.idLocation, postcode:this.postcode,city:this.city,
+					longitude:this.geografskaDuzina,latitude:this.geografskaSirina,street:this.street,
+                    houseNumber : this.houseNumber
+                    })
+        .then(response =>{
+                
+            });
+			axios.post('/addLocationToRestaurant', {restaurantName: this.restaurant.restaurantName,locationId:this.idLocation,
+                    })
+						
+					.then(function(response){
+						alert("Lokacija dodata");
+					  // this.refreshPage();
+					});
+		},
 		findArticles: function(id){
 				axios.get('/articles?id='+id).then(response => {
 				this.articles=response.data;
+			});
+		},
+		findLocation:function(id){
+			axios.get('/location?id='+id).then(response => {
+				this.location=response.data;
+				this.city=location.city;
+				this.street=location.street;
+				if(location.houseNumber){
+				this.houseNumber=location.houseNumber;
+				}
+				this.postCode=location.postcode;
+				this.geografskaDuzina=location.longitude;
+				this.geografskaSirina=location.latitude;
 			});
 		},
 		approve:function(id){
@@ -45,14 +147,33 @@ Vue.component("myRestaurants", {
 					  // this.refreshPage();
 					});
 		},
-		enableEditingName: function(value){
-      this.tempValueName = value;
-      this.editingName = true;
-    },
-	disableEditingName: function(){
-      this.tempValueName = null;
-      this.editingName = false;
-    },
+		changeImage:function(event){
+			alert("Da idi");
+			const file = event.target.files[0];
+            this.createImage(file);
+            this.showLogo = (URL.createObjectURL(file));
+			axios.post('/changeRestaurantImg', {restaurantName: this.restaurant.restaurantName, 
+					logo:this.image,
+                    })
+        .then(response =>{
+                if(response.data){
+                    alert("Uspešno promenjena slika.")
+                }
+                else{
+                    alert("Došlo je do greške.")
+                }
+            })
+    
+        },
+		createImage(file){
+            const reader= new FileReader();
+ 
+            reader.onload = (e) =>{
+                this.image = (e.target.result);
+            }
+            reader.readAsDataURL(file);
+		},
+		
 	enableEditingType: function(value){
       this.tempValueType = value;
       this.editingType = true;
@@ -69,6 +190,9 @@ Vue.component("myRestaurants", {
       this.tempValueStatus = null;
       this.editingStatus = false;
     },
+	disableEditingLocation: function(){
+      this.editingLocation = false;
+    },
 	},
 	mounted: function(){
               this.username = window.localStorage.getItem('username');
@@ -80,9 +204,9 @@ Vue.component("myRestaurants", {
 		           
 		            this.restaurant=response.data;
 		         	localStorage.setItem("restaurantName", this.restaurant.restaurantName);
+					this.findLocation(this.restaurant.locationId);
 
 		        });
-
 			this.findArticles(window.localStorage.getItem('restaurantName'));
 			
 			axios.get('/comments',{params:{restaurantName: window.localStorage.getItem('restaurantName')}}).then(response => {
@@ -115,25 +239,44 @@ Vue.component("myRestaurants", {
 	<div class="grid">
 			
 		
-		<div class="restoran"><img class="logo4" :src="restaurant.logo"/>
+		<div class="restoran"> <button class="buttonforimg">
+		<img class="logoMyRestaurants" :src="restaurant.logo"  />
+  <label for="files" class="buttonChangeImage">Promeni sliku</label><input type="file" id="files" v-on:change="changeImage"  class="linkinimg" ></button>
 		
 		<span class="opis1">
-			<br><em><strong><div v-if="!editingName" @click="enableEditingName(restaurant.restaurantName)">{{restaurant.restaurantName}} </div>
-			<div v-if="editingName"> <input v-model="tempValueName"/></div>
+			<br><em><strong>{{restaurant.restaurantName}}
+			
 			</strong></em><br><div v-if="!editingType" @click="enableEditingType(restaurant.restaurantType)">{{restaurant.restaurantType}} </div>
 			 <div v-if="editingType"> <input v-model="tempValueType"/></div><br>
 			<p class="open"><div v-if="!editingStatus" @click="enableEditingStatus(restaurant.status)">{{restaurant.status}}</div></p>
 			<div v-if="editingStatus"> <select v-model="tempValueStatus"><option value="Open">Otvoreno</option>
 			<option value="Closed">Zatvoreno</option></select></div><br>
+			<button v-if="!restaurant.locationId" v-on:click="addLocation(restaurant.restaurantName)" >Dodaj lokaciju</button>
+			<div v-if="location">{{location.street}} {{location.houseNumber}} ,{{location.city}} {{location.postCode}}<br>{{location.longitude}} ,{{location.latitude}}</div>
 			<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Dodaj artikal </button>
 		</span>
-		<span class="opis1"><br><button  v-if="editingName" >
-			Sačuvaj</button> <button  v-if="editingName"  @click="disableEditingName">
-			Otkaži</button><br><br><button v-if="editingType" >Sačuvaj</button><button v-if="editingType" @click="disableEditingType">Otkaži</button><br>
-			<br><br><button  v-if="editingStatus" >Sačuvaj</button><button  v-if="editingStatus" @click="disableEditingStatus">Otkaži</button>
+		<span class="opis1"><br  v-if="!editingLocation"><br  v-if="!editingLocation"><button v-if="editingType" v-on:click="changeType" >Sačuvaj</button>
+		<button v-if="editingType" @click="disableEditingType">Otkaži</button>
+			<br v-if="!editingLocation"><br v-if="!editingLocation"><br v-if="!editingLocation">
+			<button  v-if="editingStatus" v-on:click="changeStatus" >Sačuvaj</button><button  v-if="editingStatus" @click="disableEditingStatus">Otkaži</button>
+			<div v-if="editingLocation && !editingType && !editingStatus" class="mapica" style="width:220%;height:120%;" id="map"/>
+			<button v-if="editingLocation" @click="disableEditingLocation" class="sakrijMapicu">Otkaži</button>
+			<button v-if="inputLocation" class="sakrijMapicu" v-on:click="saveAddress">Sačuvaj</button>
+        	
 		</span>
 		
-		<br></div></div>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<button>Promeni sliku</button><br><br><br>
+		
+		<br></div></div><br><br>
+		<table v-if="editingLocation" class="tabelaEditLocation">
+		<tr><td>Grad:</td><td><input type="text" v-model="city"/></td></tr>
+							<tr><td>Poštanski broj:</td><td><input type="text" v-model="postcode"/></td></tr>
+							<tr><td>Ulica:</td><td><input type="text" v-model="street"/></td></tr><tr>
+								<td>Broj:</td><td><input type="text" v-model="houseNumber"/></td>
+							</tr>
+
+							<tr><td>Geografska duzina:</td><td><input type="text" v-model="geografskaDuzina"/></td></tr>
+							<tr><td>Geografska sirina:</td><td><input type="text" v-model="geografskaSirina"/></td></tr>
+	</table>
 	<div class="restoran" v-for="article in articles">
 	
 		<img class="articlePicture" :src="article.articlePhoto">&nbsp;
