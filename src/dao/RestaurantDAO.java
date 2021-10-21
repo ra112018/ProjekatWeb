@@ -124,7 +124,7 @@ public class RestaurantDAO {
 		return Integer.toString(Integer.valueOf(maxValueKey) + 1);
 	}
 	public String getNiceImageFormat(String image,String name) {
-
+		System.out.println(image);
 		String imageString = image.split(",")[1];
 		BufferedImage bimage = null;	
         byte[] imageByte;
@@ -224,7 +224,8 @@ public class RestaurantDAO {
 		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
 	        if(entry.getValue().getRestaurantName().equals(rName) ) {
 	        	if(entry.getValue().getLogo()!=null) {
-	    			String logoName=getNiceImageFormat(entry.getValue().getLogo(),entry.getValue().getRestaurantName());
+	        		System.out.println(logo);
+	    			String logoName=getNiceImageFormat(logo,entry.getValue().getRestaurantName());
 
 	    	        entry.getValue().setLogo("../img/" + logoName);
 	    			}

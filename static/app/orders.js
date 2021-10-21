@@ -180,7 +180,7 @@ Vue.component("orders", {
 				</tr>
 				<tr v-for="order in orders">
 					<td>{{order.idOrder}}</td>
-					<td>{{order.restaurantName}}</td>
+					<td>{{order.articles[0].restaurantName}}</td>
 					<td><div v-for="article in order.articles">{{article.articleName}}</div></td>
 					<td> 1</td>
 					<td>{{order.price}}</td>

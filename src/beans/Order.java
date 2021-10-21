@@ -32,11 +32,11 @@ public class Order {
 		this.articles = articles;
 	}
 
-	public String getRestaurant() {
+	public String getRestaurantName() {
 		return restaurantName;
 	}
 
-	public void setRestaurant(String restaurant) {
+	public void setRestaurantName(String restaurant) {
 		this.restaurantName = restaurant;
 	}
 

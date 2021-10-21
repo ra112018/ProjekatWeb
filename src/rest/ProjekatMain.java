@@ -324,11 +324,13 @@ public class ProjekatMain {
 		});
 		post("/changeRestaurantImg", (req, res) -> {
 			String reqBody = req.body();
-			String rName =  req.queryParams("restaurantName");
-			String logo =  req.queryParams("logo");
-
+			
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			boolean checkEror=restaurantDAO.changeRestaurantImage(rName,logo);
+			System.out.println("Dolazimd ");
+			Restaurant r = gsonReg.fromJson(reqBody, Restaurant.class); //polovican restoran
+			System.out.println("tdar"+r.getLogo());
+
+			boolean checkEror=restaurantDAO.changeRestaurantImage(r.getRestaurantName(),r.getLogo());
 		
 			return checkEror;
 			

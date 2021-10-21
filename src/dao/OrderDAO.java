@@ -72,7 +72,7 @@ public class OrderDAO {
 		for(Article a : b.getBasketArticles()) {
 			ArticleDAO articleDAO=new ArticleDAO();
 			a=articleDAO.findArticleByName(a.getArticleName());
-			o.setRestaurant(a.getRestaurantName());
+			o.setRestaurantName(a.getRestaurantName());
 			System.out.println("Restoran "+a.getRestaurantName());
 		}
 		LocalDateTime dateTime = LocalDateTime.now(); // Gets the current date and time
@@ -114,14 +114,12 @@ public class OrderDAO {
 	public HashMap<String, Order> getOrdersByManager(String uName) {
 		// TODO Auto-generated method stub
 		Manager manager = null; 				//ovo sam dodala 
-		System.out.println(uName+"manager");
 		HashMap<String,Order> m=new HashMap<String,Order>();
 		//Manager manager=ManagerDAO.findManagerByUsername(uName);
 		manager = managerDAO.findManagerByUsername(uName);        	//ovo sam dodala
 		String mName=manager.getName()+" "+manager.getSurname();
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
-
-	        if((RestaurantDAO.findRestaurant(entry.getValue().getRestaurant()).getManagerName()).equals(mName) ) {
+	        if(RestaurantDAO.findRestaurant(entry.getValue().getArticles().get(0).getRestaurantName())!=null  && RestaurantDAO.findRestaurant(entry.getValue().getArticles().get(1).getRestaurantName()).getManagerName().equals(mName) ) {
 	        	m.put((entry.getValue().getIdOrder()),entry.getValue());
 
 	        }
@@ -249,7 +247,7 @@ public class OrderDAO {
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
 
 	        if((entry.getValue().getBuyer().getUserName()).equals(uName) && entry.getValue().getOrderStatus() == OrderStatus.Delivered ) {
-	        	restList.put((entry.getValue().getRestaurant()),RestaurantDAO.findRestaurant(entry.getValue().getRestaurant()));
+	        	restList.put((entry.getValue().getRestaurantName()),RestaurantDAO.findRestaurant(entry.getValue().getRestaurantName()));
 	        }
 		}
 	        

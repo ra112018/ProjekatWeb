@@ -150,9 +150,22 @@ Vue.component("myRestaurants", {
 			const file = event.target.files[0];
             this.createImage(file);
             this.showLogo = (URL.createObjectURL(file));
+			
+    
+        },
+		createImage(file){
+            const reader= new FileReader();
+ 
+            reader.onload = (e) =>{
+                this.image = (e.target.result);
+ 			}
+            reader.readAsDataURL(file);
+           
+		},
+		differentimg:function(){
+			alert(this.image);
 			axios.post('/changeRestaurantImg', {restaurantName: this.restaurant.restaurantName, logo:this.image,
-                    },{params:{restaurantName: this.restaurant.restaurantName, logo:this.image,
-                    }})
+                    })
         .then(response =>{
                 if(response.data){
                     alert("Uspešno promenjena slika.")
@@ -161,16 +174,8 @@ Vue.component("myRestaurants", {
                     alert("Došlo je do greške.")
                 }
             })
-    
-        },
-		createImage(file){
-            const reader= new FileReader();
- 
-            reader.onload = (e) =>{
-                this.image = (e.target.result);
-            }
-            reader.readAsDataURL(file);
 		},
+		
 		
 	enableEditingType: function(value){
       this.tempValueType = value;
@@ -187,6 +192,10 @@ Vue.component("myRestaurants", {
 	disableEditingStatus: function(){
       this.tempValueStatus = null;
       this.editingStatus = false;
+    },
+	enableEditingLocation: function(value){
+      this.tempValueLocation = value;
+      this.editingLocation = true;
     },
 	disableEditingLocation: function(){
       this.editingLocation = false;
@@ -237,8 +246,8 @@ Vue.component("myRestaurants", {
 		
 		<div class="restoran"> <button class="buttonforimg">
 		<img class="logoMyRestaurants" :src="restaurant.logo"  />
-  <label for="files" class="buttonChangeImage">Promeni sliku</label><input type="file" id="files" v-on:change="changeImage"  class="linkinimg" ></button>
-		
+  <label for="files" class="buttonChangeImage">Promeni sliku</label><input type="file" id="files" v-on:change="changeImage" ></button>
+
 		<span class="opis1">
 			<br><em><strong>{{restaurant.restaurantName}}
 			
@@ -253,7 +262,7 @@ Vue.component("myRestaurants", {
 			<div v-if="editingStatus"> <select v-model="tempValueStatus"><option value="Open">Otvoreno</option>
 			<option value="Closed">Zatvoreno</option></select></div><br>
 			<button v-if="!restaurant.locationId" v-on:click="addLocation(restaurant.restaurantName)" >Dodaj lokaciju</button>
-			<div v-if="location">{{location.street}} {{location.houseNumber}} ,{{location.city}} {{location.postCode}}<br>{{location.longitude}} ,{{location.latitude}}</div>
+			<div v-if="location"  @click="enableEditingLocation(location)" @click="addLocation(restaurant.restaurantName)">{{location.street}} {{location.houseNumber}} ,{{location.city}} {{location.postCode}}<br>{{location.longitude}} ,{{location.latitude}}</div>
 			<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Dodaj artikal </button>
 		</span>
 		<span class="opis1"><br  v-if="!editingLocation"><br  v-if="!editingLocation"><button v-if="editingType" v-on:click="changeType" >Sačuvaj</button>
@@ -266,8 +275,9 @@ Vue.component("myRestaurants", {
         	
 		</span>
 		
-		
-		<br></div></div><br><br>
+		<br></div></div>
+				<button v-on:click="differentimg">Dodaj sliku</button><br><br>
+
 		<table v-if="editingLocation" class="tabelaEditLocation">
 		<tr><td>Grad:</td><td><input type="text" v-model="city"/></td></tr>
 							<tr><td>Poštanski broj:</td><td><input type="text" v-model="postcode"/></td></tr>
