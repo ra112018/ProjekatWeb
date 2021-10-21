@@ -401,9 +401,9 @@ public class ProjekatMain {
 			String reqBody = req.body();
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			Article r = gsonReg.fromJson(reqBody, Article.class);
-			Article checkEror=articleDAO.addArticle(r);
+			boolean checkEror=articleDAO.addArticle(r);
 		
-			return true;
+			return !checkEror;
 			
 		});
 		

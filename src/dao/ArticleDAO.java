@@ -60,8 +60,15 @@ public class ArticleDAO {
 		return 0;
 	}
 
-	public Article addArticle(Article r) {
+	public boolean addArticle(Article r) {
 		// TODO Auto-generated method stub
+		boolean exist=false;
+		for (Map.Entry<String, Article> entry : articles.entrySet()) {
+	        if(entry.getValue().getArticleName().equals(r.getArticleName()) ) {
+	        	exist=true;
+	        }
+	    }
+		if(exist==false) {
 		articles.put(r.getArticleName(),r);
 
 		if(r.getArticlePhoto()!=null) {
@@ -74,8 +81,8 @@ public class ArticleDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return r;
+		}
+		return exist;
 		}
 	public static void addArticleInFile() throws IOException{
 		Gson gson = new Gson();

@@ -55,19 +55,19 @@ body {
 
 .vertical-menu a {
                 
-                background-color: rgba(238, 238, 238, 0.719); /* Grey background color */
-                color: black; /* Black text color */
+                background-color: rgb(255, 255, 253); /* Grey background color */
+                color: rgb(111, 78, 55); /* Black text color */
                 display: block; /* Make the links appear below each other */
-                padding: 12px; /* Add some padding */
+                padding: 10px; /* Add some padding */
                 text-decoration: none; /* Remove underline from links */
             }
 
 .vertical-menu a:hover {
-                background-color: #ccc; /* Dark grey background on mouse-over */
+                background-color:rgb(242, 210, 189); /* Dark grey background on mouse-over */
             }
 
 .vertical-menu a.active {
-                background-color: rgba(247, 81, 21, 0.767); /* Add a green color to the "active/current" link */
+                background-color: rgba(242, 81, 21, 0.767); /* Add a green color to the "active/current" link */
                 color: white;
             }
             
@@ -91,7 +91,8 @@ body {
 .maliHeder	{
 		padding: 1%;
   		text-align: right;
-  		background: lightgray;
+  		background: rgb(124, 48, 48);
+  		color:white;
   		margin-bottom: 1%;
 	
 	}

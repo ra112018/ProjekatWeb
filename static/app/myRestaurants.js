@@ -16,7 +16,7 @@ Vue.component("myRestaurants", {
 			image:null,
 			editingLocation:false,
 			inputLocation:false,
-			
+			changingArticle:false,
 			 geografskaDuzina: null,
             geografskaSirina: null,
 			city:null,
@@ -200,6 +200,9 @@ Vue.component("myRestaurants", {
 	disableEditingLocation: function(){
       this.editingLocation = false;
     },
+	changeArticle:function(){
+		this.changingArticle=true;
+	}
 	},
 	mounted: function(){
               this.username = window.localStorage.getItem('username');
@@ -245,8 +248,10 @@ Vue.component("myRestaurants", {
 			
 		
 		<div class="restoran"> <button class="buttonforimg">
-		<img class="logoMyRestaurants" :src="restaurant.logo"  />
-  <label for="files" class="buttonChangeImage">Promeni sliku</label><input type="file" id="files" v-on:change="changeImage" ></button>
+		<img class="logoMyRestaurants" v-if="!this.image" :src="restaurant.logo"  />
+		<img class="logoMyRestaurants" v-if="this.image" :src="this.image"  />
+
+  <label for="files" class="buttonChangeImage">Promeni sliku</label><input type="file" id="files" v-on:change="changeImage" class="linkinimg"></button>
 
 		<span class="opis1">
 			<br><em><strong>{{restaurant.restaurantName}}
@@ -276,7 +281,7 @@ Vue.component("myRestaurants", {
 		</span>
 		
 		<br></div></div>
-				<button v-on:click="differentimg">Dodaj sliku</button><br><br>
+				<button v-if="this.image" v-on:click="differentimg">Dodaj sliku</button><br><br>
 
 		<table v-if="editingLocation" class="tabelaEditLocation">
 		<tr><td>Grad:</td><td><input type="text" v-model="city"/></td></tr>
@@ -293,7 +298,8 @@ Vue.component("myRestaurants", {
 		<img class="articlePicture" :src="article.articlePhoto">&nbsp;
 		<p>{{article.articleName}}</p><br>&#8943;&#8943;
 		<p>{{article.description}}</p><br>&#8943;&#8943;
-		<p>{{article.price}}</p>&nbsp;&nbsp;<div v-if="role==='manager'"><button> Izmeni artikal</button></div>
+		<p>Količina: {{article.quantity}}</p><br>&#8943;&#8943;
+		<p>{{article.price}}</p>&nbsp;&nbsp;<div v-if="role==='manager'"><button v-on:click="changeArticle()"> Izmeni artikal</button></div>
 	</div>
 	<div v-if="role==='manager'"><p>Komentari</p>
 		<table>

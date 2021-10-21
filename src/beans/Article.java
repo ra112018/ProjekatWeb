@@ -6,7 +6,7 @@ public class Article {
 	private double price;
 	private ArticleType articleType;
 	private String restaurantName;
-	private int quantity;
+	private String quantity;
 	private String description;
 	private String articlePhoto;
 	private boolean deleted;
@@ -47,11 +47,11 @@ public class Article {
 		this.restaurantName = restaurantName;
 	}
 
-	public int getQuantity() {
+	public String getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
 

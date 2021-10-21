@@ -37,7 +37,7 @@ Vue.component("addArticle", {
                     alert("Artikal uspešno kreiran.")
                 }
                 else{
-                    alert(".")
+                    alert("U bazi postoji artikal sa istim imenom")
                 }
             })
     
