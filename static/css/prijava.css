@@ -361,3 +361,14 @@ h4{
 .buttonChangingImg{
 	background-color:white;
 }
+.komentari{
+	margin:1%;
+}
+.normalStar{
+    color:#ccc;
+    font-size:30px;
+}
+.activeStar{
+	color: #ffc700;  
+	font-size:30px;
+ }

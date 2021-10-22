@@ -361,22 +361,23 @@ Vue.component("myRestaurants", {
 		<button v-on:click="changeArticle(article)"> Izmeni artikal</button></div>
 </div>
 
-	<div v-if="role==='manager'"><p>Komentari</p>
-		<table>
-			<th>Kupac</th>
-			<th>Komentar</th>
-			<th>Ocena</th>
-			<th>Status komentara</th>
-			<tr v-for="comment in comments">
-				<td>{{comment.customerOfOrder}}</td>
-				<td>{{comment.text}}</td>
-				<td>{{comment.mark}}</td>
-				<td>{{comment.approved}}</td>
-				<td v-if="comment.approved==='WaitingForApproval'"><button v-on:click="approve(comment.idComment)">Odobri komentar</button></td>
-				<td v-if="comment.approved==='WaitingForApproval'"><button v-on:click="decline(request.idComment)">Odbij komentar</button></td>
-
-			</tr>
-		</table>
+	<div class="komentari" v-if="role==='manager'"><p><strong>Komentari</strong></p>
+		
+		
+			<div  v-for="comment in comments">
+				<p>{{comment.customerOfOrder}}</p>
+				<p>{{comment.text}}</p>
+				<div readonly>
+						 <label v-bind:class="{'normalStar':true, 'activeStar':(comment.mark>=1)}" >★ </label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(comment.mark>=2)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(comment.mark>=3)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(comment.mark>=4)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(comment.mark>=5)}">★</label>
+				 </div>
+				<p v-if="comment.approved==='WaitingForApproval'">{{comment.approved}}</p>
+				<p v-if="comment.approved==='WaitingForApproval'"><button v-on:click="approve(comment.idComment)">Odobri komentar</button></p>
+				<p v-if="comment.approved==='WaitingForApproval'"><button v-on:click="decline(request.idComment)">Odbij komentar</button></p>
+ 				</div>
 	</div>
 	</div>
 	</div>
