@@ -138,10 +138,11 @@ public class BasketDAO {
 	        }
 	    }
 		ArrayList<BasketArticle> al=new ArrayList<BasketArticle>();
-
+		if(b.getBasketArticles()!=null) {
 		for (BasketArticle  entry : b.getBasketArticles()) {
 					if( !entry.getDeleted())
 						al.add( entry);
+		}
 		}
 		b.setBasketArticles(al);
 		if(b.isEmpty()!=true) {

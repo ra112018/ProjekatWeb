@@ -119,11 +119,12 @@ public class OrderDAO {
 		manager = managerDAO.findManagerByUsername(uName);        	//ovo sam dodala
 		String mName=manager.getName()+" "+manager.getSurname();
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
-	        if(RestaurantDAO.findRestaurant(entry.getValue().getArticles().get(0).getRestaurantName())!=null  && RestaurantDAO.findRestaurant(entry.getValue().getArticles().get(1).getRestaurantName()).getManagerName().equals(mName) ) {
+	        if(entry.getValue().getArticles().get(0)!=null && RestaurantDAO.findRestaurant(entry.getValue().getArticles().get(0).getRestaurantName())!=null  && RestaurantDAO.findRestaurant(entry.getValue().getArticles().get(0).getRestaurantName()).getManagerName().equals(mName) ) {
 	        	m.put((entry.getValue().getIdOrder()),entry.getValue());
 
 	        }
 	    }
+		System.out.println("GHHR"+m.entrySet().toString());
 		return m;
 	}
 

@@ -14,6 +14,15 @@
 		user:localStorage.getItem('user'),
 		role:localStorage.getItem('role'),
 		
+			 geografskaDuzina: null,
+            geografskaSirina: null,
+			city:null,
+			postcode:null,
+			idLocation:null,
+			street:null,
+			houseNumber:null,
+			location:null,
+		
         backup: {},
 		restaurant:null,
 		articles:null,
@@ -32,6 +41,8 @@
               .get('/restaurantDetails?id='+id,{params:{restaurantName: id}})
 	          .then(response => {
 			this.restaurant=response.data;
+			this.findLocation(this.restaurant.locationId);
+
                
 	});	
 	
@@ -50,6 +61,19 @@
 		},
 	
 	methods: {
+		findLocation:function(id){
+			axios.get('/location?id='+id).then(response => {
+				this.location=response.data;
+				this.city=location.city;
+				this.street=location.street;
+				if(location.houseNumber){
+				this.houseNumber=location.houseNumber;
+				}
+				this.postCode=location.postcode;
+				this.geografskaDuzina=location.longitude;
+				this.geografskaSirina=location.latitude;
+			});
+		},
  
 		addToCart: function(value){
 					axios
@@ -100,7 +124,7 @@
 	<div class="restoran">
 		<img class="logo4" :src="restaurant.logo"/>
 		<span class="opisRestorana"><br><br>{{restaurant.restaurantName}}<br><p class="open">{{restaurant.status}}</p><p>{{restaurant.restaurantType}}</p>
-		LOKACIJU DODATI
+			<div v-if="location">{{location.street}} {{location.houseNumber}} ,{{location.city}} {{location.postCode}}<br>{{location.longitude}} ,{{location.latitude}}</div>
 		</span>
 		</div>
 		
@@ -110,19 +134,17 @@
 	<p>{{article.description}}</p><br>&#8943;&#8943;
 	<p>{{article.price}}</p><br>&#8943;&#8943;
 	<p v-if="role=='kupac'"> <button v-on:click="addToCart(article.articleName)">Dodaj u korpu </button></p></div>
-	<div><p>Komentari</p>
-		<table>
-			<th>Kupac</th>
-			<th>Komentar</th>
-			<th>Ocena</th>
-			<th>Status komentara</th>
-			<tr v-for="comment in comments" v-if="comment.approved==='Approved'">
-				<td>{{comment.customerOfOrder}}</td>
-				<td>{{comment.text}}</td>
-				<td>{{comment.mark}}</td>
-			</tr>
-		</table>
-	</div>
+	<div  v-for="comment in comments" v-if="comment.approved=='Approved'">
+				<p>{{comment.customerOfOrder}}</p>
+				<p>{{comment.text}}</p>
+				<div readonly>
+						 <label v-bind:class="{'normalStar':true, 'activeStar':(comment.mark>=1)}" >★ </label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(comment.mark>=2)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(comment.mark>=3)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(comment.mark>=4)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(comment.mark>=5)}">★</label>
+				 </div>
+ 		</div>
 	
 	
 	</div>

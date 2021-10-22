@@ -83,13 +83,13 @@ Vue.component("basket", {
 				<td><img :src="article.articlePhoto" class="articlePicture" alt="articlePhoto"></td>
                 <td> {{article.articleName}}</td>
                 <td>
-					<input type="number" value="1" min="1">
+					<input type="number" v-model="article.numberOfArticles" min="1">
 
                 </td>
                 <td>{{article.price}}</td>
                 <td> <button v-on:click="inTrash(article.articleName)">Obriši</button></td>
             </tr>
-			<tr><td>Ukupna cena porudžbine: {{basket.basketPrice}}</td></tr>
+			<tr><td>Ukupna cena porudžbine: <input v-model="basket.basketPrice"></td></tr>
                 
             </tr>
         </table>

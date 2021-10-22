@@ -172,17 +172,16 @@ Vue.component("orders", {
 				<tr>
 					<th   id="idOrder">Id</th>
 					<th   id="restaurant">Restoran</th>
-					<th   id="articleList">Artikal</th>
-					<th>Kolicina</th>
+					<th   id="articleList">Artikal i kolicina</th>
 					<th>Cena</th>
 					<th>Status</th>
 					<th> </th>
 				</tr>
 				<tr v-for="order in orders">
 					<td>{{order.idOrder}}</td>
-					<td>{{order.articles[0].restaurantName}}</td>
-					<td><div v-for="article in order.articles">{{article.articleName}}</div></td>
-					<td> 1</td>
+					<td>{{order.articles[0].restaurantName}}</td><div v-for="article in order.articles">
+					<td colspan="2">{{article.articleName}}   {{article.numberOfArticles}}</td></div>
+
 					<td>{{order.price}}</td>
 					<td>{{order.orderStatus}}</td>
 					
