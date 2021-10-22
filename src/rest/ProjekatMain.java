@@ -407,6 +407,15 @@ public class ProjekatMain {
 			
 		});
 		
+		post("/editArticle", (req, res) -> {
+			String reqBody = req.body();
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			Article r = gsonReg.fromJson(reqBody, Article.class);
+			boolean checkEror=articleDAO.editArticle(r);
+		
+			return checkEror;
+			
+		});
 		post("/addArticleToCart", (req, res) -> {
 			String reqBody = req.body();
 			String usName =  req.queryParams("userName");

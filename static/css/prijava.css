@@ -329,3 +329,26 @@ h4{
 .tabelaEditLocation{
 	margin-left: 40%;
 }
+
+.izmenaartikla{
+	position:absolute;
+	right:5%;
+	vertical-align:top;
+	width:30%;
+}
+.dugmezaizmenu{
+	max-width:10%;
+}
+.labela1{
+	width:100%;
+	text-align:left;
+}
+.inputOpis{
+	width:100%;
+	height:4em;
+}
+.inputkol{
+	width:70%;
+	position:absolute;
+	right:0%;
+}

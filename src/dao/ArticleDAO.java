@@ -144,5 +144,24 @@ public class ArticleDAO {
 	    }
 		return null;
 	}
+	public boolean editArticle(Article r) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Article> entry : articles.entrySet()) {
+	        if(entry.getValue().getArticleName().equals(r.getArticleName()) ) {
+	        	if(entry.getValue().getDescription().equals(r.getDescription()) && 
+	        			entry.getValue().getQuantity().equals(r.getQuantity()) && entry.getValue().getPrice()==r.getPrice()) {
+	        			return false;
+	        		
+	        	}
+	        	else {
+	        		entry.getValue().setDescription(r.getDescription());
+	        		entry.getValue().setQuantity(r.getQuantity());
+	        		entry.getValue().setPrice(r.getPrice());
+
+	        	}
+	        }
+	    }
+		return true;
+	}
 
 }

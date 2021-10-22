@@ -78,6 +78,14 @@ Vue.component("myRestaurants", {
 			
 			
 		},
+		edit:function(value){
+			
+			axios.post('/editArticle',{articleName:value,quantity:this.tempValueKolicina, description:this.tempValueOpis,price:this.tempValueCena})
+			.then(response=>{
+          		alert("Uspešno izmenjen artikal");
+
+            });
+		},
 		changeStatus:function(){
 			axios.post('/changeStatus',{rName: this.restaurant.restaurantName,status:this.tempValueStatus}, {params: {rName: this.restaurant.restaurantName,status:this.tempValueStatus}})
         .then(response =>{
@@ -200,9 +208,16 @@ Vue.component("myRestaurants", {
 	disableEditingLocation: function(){
       this.editingLocation = false;
     },
-	changeArticle:function(){
+	changeArticle:function(value){
 		this.changingArticle=true;
-	}
+		this.tempValueOpis=value.description;
+		this.tempValueKolicina=value.quantity;
+		this.tempValueCena=value.price;
+		this.tempValueArtikal=value.articleName;
+	},
+	disableEditingArticle: function(){
+      this.changingArticle = false;
+    },
 	},
 	mounted: function(){
               this.username = window.localStorage.getItem('username');
@@ -293,13 +308,17 @@ Vue.component("myRestaurants", {
 							<tr><td>Geografska duzina:</td><td><input type="text" v-model="geografskaDuzina"/></td></tr>
 							<tr><td>Geografska sirina:</td><td><input type="text" v-model="geografskaSirina"/></td></tr>
 	</table>
+	
+	<div v-if="changingArticle" class="izmenaartikla"><p class="labela1" >Naziv artikla: <input class="inputkol" v-model="tempValueArtikal" readonly></p><p class="labela1">Opis: </p><textarea class="inputOpis" v-model="tempValueOpis"/>
+			<p class="labela1">Količina: <input class="inputkol" v-model="tempValueKolicina"></p><p class="labela1">Cena: <input class="inputkol" v-model="tempValueCena"></p>
+			<button v-on:click="edit(tempValueArtikal)">Sačuvaj</button> <button @click="disableEditingArticle">Otkaži</button></div>
 	<div class="restoran" v-for="article in articles">
 	
 		<img class="articlePicture" :src="article.articlePhoto">&nbsp;
 		<p>{{article.articleName}}</p><br>&#8943;&#8943;
 		<p>{{article.description}}</p><br>&#8943;&#8943;
 		<p>Količina: {{article.quantity}}</p><br>&#8943;&#8943;
-		<p>{{article.price}}</p>&nbsp;&nbsp;<div v-if="role==='manager'"><button v-on:click="changeArticle()"> Izmeni artikal</button></div>
+		<p>{{article.price}} din</p>&nbsp;&nbsp;<div v-if="role==='manager'" class="dugmezaizmenu"><button v-on:click="changeArticle(article)"> Izmeni artikal</button></div>
 	</div>
 	<div v-if="role==='manager'"><p>Komentari</p>
 		<table>
