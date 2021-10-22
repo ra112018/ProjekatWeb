@@ -13,7 +13,9 @@ Vue.component("myRestaurants", {
 			editingType:false,
 			editingStatus:false,
 			showLogo:null,
+			showLogo1:null,
 			image:null,
+			articleImage:null,
 			editingLocation:false,
 			inputLocation:false,
 			changingArticle:false,
@@ -24,7 +26,8 @@ Vue.component("myRestaurants", {
 			idLocation:null,
 			street:null,
 			houseNumber:null,
-			location:null
+			location:null,
+			artImg:null
 	    }
 	},
 	methods:{
@@ -158,7 +161,14 @@ Vue.component("myRestaurants", {
 			const file = event.target.files[0];
             this.createImage(file);
             this.showLogo = (URL.createObjectURL(file));
-			
+    
+        },
+		changeArticleImage:function(event){
+			this.artImg = event.target.id;		//ime artikla
+
+			const filesArticle = event.target.files[0];
+            this.createArticleImage(filesArticle);	
+            this.showLogo1 = (URL.createObjectURL(filesArticle));
     
         },
 		createImage(file){
@@ -170,9 +180,30 @@ Vue.component("myRestaurants", {
             reader.readAsDataURL(file);
            
 		},
+		createArticleImage(file){
+            const reader= new FileReader();
+ 
+            reader.onload = (e) =>{
+                this.articleImage = (e.target.result);
+ 			}
+            reader.readAsDataURL(file);
+           
+		},
 		differentimg:function(){
 			alert(this.image);
 			axios.post('/changeRestaurantImg', {restaurantName: this.restaurant.restaurantName, logo:this.image,
+                    })
+        .then(response =>{
+                if(response.data){
+                    alert("Uspešno promenjena slika.")
+                }
+                else{
+                    alert("Došlo je do greške.")
+                }
+            })
+		},
+		differentArticleimg:function(value){
+			axios.post('/changeArticleImg', {articleName: value, articlePhoto:this.articleImage,
                     })
         .then(response =>{
                 if(response.data){
@@ -201,8 +232,9 @@ Vue.component("myRestaurants", {
       this.tempValueStatus = null;
       this.editingStatus = false;
     },
-	enableEditingLocation: function(value){
-      this.tempValueLocation = value;
+	enableEditingLocation: function(a,b){
+      this.tempValueLocation = a;
+	  this.addLocation(b);
       this.editingLocation = true;
     },
 	disableEditingLocation: function(){
@@ -282,7 +314,7 @@ Vue.component("myRestaurants", {
 			<div v-if="editingStatus"> <select v-model="tempValueStatus"><option value="Open">Otvoreno</option>
 			<option value="Closed">Zatvoreno</option></select></div><br>
 			<button v-if="!restaurant.locationId" v-on:click="addLocation(restaurant.restaurantName)" >Dodaj lokaciju</button>
-			<div v-if="location"  @click="enableEditingLocation(location)" @click="addLocation(restaurant.restaurantName)">{{location.street}} {{location.houseNumber}} ,{{location.city}} {{location.postCode}}<br>{{location.longitude}} ,{{location.latitude}}</div>
+			<div v-if="location"  @click="enableEditingLocation(location,restaurant.restaurantName)">{{location.street}} {{location.houseNumber}} ,{{location.city}} {{location.postCode}}<br>{{location.longitude}} ,{{location.latitude}}</div>
 			<button class="addButton" @click="newArticle" :id="restaurant.restaurantName"> Dodaj artikal </button>
 		</span>
 		<span class="opis1"><br  v-if="!editingLocation"><br  v-if="!editingLocation"><button v-if="editingType" v-on:click="changeType" >Sačuvaj</button>
@@ -309,17 +341,26 @@ Vue.component("myRestaurants", {
 							<tr><td>Geografska sirina:</td><td><input type="text" v-model="geografskaSirina"/></td></tr>
 	</table>
 	
+	
 	<div v-if="changingArticle" class="izmenaartikla"><p class="labela1" >Naziv artikla: <input class="inputkol" v-model="tempValueArtikal" readonly></p><p class="labela1">Opis: </p><textarea class="inputOpis" v-model="tempValueOpis"/>
 			<p class="labela1">Količina: <input class="inputkol" v-model="tempValueKolicina"></p><p class="labela1">Cena: <input class="inputkol" v-model="tempValueCena"></p>
 			<button v-on:click="edit(tempValueArtikal)">Sačuvaj</button> <button @click="disableEditingArticle">Otkaži</button></div>
 	<div class="restoran" v-for="article in articles">
-	
-		<img class="articlePicture" :src="article.articlePhoto">&nbsp;
+			<button class="buttonforimg"><img class="articlePicture" v-if="!this.articleImage" :src="article.articlePhoto">
+				<img v-if="this.articleImage " class="articlePicture" :src="this.articleImage">
+				 <label :for=article.articleName class="buttonChangeImage" >Promeni sliku</label>
+				<input type="file" :id="article.articleName" v-on:change="changeArticleImage" class="linkinimg">
+				
+		<button v-if="articleImage && artImg==article.articleName" class="buttonChangingImg" v-on:click="differentArticleimg(article.articleName)">Dodaj sliku</button>
+			</button>	<br><br>&nbsp;
+					
 		<p>{{article.articleName}}</p><br>&#8943;&#8943;
 		<p>{{article.description}}</p><br>&#8943;&#8943;
 		<p>Količina: {{article.quantity}}</p><br>&#8943;&#8943;
-		<p>{{article.price}} din</p>&nbsp;&nbsp;<div v-if="role==='manager'" class="dugmezaizmenu"><button v-on:click="changeArticle(article)"> Izmeni artikal</button></div>
-	</div>
+		<p>{{article.price}} din</p>&nbsp;&nbsp;<div v-if="role==='manager'" class="dugmezaizmenu">
+		<button v-on:click="changeArticle(article)"> Izmeni artikal</button></div>
+</div>
+
 	<div v-if="role==='manager'"><p>Komentari</p>
 		<table>
 			<th>Kupac</th>

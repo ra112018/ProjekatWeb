@@ -326,11 +326,20 @@ public class ProjekatMain {
 			String reqBody = req.body();
 			
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			System.out.println("Dolazimd ");
 			Restaurant r = gsonReg.fromJson(reqBody, Restaurant.class); //polovican restoran
-			System.out.println("tdar"+r.getLogo());
 
 			boolean checkEror=restaurantDAO.changeRestaurantImage(r.getRestaurantName(),r.getLogo());
+		
+			return checkEror;
+			
+		});
+		post("/changeArticleImg", (req, res) -> {
+			String reqBody = req.body();
+			
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			Article r = gsonReg.fromJson(reqBody, Article.class); //polovican artikal
+
+			boolean checkEror=articleDAO.changeArticleImage(r.getArticleName(),r.getArticlePhoto());
 		
 			return checkEror;
 			
@@ -339,7 +348,6 @@ public class ProjekatMain {
 			String reqBody = req.body();
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			Location r = gsonReg.fromJson(reqBody, Location.class);
-			System.out.println(r.getIdLocation());
 			boolean checkEror=locationDAO.addLocation(r);
 		
 			return true;

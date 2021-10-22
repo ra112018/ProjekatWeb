@@ -163,5 +163,24 @@ public class ArticleDAO {
 	    }
 		return true;
 	}
+	public boolean changeArticleImage(String articleName, String articlePhoto) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Article> entry : articles.entrySet()) {
+	        if(entry.getValue().getArticleName().equals(articleName) ) {
+	        	if(entry.getValue().getArticlePhoto()!=null) {
+	    			String logoName=getNiceImageFormat(articlePhoto,entry.getValue().getRestaurantName());
+
+	    	        entry.getValue().setArticlePhoto("../img/" + logoName);
+	    			}
+	        }
+	    }
+		try {
+			addArticleInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
 
 }
