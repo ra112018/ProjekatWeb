@@ -279,6 +279,12 @@ h4{
 			margin-right:auto;
 			
 }
+
+.articleBasket {
+	  		width:35%;
+			max-height:40%;	
+}
+
 .rate {
     float: left;
     height: 46px;

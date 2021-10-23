@@ -106,7 +106,7 @@
         <a href="#/restaurants" v-if="this.role==='kupac'" class="active">Restorani</a>
 		<a href="#/restaurants" v-if="this.role==='administrator'" class="active">Restorani</a>
 		<a href="#/restaurants" v-if="this.role==='manager'" >Restorani</a>
-		
+		<a href="#/myRestaurants" v-if="this.role==='manager'" >Moji restorani</a>
 		<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
 		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>
 		<a href="#/suspiciousUsersTable" v-if="this.role==='administrator'">Pregled sumnjivih korisnika</a>
@@ -133,7 +133,7 @@
 	<p>{{article.articleType}}</p><br>&#8943;&#8943;
 	<p>{{article.description}}</p><br>&#8943;&#8943;
 	<p>{{article.price}}</p><br>&#8943;&#8943;
-	<p v-if="role=='kupac'"> <button v-on:click="addToCart(article.articleName)">Dodaj u korpu </button></p></div>
+	<p v-if="(role=='kupac' && restaurant.status=='Open')"> <button v-on:click="addToCart(article.articleName)">Dodaj u korpu </button></p></div>
 	<div  v-for="comment in comments" v-if="comment.approved=='Approved'">
 				<p>{{comment.customerOfOrder}}</p>
 				<p>{{comment.text}}</p>

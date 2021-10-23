@@ -64,8 +64,8 @@ Vue.component("addArticle", {
 	</div>
 	<div class="vertical-menu">
  		<a href="#/buyerProfile" v-if="this.role==='manager'">Moj profil</a>
-       		<a href="#/restaurants" v-if="this.role==='manager'" class="active">Restorani</a>
-		
+       	<a href="#/restaurants" v-if="this.role==='manager'">Restorani</a>
+		<a href="#/myRestaurants" v-if="this.role==='manager'" class="active">Moji restorani</a>
 		<a href="#/userTableAdmin" v-if="this.role==='manager'">Porudžbine</a>
 
 		<a href="#" v-if="this.role==='manager'">Utisci i komentari</a>
