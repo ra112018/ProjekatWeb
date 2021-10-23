@@ -278,22 +278,6 @@ public class ProjekatMain {
 			return true;
 		});
 		
-		get("/suspiciousUsersTable", (req, res)->{
-			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			ArrayList<Buyer> buyers = new ArrayList<Buyer>();
-			for(Map.Entry<String, Buyer> entry: buyerDAO.getBuyers().entrySet()) {
-				if(!entry.getValue().isDeleted()) {
-					//ArrayList<Order> orderOfBuyers =
-					//ovde podesiti za sumnjive
-				}
-			}
-			buyerDAO.setSuspiciousBuyers(buyers);
-			return gsonReg.toJson(buyers);
-			
-		});
-		
-		
-		
 		
 		get("/restaurantDetails", (req, res)-> {
 			String rName =  req.queryParams("id");
@@ -807,6 +791,21 @@ public class ProjekatMain {
 			return true;
 		});
 		
+		
+		get("/suspiciousUsersTable", (req, res)->{
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			ArrayList<Buyer> buyers = new ArrayList<Buyer>();
+			for(Map.Entry<String, Buyer> entry: buyerDAO.getBuyers().entrySet()) {
+				if(!entry.getValue().isDeleted()) {
+					//ArrayList<Order> orderOfBuyers =
+					//ovde podesiti za sumnjive
+				}
+			}
+			buyerDAO.setSuspiciousBuyers(buyers);
+			return gsonReg.toJson(buyers);
+			
+		});
+		
 		post("/blockSuspiciousBuyers", (req, res) -> {
 			String uName = req.queryParams("userName");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -817,12 +816,5 @@ public class ProjekatMain {
 		
 			return true;
 		});
-		
-	/*	get("/suspiciousBuyers", (req, res) -> {
-			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			
-			return gsonReg.toJson();
-		});
-		*/
 	}
 }

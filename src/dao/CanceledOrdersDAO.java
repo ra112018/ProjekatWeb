@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -14,20 +15,20 @@ import beans.Basket;
 import beans.CanceledOrders;
 
 public class CanceledOrdersDAO {
-	private static HashMap<String,CanceledOrders> canceledOrders;
+	private static HashMap<Integer,CanceledOrders> canceledOrders;
 	
-	public static HashMap<String, CanceledOrders> getCanceledOrders(){
+	public static HashMap<Integer, CanceledOrders> getCanceledOrders(){
 		return canceledOrders;
 	}
 
-	public static void setCanceledOrders(HashMap<String, CanceledOrders> canceledOrders) {
+	public static void setCanceledOrders(HashMap<Integer, CanceledOrders> canceledOrders) {
 		CanceledOrdersDAO.canceledOrders = canceledOrders;
 		
 	}
 	
 	public CanceledOrdersDAO() {
 		// TODO Auto-generated constructor stub
-		canceledOrders = new HashMap<String,CanceledOrders>();
+		canceledOrders = new HashMap<Integer,CanceledOrders>();
 		try {
 		     readCanceledOrders();
 		 } catch (FileNotFoundException e) {
@@ -36,7 +37,7 @@ public class CanceledOrdersDAO {
 	}
 	public void readCanceledOrders() throws FileNotFoundException{
         Gson gson = new Gson();
-        Type token = new TypeToken<HashMap<String,CanceledOrders>>(){}.getType();
+        Type token = new TypeToken<HashMap<Integer,CanceledOrders>>(){}.getType();
         BufferedReader br = new BufferedReader(new FileReader("static/json/canceledOrders.json"));
         CanceledOrdersDAO.canceledOrders = gson.fromJson(br, token);
         System.out.println(CanceledOrdersDAO.canceledOrders);
@@ -58,10 +59,12 @@ public class CanceledOrdersDAO {
 	public boolean isSuspicious(String userName) {
 		int numberOfCancelings = 0;
 		for(int i = 0; i < canceledOrders.size(); i++) {
-		/*	if(canceledOrders)) {
-				
-			}
-		*/		
+
+			for (Map.Entry<Integer, CanceledOrders> entry : canceledOrders.entrySet()) {
+		        if(entry.getValue().getUserName().equals(userName)) {
+		        	 numberOfCancelings ++;
+		        }
+		    }			
 		
 		}	
 		if(numberOfCancelings > 5) {
