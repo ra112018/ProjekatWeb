@@ -40,10 +40,11 @@ Vue.component("restaurants", {
 						restaurant.status = response.data[i].status;
 						restaurant.restaurantType = response.data[i].restaurantType;
 					    this.restaurants.push(restaurant);
-
 		            }
+
 		         
 		        });
+
 				if(this.role==='kupac'){
 			 this.username = window.localStorage.getItem('username');
 
@@ -251,9 +252,8 @@ Vue.component("restaurants", {
 				<ul>
 					<span class="opis1"><br><em><strong>
 						<li>{{restaurant.restaurantName}}</li></strong></em>
-						<li class="open">{{restaurant.status}}</li></strong></em>
+						<li  v-bind:class="{'open':true, 'closed':(restaurant.status =='Closed')}">{{restaurant.status}}</li>
 						<li><i>{{restaurant.restaurantType}}</i></li>
-						<li>10:00-22:00</li>
 						<div v-if="role==='kupac' && orderedFromRestaurants">
 						<div v-for="orderedRestaurant in orderedFromRestaurants">
 						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button v-on:click="evaluate(orderedRestaurant.restaurantName)"> Oceni</button</div>

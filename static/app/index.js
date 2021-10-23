@@ -8,6 +8,7 @@ Vue.component("home-page", {
 			restaurants:[],
 			restaurantName:"",
 			location:"",
+			locations:null,
 			restaurantType:"",
 			grade:"",
 			searchingName:"",
@@ -63,11 +64,13 @@ Vue.component("home-page", {
 			}
 		},
 		search(){
-			this.restaurans = [];
+			this.restaurants = [];
 			if(((this.searchingName == "" && this.searchingLocation == "") && this.restaurantType == "")&& this.grade == ""){
 				alert("Potrebno je uneti kriterijum pretrage");
 			}else{
-				axios.get('/searchingRestaurants', {params:{searching:this.searching, restaurantName: this.restaurantName}})
+				axios.get('/searchingRestaurants', {params:{searchingName:this.searchingName, restaurantName: this.restaurantName,
+				searchingLocation:this.searchingLocation,restaurantType:this.restaurantType, grade:this.grade
+				}})
 				.then(response => {
 		           
 		            for(var i =0;i< response.data.length;i++){
@@ -97,7 +100,9 @@ Vue.component("home-page", {
 		                var restaurant = {};
 		                restaurant = response.data[i];
 					     this.restaurants.push(restaurant);
+
 		            }
+
 		         
 		        });
 	},
@@ -118,20 +123,20 @@ Vue.component("home-page", {
 		<strong>Tip restorana: </strong>
 		 <select name="restaurantType" id="restaurantType" @change="search" v-model="restaurantType">
 			  <option value="" selected></option>
-			  <option value="chinese">Kineska hrana</option>
-			  <option value="italian">Italijanska hrana</option>
-			  <option value="pancakes">Palačinke</option>
-			  <option value="barbecue">Roštilj</option>
+			  <option value="Chinese">Kineska hrana</option>
+			  <option value="Italian">Italijanska hrana</option>
+			  <option value="Pancakes">Palačinke</option>
+			  <option value="Barbecue">Roštilj</option>
 		</select>  
 		
 		<strong>Ocena: </strong>
 		 <select name="grade" id="grade" @change="search" v-model="grade">
 			  <option value="" selected></option>
-			  <option value="1">1</option>
-			  <option value="2">2</option>
-			  <option value="3">3</option>
-			  <option value="4">4</option>
-			  <option value="5">5</option>
+			  <option value="1"> <1 </option>
+			  <option value="2">1<=2</option>
+			  <option value="3">2<=3</option>
+			  <option value="4">3<=4</option>
+			  <option value="5">4 <= 5</option>
 		</select> 
 		
 		<button>Pretraži</button>
@@ -167,7 +172,6 @@ Vue.component("home-page", {
 						<li>{{restaurant.restaurantName}}</li></strong></em>
 						<li class="open">{{restaurant.status}}</li></strong></em>
 						<li><i>{{restaurant.restaurantType}}</i></li>
-						<li>10:00-22:00</li>
 					</span>
 				</ul>
 			</div>
@@ -180,9 +184,8 @@ Vue.component("home-page", {
 				<ul>
 					<span class="opis1"><br><em><strong>
 						<li>{{restaurant.restaurantName}}</li></strong></em>
-						<li class="open">{{restaurant.status}}</li></strong></em>
+						<li v-bind:class="{'open':true, 'closed':(restaurant.status =='Closed')}">{{restaurant.status}}</li>
 						<li><i>{{restaurant.restaurantType}}</i></li>
-						<li>10:00-22:00</li>
 					</span>
 				</ul>
 			

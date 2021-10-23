@@ -323,7 +323,7 @@ Vue.component("myRestaurants", {
 			<button  v-if="editingStatus" v-on:click="changeStatus" >Sačuvaj</button><button  v-if="editingStatus" @click="disableEditingStatus">Otkaži</button>
 			<div v-if="editingLocation && !editingType && !editingStatus" class="mapica" style="width:220%;height:120%;" id="map"/>
 			<button v-if="editingLocation" @click="disableEditingLocation" class="sakrijMapicu">Otkaži</button>
-			<button v-if="inputLocation" class="sakrijMapicu" v-on:click="saveAddress">Sačuvaj</button>
+			<button v-if="inputLocation && editingLocation" class="sakrijMapicu" v-on:click="saveAddress">Sačuvaj</button>
         	
 		</span>
 		

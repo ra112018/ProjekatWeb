@@ -20,6 +20,7 @@ import beans.CommentStatus;
 import beans.Order;
 import beans.OrderStatus;
 import beans.Request;
+import beans.Restaurant;
 import beans.UserType;
 import beans.UserTypeName;
 
@@ -131,6 +132,27 @@ public class CommentDAO {
 		}
 
 		return true;
+	}
+
+
+	public boolean checkRestaurantByGrade(Restaurant value, String g) {
+		// TODO Auto-generated method stub
+		int i=0;
+		int gradeCheck=Integer.parseInt(g);
+		int sum=0;
+		for (Map.Entry<Integer, Comment> entry : comments.entrySet()) {
+	        if(entry.getValue().getRestaurant().getRestaurantName().equals(value.getRestaurantName()) ) {
+	        	i++;
+	        	sum+=entry.getValue().getMark();
+	        }
+	    }
+		if(i!=0) {
+			double avg=sum/i;
+			if(avg<=gradeCheck && avg> (gradeCheck-1.0)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

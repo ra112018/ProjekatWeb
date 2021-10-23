@@ -593,17 +593,34 @@ public class ProjekatMain {
 		});
 		
 		get("/searchingRestaurants", (req, res)->{
-			String s =  req.queryParams("searching");
+			String s =  req.queryParams("searchingName");
 			String n =  req.queryParams("restaurantName");
-			String l =  req.queryParams("location");
-		
+			String l =  req.queryParams("searchingLocation");
+			String t=req.queryParams("restaurantType");
+			String g=req.queryParams("grade");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
 			
 				for (Map.Entry<String, Restaurant> entry : restaurantDAO.getRestaurants().entrySet()) {
-					if(!s.equals("")) {
-						if(entry.getValue().getRestaurantName().contains(n)) //i ovde provera da li je obrisan
+					if(s!=null && !s.equals("")) {
+						if(entry.getValue().getRestaurantName().contains(s)) //i ovde provera da li je obrisan
 							restaurants.add( entry.getValue());
+							}
+					else if(l!=null && !l.equals("")) {
+						if(locationDAO.findLocation(entry.getValue().getLocationId())!=null && locationDAO.findLocation(entry.getValue().getLocationId()).getCity().contains(l)) {
+							restaurants.add(entry.getValue());
+						}
+					}
+					else if(t!=null && !t.equals("")) {
+						
+						if(entry.getValue().getRestaurantType().toString().equals(t)) {
+							restaurants.add(entry.getValue());
+						}
+					}
+					else if(g!=null && !g.equals("")) {
+						if(commentDAO.checkRestaurantByGrade(entry.getValue(),g)) {
+							restaurants.add(entry.getValue());
+						}
 					}
 						
 				}
