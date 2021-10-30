@@ -5,14 +5,22 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import beans.Article;
 import beans.Basket;
+import beans.Buyer;
 import beans.CanceledOrders;
+import beans.Order;
+import beans.OrderStatus;
+import beans.RandomString;
 
 public class CanceledOrdersDAO {
 	private static HashMap<Integer,CanceledOrders> canceledOrders;
@@ -72,6 +80,32 @@ public class CanceledOrdersDAO {
 		}
 		return false;
 		
+	}
+
+	public boolean addOrder(String idO, String userName) {
+		// TODO Auto-generated method stub
+		CanceledOrders o=new CanceledOrders();
+		int id=findNextCanceledOrder();
+		o.setId(id);
+		
+	/*	LocalDateTime dateTime = LocalDateTime.now(); // Gets the current date and time
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");*/
+		o.setDate(new Date());
+		o.setUserName(userName);
+		canceledOrders.put(id, o);
+		try {
+			writeCanceledOrders();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		boolean suspicious=this.isSuspicious(userName);
+		if(suspicious) {
+			BuyerDao buyerDAO=new BuyerDao();
+			buyerDAO.setSuspiciousBuyer(userName);
+			return false;
+		}
+		return true;
 	}
 	
 }

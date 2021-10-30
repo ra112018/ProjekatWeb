@@ -258,6 +258,19 @@ public class OrderDAO {
 	
 		}
 
+	public String findUserByOrder(String idO) {
+		// TODO Auto-generated method stub
+		String usName="";
+		for (Map.Entry<String, Order> entry : orders.entrySet()) {
+
+	        if((entry.getValue().getIdOrder()).equals(idO) ) {
+	        	usName=entry.getValue().getBuyer().getUserName();
+	        }
+		}
+	        
+		return usName;
+	}
+
 
 }
 	

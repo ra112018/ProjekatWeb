@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,6 +34,7 @@ import dao.AdministratorDAO;
 import dao.ArticleDAO;
 import dao.BasketDAO;
 import dao.BuyerDao;
+import dao.CanceledOrdersDAO;
 import dao.CommentDAO;
 import dao.DelivererDAO;
 import dao.LocationDAO;
@@ -58,6 +60,7 @@ public class ProjekatMain {
 	private static OrderDAO orderDAO=new OrderDAO();
 	private static RequestDAO requestDAO=new RequestDAO();
 	private static CommentDAO commentDAO=new CommentDAO();
+	private static CanceledOrdersDAO canceledOrdersDAO=new CanceledOrdersDAO();
 
 
 	private static Gson g=new Gson();
@@ -726,9 +729,16 @@ public class ProjekatMain {
 		post("/buyerCancelOrder",(req, res) -> {
 			String idO = req.queryParams("idOrder");
 			boolean orderSuccess;
-			
+			boolean niceBuyer;
+
+			String userName=orderDAO.findUserByOrder(idO);
+
 			orderSuccess=orderDAO.cancelOrder(idO);
-			return orderSuccess;
+			niceBuyer=canceledOrdersDAO.addOrder(idO,userName);
+			if(niceBuyer == false) {
+				return niceBuyer;
+			}
+			else return true;
 		});
 		post("/approveOrder" ,(req, res) -> {
 			String idR = req.queryParams("idRequest");
@@ -796,12 +806,10 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			ArrayList<Buyer> buyers = new ArrayList<Buyer>();
 			for(Map.Entry<String, Buyer> entry: buyerDAO.getBuyers().entrySet()) {
-				if(!entry.getValue().isDeleted()) {
-					//ArrayList<Order> orderOfBuyers =
-					//ovde podesiti za sumnjive
+				if(!entry.getValue().isDeleted() && entry.getValue().isSuspicious()){
+					buyers.add(entry.getValue());					//ovde podesiti za sumnjive
 				}
 			}
-			buyerDAO.setSuspiciousBuyers(buyers);
 			return gsonReg.toJson(buyers);
 			
 		});

@@ -166,6 +166,20 @@ public class BuyerDao {
 		}
 		
 	}
+	public void setSuspiciousBuyer(String usName) {
+		for(Map.Entry<String, Buyer> entry: buyers.entrySet()) {
+				if(usName.equals(entry.getValue().getUserName())) {
+					entry.getValue().setSuspicious(true);
+			}
+		}
+		try {
+			addAccount();
+		}catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	public void changeBuyerPoints(Buyer buyer, double points) {
 		// TODO Auto-generated method stub

@@ -91,7 +91,12 @@ Vue.component("orders", {
                     },{params:{userName: this.username,idOrder:value}})
 						
 					.then(function(response){
+						 if(response.data){
 						alert("Uspešno otkazana porudžbina!")
+                }
+                else{
+                    alert("Otkazali ste porudžbine više od 5 puta u poslednjih 30 dana, te ste ubačeni u listu sumnjivih korisnika.")
+                }
 					    this.refreshPage();
 
 					});
