@@ -184,7 +184,7 @@ public class RestaurantDAO {
 		return MngExist;
 		}
 	
-	public Restaurant findRestaurantByManager(String usname) {
+	public static Restaurant findRestaurantByManager(String usname) {
 		ManagerDAO m=new ManagerDAO();
 		Manager man=m.findManagerByUsername(usname);
 		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {

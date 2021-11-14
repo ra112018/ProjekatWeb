@@ -120,12 +120,14 @@ Vue.component("orders", {
         <a href="#/restaurants" v-if="this.role==='kupac'">Restorani</a>
 		<a href="#/restaurants" v-if="this.role==='manager'">Restorani</a>
 	
-		<a href="#/myRestaurants" v-if="this.role==='manager'" >Moji restorani</a>
+		<a href="#/myRestaurants" v-if="this.role==='manager'" >Moj restoran</a>
 	
         <a href="#/orders" v-if="this.role==='kupac'" class="active">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'" class="active">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='deliverer'" class="active">Porudžbine</a>
-  
+		
+  		<a href="#/buyersWhoOrdered" v-if="this.role==='manager'" >Kupci</a>
+
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
 		
         <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a> 
@@ -133,7 +135,7 @@ Vue.component("orders", {
       
 		<p class="naslov"><b>Porudžbine</b></p>
      
-      <div class="pretraga">
+      <div class="pretraga" v-if="this.role=='deliverer' || this.role=='kupac'">
 			<input type="text" id="naziv" name="naziv" placeholder="Naziv restorana">
 	        <input type="text" id="lokacija" name="lokacija" placeholder="Cena">
 	        <input type="date" id="tip" name="tip" placeholder="Datum od">

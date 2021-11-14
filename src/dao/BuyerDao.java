@@ -196,6 +196,21 @@ public class BuyerDao {
 		}
 		
 	}
+
+	public HashMap<String, Buyer> getBuyersWhoOrdered(String uName) {
+		OrderDAO orderDAO= new OrderDAO();
+		HashMap<String, Buyer> listOfBuyersOrdered= new HashMap<String,Buyer>();
+		String rName = RestaurantDAO.findRestaurantByManager(uName).getRestaurantName();
+		// TODO Auto-generated method stub
+		for (String username: orderDAO.findUsernameBuyerWhoOrdered(rName)) {
+			for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
+		        if(entry.getValue().getUserName().equals(username) ) {
+		    		listOfBuyersOrdered.put(entry.getValue().getUserName(),entry.getValue());
+		        }
+		    }
+		}
+		return listOfBuyersOrdered;
+	}
 	
 
 	

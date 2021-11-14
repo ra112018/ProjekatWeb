@@ -7,15 +7,18 @@ Vue.component("home-page", {
 			username:null,
 			restaurants:[],
 			restaurantName:"",
+			restaurantForFilter:null,
 			location:"",
 			locations:null,
 			restaurantType:"",
 			grade:"",
 			searchingName:"",
 			searchingLocation:"",
-			
+			filteringRestaurants:[],
 			sortingType:"",
-			sortingCriterion:""
+			sortingCriterion:"",
+			otvoreni:"",
+			otvorenoiline:""
 		    }
 	},
 	methods:{
@@ -85,8 +88,30 @@ Vue.component("home-page", {
 		         
 		        });
 			}
-		}
+		},
+		filter(value){
+			if(this.otvorenoiline){
+
+			this.filteringRestaurants=this.restaurants;
+			this.restaurants=[];
 			
+			
+			for(restaurant in this.filteringRestaurants){
+				
+			
+						if(this.filteringRestaurants[restaurant].status=="Open")
+						{
+					    this.restaurants.push(this.filteringRestaurants[restaurant]);
+						}
+						
+
+		            }
+			
+				}
+			else{
+				this.restaurants=this.filteringRestaurants;
+			}}
+				
 	},
 	
 	mounted: function(){
@@ -143,7 +168,7 @@ Vue.component("home-page", {
 		</form>
 		
 		<label><b>Filtriranje: </b></label><label for="otvoreni">Samo otvoreni   </label>
-		<input type="checkbox" id="otvoreni" name="otvoreni" value="Samo otvoreni"><br>
+		<input type="checkbox" id="otvoreni" name="otvoreni" v-model="otvorenoiline" value="otvoreni"  @change="filter(otvoreni)"><br>
 
 	  	<strong>Sortiraj prema: </strong> 
 		<select name="sortiranje" id="sort" v-model="sortingCriterion">

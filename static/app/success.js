@@ -35,11 +35,12 @@ Vue.component("success", {
         <a href="#/restaurants" v-if="this.role==='administrator'">Restorani</a>
 		<a href="#/restaurants" v-if="this.role==='manager'">Restorani</a>
 
-		<a href="#/myRestaurants" v-if="this.role==='manager'" >Moji restorani</a>
+		<a href="#/myRestaurants" v-if="this.role==='manager'" >Moj restoran</a>
 
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
  		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
 	    <a href="#/orders" v-if="this.role==='deliverer'">Porudžbine</a>
+		<a href="#/buyersWhoOrdered" v-if="this.role==='manager'" >Kupci</a>
 
       	<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
 		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>

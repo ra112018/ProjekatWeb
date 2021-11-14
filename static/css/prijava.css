@@ -142,7 +142,7 @@ img.logo3{
 			}
 img.logo4{
 				margin-top:1%;
-				margin-bottom:10%;
+				margin-bottom:1%;
 				float:left;
 				max-width:100%;				
 				margin-left:auto;
@@ -213,12 +213,12 @@ h4{
 			}
 .opis1{
 			font-size:15px;
-		    display: inline;
+		    display: inline-block;
 			text-align: justify;
-			padding:5%;
-			margin:8%;
+			padding:0%;
+			margin:1%;
 			line-height:1.2;
-			min-width:50%;
+			min-width:30%;
 			}
 
 .restoran{
@@ -230,6 +230,15 @@ h4{
 			max-height:35%;
 			
 			}
+.restoranUlog{
+			
+			vertical-align: top;
+			display: flex;
+			text-align: center;
+			max-width:25%;
+			max-height:35%;
+			
+}
 			
 			
 ::placeholder{

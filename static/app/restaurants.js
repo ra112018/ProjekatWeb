@@ -10,7 +10,6 @@ Vue.component("restaurants", {
 			restaurantName:"",
 			restaurantType:"",
 			grade:"",
-			location:"",
 			searchingName:"",
 			searchingLocation:"",
 			orderedFromRestaurants:[],
@@ -18,7 +17,11 @@ Vue.component("restaurants", {
 			sortRestaurantType:"",
 			sortingType:"",
 			sortingCriterion:"",
-			locations:""
+			locations:[],
+			otvoreni:null,
+			otvorenoiline:null,
+			location:null,
+			idLocation: "",
 		    }
 	},
 	mounted: function(){
@@ -39,6 +42,9 @@ Vue.component("restaurants", {
 						restaurant.restaurantName = response.data[i].restaurantName;
 						restaurant.status = response.data[i].status;
 						restaurant.restaurantType = response.data[i].restaurantType;
+						restaurant.locationId = response.data[i].locationId;
+						this.findLocation(restaurant.locationId);
+
 					    this.restaurants.push(restaurant);
 		            }
 
@@ -56,6 +62,7 @@ Vue.component("restaurants", {
 						orderedRestaurant.restaurantName = response.data[i].restaurantName;
 						orderedRestaurant.status = response.data[i].status;
 						orderedRestaurant.restaurantType = response.data[i].restaurantType;
+						
 					    this.orderedFromRestaurants.push(orderedRestaurant);
 
 		            }
@@ -64,6 +71,12 @@ Vue.component("restaurants", {
 
 			
 		}
+		},
+		findLocation:function(id){
+			axios.get('/location?id='+id).then(response => {
+				this.location=response.data;
+				this.locations.push(this.location);
+			});
 		},
 		evaluate: function(id){
 			router.push({ path: `/evaluateRestaurant/${id}` });
@@ -133,13 +146,37 @@ Vue.component("restaurants", {
 				
 			}
 		},
+		filter(value){
+			if(this.otvorenoiline){
+
+			this.filteringRestaurants=this.restaurants;
+			this.restaurants=[];
+			
+			
+			for(restaurant in this.filteringRestaurants){
+				
+			
+						if(this.filteringRestaurants[restaurant].status=="Open")
+						{
+					    this.restaurants.push(this.filteringRestaurants[restaurant]);
+						}
+						
+
+		            }
+			
+				}
+			else{
+				this.restaurants=this.filteringRestaurants;
+			}},
 		
 		search(){
-			this.restaurans = [];
+			this.restaurants = [];
 			if(((this.searchingName == "" && this.searchingLocation == "") && this.restaurantType == "")&& this.grade == ""){
 				alert("Potrebno je uneti kriterijum pretrage");
 			}else{
-				axios.get('/searchingRestaurants', {params:{searching:this.searching, restaurantName: this.restaurantName}})
+				axios.get('/searchingRestaurants', {params:{searchingName:this.searchingName, restaurantName: this.restaurantName,
+				searchingLocation:this.searchingLocation,restaurantType:this.restaurantType, grade:this.grade
+				}})
 				.then(response => {
 		           
 		            for(var i =0;i< response.data.length;i++){
@@ -176,7 +213,7 @@ Vue.component("restaurants", {
 		<a href="#/restaurants" v-if="this.role==='administrator'" class="active">Restorani</a>
 		<a href="#/restaurants" v-if="this.role==='manager'" class="active">Restorani</a>
 		
-		<a href="#/myRestaurants" v-if="this.role==='manager'" >Moji restorani</a>
+		<a href="#/myRestaurants" v-if="this.role==='manager'" >Moj restoran</a>
 		
 		
 		<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
@@ -185,6 +222,9 @@ Vue.component("restaurants", {
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='deliverer'">Porudžbine</a>
+		
+		<a href="#/buyersWhoOrdered" v-if="this.role==='manager'" >Kupci</a>
+
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
 
         <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
@@ -201,29 +241,29 @@ Vue.component("restaurants", {
 			<input type="text" v-model="searchingLocation" placeholder="Lokacija"></input>
 					
 			<strong>Tip restorana: </strong>
-			 <select name="kriterijum" id="kriterijum" @change="search" v-model="restaurantType">
+			 <select name="restaurantType" id="restaurantType" @change="search" v-model="restaurantType">
 				  <option value="" selected></option>
-				  <option value="chinese">Kineska hrana</option>
-				  <option value="italian">Italijanska hrana</option>
-				  <option value="pancakes">Palačinke</option>
-				  <option value="barbecue">Roštilj</option>
+				  <option value="Chinese">Kineska hrana</option>
+				  <option value="Italian">Italijanska hrana</option>
+				  <option value="Pancakes">Palačinke</option>
+				  <option value="Barbecue">Roštilj</option>
 			</select>  
 			
 			<strong>Ocena: </strong>
-			<select name="ocena" id="ocena" @change="search"  v-model="grade">
+			<select name="grade" id="grade" @change="search" v-model="grade">
 				  <option value="" selected></option>
-				  <option value="1">1</option>
-				  <option value="2">2</option>
-				  <option value="3">3</option>
-				  <option value="4">4</option>
-				  <option value="5">5</option>
+				  <option value="1"> <1 </option>
+				  <option value="2">1<=2</option>
+				  <option value="3">2<=3</option>
+				  <option value="4">3<=4</option>
+				  <option value="5">4 <= 5</option>
 			</select> 
 			
 			<button>Pretraži</button>
 		</form>
 		
 		<label><b>Filtriranje: </b></label><label for="otvoreni">Samo otvoreni   </label>
-		<input type="checkbox" id="otvoreni" name="otvoreni" value="Samo otvoreni"><br>
+		<input type="checkbox" id="otvoreni" name="otvoreni" v-model="otvorenoiline" value="otvoreni"  @change="filter(otvoreni)"><br>
 
 	  	<strong>Sortiraj prema: </strong> 
 		<select name="sortiranje" id="sort" v-model="sortingCriterion">
@@ -244,8 +284,8 @@ Vue.component("restaurants", {
 	<div class="grid">
 			
 		
-		<div v-for="restaurant in restaurants" class="restoran">
-			<div v-if="restaurant.status === 'Open'">
+		<div v-for="restaurant in restaurants" class="restoranUlog">
+			<div v-if="restaurant.status === 'Open'" >
 				
 				<a v-on:click="selectRestaurant(restaurant.restaurantName)"> 
 				<img class="logo4" :src="restaurant.logo" width="150em" height="130em"/></a>
@@ -254,6 +294,8 @@ Vue.component("restaurants", {
 						<li>{{restaurant.restaurantName}}</li></strong></em>
 						<li  v-bind:class="{'open':true, 'closed':(restaurant.status =='Closed')}">{{restaurant.status}}</li>
 						<li><i>{{restaurant.restaurantType}}</i></li>
+						<li v-for="location in locations" v-if="location.idLocation === restaurant.locationId">
+						<i>{{location.street}} {{location.houseNumber}}, {{location.city}} </i></li>
 						<div v-if="role==='kupac' && orderedFromRestaurants">
 						<div v-for="orderedRestaurant in orderedFromRestaurants">
 						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button v-on:click="evaluate(orderedRestaurant.restaurantName)"> Oceni</button</div>

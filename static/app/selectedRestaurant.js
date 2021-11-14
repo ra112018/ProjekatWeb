@@ -113,6 +113,9 @@
 
         <a href="#/orders" v-if="this.role==='kupac'">Porudžbine</a>
 		<a href="#/orders" v-if="this.role==='manager'">Porudžbine</a>
+		
+		<a href="#/buyersWhoOrdered" v-if="this.role==='manager'" >Kupci</a>
+
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
 
         <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>

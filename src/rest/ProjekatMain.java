@@ -824,5 +824,18 @@ public class ProjekatMain {
 		
 			return true;
 		});
+		
+		get("/buyersWhoOrdered", (req, res)->{
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			String uName = req.queryParams("userName");
+			ArrayList<Buyer> buyers = new ArrayList<Buyer>();
+			for (Map.Entry<String, Buyer> entry : buyerDAO.getBuyersWhoOrdered(uName).entrySet()) {
+				if(!entry.getValue().isDeleted())
+					buyers.add( entry.getValue());
+		        
+		    }	
+			return gsonReg.toJson(buyers);
+			
+		});
 	}
 }

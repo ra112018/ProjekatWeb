@@ -271,6 +271,18 @@ public class OrderDAO {
 		return usName;
 	}
 
+	public ArrayList<String> findUsernameBuyerWhoOrdered(String resName) {
+		// TODO Auto-generated method stub
+		ArrayList usernames=new ArrayList();
+		for (Map.Entry<String, Order> entry : orders.entrySet()) {
+			if(entry.getValue().getRestaurantName()!=null) {
+	        if((entry.getValue().getRestaurantName()).equals(resName) ) {
+	        	usernames.add(entry.getValue().getBuyer().getUserName());
+	        }}
+		}
+		return usernames;
+	}
+
 
 }
 	
