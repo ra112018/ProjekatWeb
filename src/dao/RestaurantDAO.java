@@ -164,13 +164,11 @@ public class RestaurantDAO {
 		RestaurantDAO.restaurants = restaurants;
 	}
 
-	private boolean checkIfManagerHasRestaurant(String managerName) {
+	public boolean checkIfManagerHasRestaurant(String managerName) {
 		// TODO Auto-generated method stub
 		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
 
 	        if(entry.getValue().getManagerName().equals(managerName) ) {
-	        	System.out.println(managerName);
-	        	System.out.println(entry.getValue().getRestaurantName());
 	        	return true;
 	        }
 	    }

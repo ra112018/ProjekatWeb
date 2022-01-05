@@ -231,12 +231,12 @@ public class ProjekatMain {
 				}
 				else 
 				{
+					deliverer.setDeleted(false);
 					delivererDAO.addDeliverer(deliverer);
 					return true;
 				}
 			}else if(rola.equals("Manager")) {
 				Manager manager = gsonReg.fromJson(reqBody, Manager.class);
-				
 				if(managerDAO.findManagerByUsername(manager.getUserName())!=null) {
 					answers.add(userNameExists);
 					return g.toJson(answers);
@@ -250,6 +250,7 @@ public class ProjekatMain {
 					return g.toJson(answers);
 				}
 				else {
+					manager.setDeleted(false);
 					managerDAO.addManager(manager);
 					return true;
 				}
@@ -454,6 +455,19 @@ public class ProjekatMain {
 					managers.add( entry.getValue());
 		        
 		    }	
+			return gsonReg.toJson(managers);
+			
+		});
+		get("/availableManagers", (req, res)->{
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			ArrayList<Manager> managers = new ArrayList<Manager>();
+			if(managerDAO.getAvailableManagers() != null) {
+			System.out.println("ovde");
+			for (Map.Entry<String, Manager> entry : managerDAO.getAvailableManagers().entrySet()) {
+				if(!entry.getValue().isDeleted())
+					managers.add( entry.getValue());
+		    }	}
 			return gsonReg.toJson(managers);
 			
 		});

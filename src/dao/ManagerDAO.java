@@ -109,7 +109,6 @@ public class ManagerDAO {
 	}
 	
 	public Manager addManager(Manager manager) {
-		
 		managers.put(manager.getUserName(),manager);
 		try {
 			this.addAccount();
@@ -146,6 +145,23 @@ public class ManagerDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public HashMap<String,Manager> getAvailableManagers() {
+		// TODO Auto-generated method stub
+		HashMap<String, Manager> avManagers = new HashMap<String, Manager>();
+		RestaurantDAO r = new RestaurantDAO();
+		int i = 0;
+		for (Map.Entry<String, Manager> entry : managers.entrySet()) {
+			System.out.println(entry.getValue().getName() + " "+ entry.getValue().getSurname()+ i);
+			String mNameSurname = entry.getValue().getName() + " "+ entry.getValue().getSurname();
+	        if(r.checkIfManagerHasRestaurant(mNameSurname) == false ) {
+				System.out.println(entry.getValue().getName() + " "+ entry.getValue().getSurname()+ 2);
+
+	    		avManagers.put(entry.getValue().getUserName(),entry.getValue());
+	        }
+	    }
+		return avManagers;
 	}
 	
 	
