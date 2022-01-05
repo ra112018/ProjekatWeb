@@ -390,3 +390,11 @@ h4{
 	color: #ffc700;  
 	font-size:30px;
  }
+ .normalStarSmall{
+    color:#ccc;
+    font-size:10px;
+}
+.activeStarSmall{
+	color: #ffc700;  
+	font-size:10px;
+ }

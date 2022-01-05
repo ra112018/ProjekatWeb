@@ -9,9 +9,11 @@ Vue.component("home-page", {
 			restaurantName:"",
 			restaurantForFilter:null,
 			location:"",
-			locations:null,
+			locations:[],
 			restaurantType:"",
+			locationId:null,
 			grade:"",
+			grades: [],
 			searchingName:"",
 			searchingLocation:"",
 			filteringRestaurants:[],
@@ -77,16 +79,21 @@ Vue.component("home-page", {
 				searchingLocation:this.searchingLocation,restaurantType:this.restaurantType, grade:this.grade
 				}})
 				.then(response => {
-		           
+		            if(response.data){
 		            for(var i =0;i< response.data.length;i++){
 		                var restaurant = {};
 		                restaurant = response.data[i];
 						restaurant.restaurantName = response.data[i].restaurantName;
 						restaurant.status = response.data[i].status;
 						restaurant.restaurantType = response.data[i].restaurantType;
+						restaurant.locationId = response.data[i].locationId;
 					    this.restaurants.push(restaurant);
 
 		            }
+					}
+					else{
+						alert("Nema restorana po ovom kriterijumu");
+					}
 		         
 		        });
 			}
@@ -132,6 +139,25 @@ Vue.component("home-page", {
 
 		         
 		        });
+		axios.get('/allLocations')
+				.then(response => {
+		           
+		            for(var i =0;i< response.data.length;i++){
+		                var locationTemp = {};
+		                 locationTemp = response.data[i];
+					     this.locations.push(locationTemp);
+		            }
+		        });
+		axios.get('/grades')
+				.then(response => {
+		            for(var i =0;i< response.data.length;i++){
+		                var grade = {};
+		                grade.restaurantName = response.data[i].restaurantName;
+						grade.mark = response.data[i].grade;
+					    this.grades.push(grade);
+		            }
+		        });
+	console.log(this.grades);
 	},
 	template: ` 
 	<div>
@@ -199,6 +225,15 @@ Vue.component("home-page", {
 						<li>{{restaurant.restaurantName}}</li></strong></em>
 						<li class="open">{{restaurant.status}}</li></strong></em>
 						<li><i>{{restaurant.restaurantType}}</i></li>
+						<div  v-for="location in locations" v-if="location.idLocation == restaurant.locationId">
+						<li >{{location.city}}</li><li >{{location.street}}  {{location.houseNumber}}</li></div>
+						<div readonly v-for="grade in grades" v-if="grade.mark!=0 && grade.restaurantName == restaurant.restaurantName">
+						 <label v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=1)}" >★ </label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=2)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=3)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=4)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=5)}">★</label>
+				</div>
 					</span>
 				</ul>
 			</div>
@@ -213,6 +248,16 @@ Vue.component("home-page", {
 						<li>{{restaurant.restaurantName}}</li></strong></em>
 						<li v-bind:class="{'open':true, 'closed':(restaurant.status =='Closed')}">{{restaurant.status}}</li>
 						<li><i>{{restaurant.restaurantType}}</i></li>
+						<div  v-for="location in locations" v-if="location.idLocation == restaurant.locationId">
+						<li >{{location.city}}</li><li >{{location.street}}  {{location.houseNumber}}</li></div>
+						
+						<div readonly v-for="grade in grades" v-if="grade.mark!=0 && grade.restaurantName == restaurant.restaurantName">
+						 <label v-bind:class="{'normalStar':true, 'activeStar':(grade.mark>=1)}" >★ </label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(grade.mark>=2)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(grade.mark>=3)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(grade.mark>=4)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(grade.mark>=5)}">★</label>
+				</div>
 					</span>
 				</ul>
 			

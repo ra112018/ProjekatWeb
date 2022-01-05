@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import beans.Article;
+import beans.AverageGradeRestaurant;
 import beans.Buyer;
 import beans.Comment;
 import beans.CommentStatus;
@@ -153,6 +154,34 @@ public class CommentDAO {
 			}
 		}
 		return false;
+	}
+	public ArrayList<AverageGradeRestaurant> findRestaurantsAverageGrade() {
+		// TODO Auto-generated method stub
+		ArrayList<AverageGradeRestaurant> average = new ArrayList<AverageGradeRestaurant>();
+		ArrayList<String> restaurantNames = RestaurantDAO.getRestaurantNames();
+		for(String restName : restaurantNames) {
+			average.add(new AverageGradeRestaurant(restName, findAverageGrade(restName)));
+	    }
+		return average;
+	}
+
+	public double findAverageGrade(String restaurantName) {
+		// TODO Auto-generated method stub
+		int i=0;
+		int sum=0;
+		for(Map.Entry<Integer, Comment> entry : comments.entrySet()) {
+	        if(entry.getValue().getApproved() == CommentStatus.Approved && entry.getValue().getRestaurant().getRestaurantName().equals(restaurantName) )
+	        {	
+	        	System.out.println("Dosao do ovde"+ entry.getValue().getRestaurant().getRestaurantName()+entry.getValue().getMark());
+	        	i++;
+	        	sum+=entry.getValue().getMark();
+	        }
+	    }
+		if(i!=0) {
+			double avg=sum/i;
+			return avg;
+		}
+		return 0;
 	}
 
 }

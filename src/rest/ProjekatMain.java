@@ -20,9 +20,11 @@ import com.google.gson.GsonBuilder;
 
 import beans.Administrator;
 import beans.Article;
+import beans.AverageGradeRestaurant;
 import beans.Basket;
 import beans.Buyer;
 import beans.Comment;
+import beans.CommentStatus;
 import beans.Deliverer;
 import beans.Location;
 import beans.User;
@@ -381,6 +383,18 @@ public class ProjekatMain {
 			return gsonReg.toJson(articleList);
 						
 		});
+		get("/allLocations",(req,res) -> {
+
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			ArrayList<Location> locationList = new ArrayList<Location>();
+			for (Map.Entry<Integer, Location> entry : locationDAO.getLocations().entrySet()) {
+					locationList.add( entry.getValue());
+
+			}
+
+			return gsonReg.toJson(locationList);
+						
+		});
 		get("/location",(req,res) -> {
 
 			String locationId =  req.queryParams("id");
@@ -608,6 +622,7 @@ public class ProjekatMain {
 							restaurants.add( entry.getValue());
 							}
 					else if(l!=null && !l.equals("")) {
+						System.out.println("trazim lokaciju"+l);
 						if(locationDAO.findLocation(entry.getValue().getLocationId())!=null && locationDAO.findLocation(entry.getValue().getLocationId()).getCity().contains(l)) {
 							restaurants.add(entry.getValue());
 						}
@@ -644,6 +659,15 @@ public class ProjekatMain {
 			}
 			
 		});
+		
+		get("/grades", (req, res)-> {
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			ArrayList<AverageGradeRestaurant> avgGrade = new ArrayList<AverageGradeRestaurant>();
+			avgGrade = commentDAO.findRestaurantsAverageGrade();	
+			return gsonReg.toJson(avgGrade);
+
+		});
+		
 		post("/order", (req, res) -> {
 			String reqBody = req.body();
 			String uName = req.queryParams("userName");

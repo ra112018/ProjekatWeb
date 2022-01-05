@@ -316,4 +316,12 @@ public class RestaurantDAO {
 	}
 
 
+	public static ArrayList<String> getRestaurantNames() {
+		// TODO Auto-generated method stub
+		ArrayList<String> restNames = new ArrayList<String>();
+		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+			restNames.add(entry.getValue().getRestaurantName());
+		}
+		return restNames;
+	}
 }
