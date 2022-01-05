@@ -63,6 +63,8 @@ Vue.component("home-page", {
 					alert("Potrebno je uneti kriterijum sortiranja");
 				}else if(this.sortingCriterion == "naziv"){
 					this.restaurants.sort(this.checkName);
+				}else if(this.sortingCriterion == "lokacija"){
+					this.restaurants.sort(this.checkLocations);
 				}
 			}
 		},

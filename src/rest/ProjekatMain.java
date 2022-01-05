@@ -837,5 +837,6 @@ public class ProjekatMain {
 			return gsonReg.toJson(buyers);
 			
 		});
+		
 	}
 }

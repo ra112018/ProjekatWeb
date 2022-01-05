@@ -6,8 +6,14 @@ Vue.component("orders", {
 		    user:localStorage.getItem('user'),
 		    username:localStorage.getItem('username'),
 
+			searchingName:"",
+			searchingPriceFrom:"",
+			searchingPriceTo:"",
+			dateOfOrderFrom:"",
+			dateOfOrderTo:"",
 			restaurantName:"",
 			orders:[],
+			ordersNew:[],
 			requests:[]
 
 		};
@@ -49,8 +55,38 @@ Vue.component("orders", {
 
 
 		        });
-		}
-			},
+		}}
+			,
+			
+			search(){
+			alert("ajde ispis");
+			alert(this.orders);
+			this.ordersNew = this.orders;
+			console.log(this.ordersNew);
+			this.orders = [];
+			if(this.searchingName == "" && this.searchingPriceFrom == ""  && this.searchingPriceTo == "" && this.dateOfOrderFrom == "" && this.dateOfOrderTo == ""){
+				alert("Potrebno je uneti kriterijum pretrage");
+			}else{
+				for(order in ordersNew){
+					if(this.searchingName!="" && order.restaurantName.includes(this.searchingName) ){
+						alert(this.order);
+						this.orders.push(order);
+					}
+					else if(this.searchingPriceFrom!="" && order.price >= this.searchingPriceFrom){
+						this.orders.push(order);
+					}
+					else if(this.searchingPriceTo!="" && order.price <= this.searchingPriceTo){
+						this.orders.push(order);
+					}
+					else if(this.dateOfOrderFrom!="" && order.timeOfOrder >= this.dateOfOrderFrom){
+						this.orders.push(order);
+					}
+					else if(this.dateOfOrderTo!="" && order.timeOfOrder <= this.dateOfOrderTo){
+						this.orders.push(order);
+					}
+				}
+		   }
+		},
 			
 		prepare: function(value){
 			axios
@@ -112,6 +148,11 @@ Vue.component("orders", {
 		<a href="#/">
 		<button style="font-size: 100%;">Odjavi se</button></a>
 	</div>
+	
+	
+	
+	
+	
 	 <div class="vertical-menu">
         <a href="#/buyerProfile" v-if="this.role==='kupac'">Moj profil</a>
 		<a href="#/buyerProfile" v-if="this.role==='manager'">Moj profil</a>
@@ -135,13 +176,20 @@ Vue.component("orders", {
       
 		<p class="naslov"><b>Porudžbine</b></p>
      
+
+
       <div class="pretraga" v-if="this.role=='deliverer' || this.role=='kupac'">
-			<input type="text" id="naziv" name="naziv" placeholder="Naziv restorana">
-	        <input type="text" id="lokacija" name="lokacija" placeholder="Cena">
-	        <input type="date" id="tip" name="tip" placeholder="Datum od">
-	        <input type="date" id="tip" name="tip" placeholder="Datum do">
+			<form @submit="search">
+			<input type="text" id="naziv" name="naziv" v-model="searchingName" placeholder="Naziv restorana">
+	        <input type="text"  v-model="searchingPriceFrom" placeholder="Cena">
+	        <input type="text"  v-model="searchingPriceTo" placeholder="Cena">
+	        <input type="date" v-model="dateOfOrderFrom"  placeholder="Datum od">
+	        <input type="date" v-model="dateOfOrderFrom" placeholder="Datum do">
 	        
-	         <input type="submit" value="Pretraži"><br><strong>&nbsp;Filtriraj: </strong>
+	         <input type="submit" value="Pretraži"><br>
+		</form>
+
+			<strong>&nbsp;Filtriraj: </strong>
 	        <label>Tip restorana</label>
 	        <select name="kriterijum" id="kriterijum">
 	            <option value="brza">Brza hrana</option>
