@@ -192,7 +192,7 @@ Vue.component("suspiciousUsersTable", {
 			<a href="#/userTableAdmin">Korisnici</a>
 			<a href="#/addUser">Dodaj korisnika</a>
 			<a href="#/suspiciousUsers" class="active">Pregled sumnjivih korisnika</a>
-			<a href="#" >Utisci i komentari</a> 
+			<a href="#/allComments" >Utisci i komentari</a> 
 		
 		</div>
 		

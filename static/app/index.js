@@ -103,19 +103,12 @@ Vue.component("home-page", {
 
 			this.filteringRestaurants=this.restaurants;
 			this.restaurants=[];
-			
-			
 			for(restaurant in this.filteringRestaurants){
-				
-			
 						if(this.filteringRestaurants[restaurant].status=="Open")
 						{
 					    this.restaurants.push(this.filteringRestaurants[restaurant]);
 						}
-						
-
 		            }
-			
 				}
 			else{
 				this.restaurants=this.filteringRestaurants;

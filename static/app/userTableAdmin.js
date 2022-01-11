@@ -6,7 +6,9 @@ Vue.component("userTableAdmin", {
 		type:"",
 		role:"",
 		searching:"",
-		
+		searchingName:"",
+		searchingSurname:"",
+		searchingUsername:"",
         userNameSort:"",
 		nameSort:"",
 		surnameSort:"",
@@ -116,28 +118,37 @@ Vue.component("userTableAdmin", {
 		
 		},
 		search(){
+			var usersForSearch = this.users;
 			this.users = [];
-			if(this.type == "" && this.role == "" && this.searching == ""){
-				this.refreshPage();
-			}else if(this.type != ""){
-				axios.get('/searchingBuyers', {params:{searching:this.searching, role:this.role, type:this.type}})
-                .then(response => {
-                for(var i =0; i< response.data.length; i++){
-                    var user = {};
-                    user.name = response.data[i].name;
-                    user.lastName = response.data[i].surname;
-                    user.username = response.data[i].userName;
-                    user.role = "kupac";
-                    user.points = response.data[i].customerPoints;
-                    user.type= response.data[i].buyerType;
-					user.suspicious = response.data[i].suspicious;
-					user.blocked = response.data[i].blocked;                   
-
-                    this.users.push(user);
-                }
-			});
-			}else{
-				 axios.get('/searchingAdmins', {params:{searching:this.searching, role:this.role}})
+			if(this.searchingName == "" && this.searchingSurname == "" && this.searchingUsername==""){
+				alert("Potrebno je uneti kriterijum pretrage");
+			}else {
+				if(this.searchingName != "" ){
+					for(var i =0;i< usersForSearch.length;i++){
+		                    if(usersForSearch[i].name.includes(this.searchingName))
+							{
+								this.users.push(usersForSearch[i]);
+							}
+		                }
+				}
+				if(this.searchingSurname!=""){
+					for(var i =0;i< usersForSearch.length;i++){
+		                    if(usersForSearch[i].surname.includes(this.searchingSurname))
+							{
+								this.users.push(usersForSearch[i]);
+							}
+		                }
+				}
+				if(this.searchingUsername != ""){
+					for(var i =0;i< usersForSearch.length;i++){
+		                    if(usersForSearch[i].username.includes(this.searchingUsername))
+							{
+								this.users.push(usersForSearch[i]);
+							}
+		                }
+				}
+               
+			/*	 axios.get('/searchingAdmins', {params:{searching:this.searching, role:this.role}})
 		            .then(response => {
 		                for(var i =0;i< response.data.length;i++){
 		                    var user = {};
@@ -179,20 +190,87 @@ Vue.component("userTableAdmin", {
 	                .then(response => {
 	                for(var i =0;i< response.data.length;i++){
 	                    var user = {};
-	                    user.name = response.data[i].name;
-	                    user.lastName = response.data[i].surname;
-	                    user.username = response.data[i].userName;
-	                    user.role = "kupac";
-	                    user.points = response.data[i].customerPoints;
-	                    user.type= response.data[i].buyerType;
-	                    user.suspicious = response.data[i].suspicious;
-						user.blocked = response.data[i].blocked;                   
+	                    user = response.data[i];
+	                    user.role = "kupac";                
 	                    this.users.push(user);
 					}
-				});
+				});*/
 				
 			}
 		},
+		filterType(){
+			var usersForFilter = this.users;
+			this.users = [];
+			if(this.type == "Usual" ){
+					for(var i =0;i< usersForFilter.length;i++){
+		                    if(usersForFilter[i].type == "Usual")
+							{
+								this.users.push(usersForFilter[i]);
+							}
+		                }
+				}
+			else if(this.type =="Bronze"){
+					for(var i =0;i< usersForFilter.length;i++){
+		                    if(usersForFilter[i].type == "Bronze")
+							{
+								this.users.push(usersForFilter[i]);
+							}
+		                }
+				}
+			else if(this.type =="Silver"){
+					for(var i =0;i< usersForFilter.length;i++){
+		                    if(usersForFilter[i].type == "Silver")
+							{
+								this.users.push(usersForFilter[i]);
+							}
+		                }
+				}
+			else if(this.type =="Golden"){
+					for(var i =0;i< usersForFilter.length;i++){
+		                    if(usersForFilter[i].type == "Golden")
+							{
+								this.users.push(usersForFilter[i]);
+							}
+		                }
+				}
+		},
+		filterRole(){
+			var usersForFilter = this.users;
+			this.users = [];
+			if(this.role == "buyer" ){
+					for(var i =0;i< usersForFilter.length;i++){
+		                    if(usersForFilter[i].role == "kupac")
+							{
+								this.users.push(usersForFilter[i]);
+							}
+		                }
+				}
+			else if(this.role =="administrator"){
+					for(var i =0;i< usersForFilter.length;i++){
+		                    if(usersForFilter[i].role == "administrator")
+							{
+								this.users.push(usersForFilter[i]);
+							}
+		                }
+				}
+			else if(this.role =="manager"){
+					for(var i =0;i< usersForFilter.length;i++){
+		                    if(usersForFilter[i].role == "manager")
+							{
+								this.users.push(usersForFilter[i]);
+							}
+		                }
+				}
+			else if(this.role =="deliverer"){
+					for(var i =0;i< usersForFilter.length;i++){
+		                    if(usersForFilter[i].role == "deliverer")
+							{
+								this.users.push(usersForFilter[i]);
+							}
+		                }
+				}
+		},
+		
 		
 		sortTable(event){
 			id = event.target.id;
@@ -320,19 +398,22 @@ Vue.component("userTableAdmin", {
 			<a href="#/userTableAdmin" class="active">Korisnici</a>
 			<a href="#/addUser">Dodaj korisnika</a>
 			<a href="#/suspiciousUsersTable">Pregled sumnjivih korisnika</a>
-			<a href="#" >Utisci i komentari</a> 
+			<a href="#/allComments" >Utisci i komentari</a> 
 		
 		</div>
 		
 		<br>
 		<div class="tabela">                      			
 			<form @submit="search" >
-				<input type="text" v-model="searching" placeholder="Ime/ prezime/ korisnicko ime"></input>
+				<input type="text" v-model="searchingName" placeholder="Ime"></input>
+				<input type="text" v-model="searchingSurname" placeholder="Prezime"></input>
+				<input type="text" v-model="searchingUsername" placeholder="Korisnicko ime"></input>
+
 				<button>Pretraži</button>
 			</form>
 			
 		    <label>Uloga:</label>
-			<select v-model="role" @change="search">
+			<select v-model="role" @change="filterRole">
 				<option value="" selected>Svi</option>
 				<option value="buyer">Kupci</option>
 				<option value="administrator">Administratori</option>
@@ -340,7 +421,7 @@ Vue.component("userTableAdmin", {
 				<option value="deliverer">Dostavljaci</option>
 			</select>
 			<label>Tip kupca:</label>
-			<select v-model="type" @change="search">
+			<select v-model="type" @change="filterType">
 					<option value="" selected>Svi</option>
 					<option value="Golden">Golden</option>
 					<option value="Silver">Silver</option>

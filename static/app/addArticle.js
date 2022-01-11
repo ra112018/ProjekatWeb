@@ -69,7 +69,7 @@ Vue.component("addArticle", {
 		<a href="#/userTableAdmin" v-if="this.role==='manager'">Porudžbine</a>
 		<a href="#/buyersWhoOrdered" v-if="this.role==='manager'" >Kupci</a>
 
-		<a href="#" v-if="this.role==='manager'">Utisci i komentari</a>
+		<a href="#/allComments" v-if="this.role==='manager'">Utisci i komentari</a>
  
 	</div>
        

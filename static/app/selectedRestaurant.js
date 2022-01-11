@@ -119,8 +119,8 @@
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
 
         <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
-		<a href="#" v-if="this.role==='administrator'">Utisci i komentari</a>
-		<a href="#" v-if="this.role==='manager'">Utisci i komentari</a>
+		<a href="#/allComments" v-if="this.role==='administrator'">Utisci i komentari</a>
+		<a href="#/allComments" v-if="this.role==='manager'">Utisci i komentari</a>
 	 </div>
 	
 		

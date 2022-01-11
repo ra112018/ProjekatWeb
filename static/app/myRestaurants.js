@@ -19,7 +19,7 @@ Vue.component("myRestaurants", {
 			editingLocation:false,
 			inputLocation:false,
 			changingArticle:false,
-			 geografskaDuzina: null,
+			geografskaDuzina: null,
             geografskaSirina: null,
 			city:null,
 			postcode:null,
@@ -289,7 +289,7 @@ Vue.component("myRestaurants", {
 		
 		<a href="#/buyersWhoOrdered" v-if="this.role==='manager'" >Kupci</a>
 
-		<a href="#/comments" v-if="this.role==='manager'">Utisci i komentari</a>
+		<a href="#/allComments" v-if="this.role==='manager'">Utisci i komentari</a>
  
 	</div>
 

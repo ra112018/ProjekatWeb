@@ -291,7 +291,7 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			r = restaurantDAO.findRestaurantByName(rName);
 
-			if(r != null) {
+			if(r != null && !r.getDeleted()) {
 				return gsonReg.toJson(r);
 			}
 			return gsonReg.toJson(r);
@@ -514,6 +514,7 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			ArrayList<Restaurant> restaurantList = new ArrayList<Restaurant>();
 			for (Map.Entry<String, Restaurant> entry : RestaurantDAO.getRestaurants().entrySet()) {
+				if(entry.getValue().getDeleted()!= true)
 					restaurantList.add( entry.getValue());
 			}
 			return gsonReg.toJson(restaurantList);
@@ -523,6 +524,7 @@ public class ProjekatMain {
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			ArrayList<Restaurant> restaurantList = new ArrayList<Restaurant>();
 			for (Map.Entry<String, Restaurant> entry : RestaurantDAO.getRestaurantsWhereBuyerOrdered(uName).entrySet()) {
+				if(entry.getValue().getDeleted()!= true)
 					restaurantList.add( entry.getValue());
 			}
 			return gsonReg.toJson(restaurantList);
@@ -618,23 +620,24 @@ public class ProjekatMain {
 			
 				for (Map.Entry<String, Restaurant> entry : restaurantDAO.getRestaurants().entrySet()) {
 					if(s!=null && !s.equals("")) {
-						if(entry.getValue().getRestaurantName().contains(s)) //i ovde provera da li je obrisan
+						if(entry.getValue().getRestaurantName().contains(s) && entry.getValue().getDeleted()!=true) //i ovde provera da li je obrisan
 							restaurants.add( entry.getValue());
 							}
 					else if(l!=null && !l.equals("")) {
 						System.out.println("trazim lokaciju"+l);
-						if(locationDAO.findLocation(entry.getValue().getLocationId())!=null && locationDAO.findLocation(entry.getValue().getLocationId()).getCity().contains(l)) {
+						if(locationDAO.findLocation(entry.getValue().getLocationId())!=null && locationDAO.findLocation(entry.getValue().getLocationId()).getCity().contains(l)
+								&& entry.getValue().getDeleted()!=true) {
 							restaurants.add(entry.getValue());
 						}
 					}
 					else if(t!=null && !t.equals("")) {
 						
-						if(entry.getValue().getRestaurantType().toString().equals(t)) {
+						if(entry.getValue().getRestaurantType().toString().equals(t) && entry.getValue().getDeleted()!=true) {
 							restaurants.add(entry.getValue());
 						}
 					}
 					else if(g!=null && !g.equals("")) {
-						if(commentDAO.checkRestaurantByGrade(entry.getValue(),g)) {
+						if(commentDAO.checkRestaurantByGrade(entry.getValue(),g) && entry.getValue().getDeleted()!=true) {
 							restaurants.add(entry.getValue());
 						}
 					}
@@ -862,6 +865,13 @@ public class ProjekatMain {
 		
 			return true;
 		});
+		post("/deleteRestaurant", (req, res) -> {
+			String rName = req.queryParams("rName");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			restaurantDAO.deleteRestaurant(rName);
+		
+			return true;
+		});
 		
 		get("/buyersWhoOrdered", (req, res)->{
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
@@ -874,6 +884,19 @@ public class ProjekatMain {
 		    }	
 			return gsonReg.toJson(buyers);
 			
+		});
+		
+		get("/allComments",(req,res) -> {
+
+			String rName =  req.queryParams("restaurantName");
+			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			ArrayList<Comment> commentList = new ArrayList<Comment>();
+			CommentDAO commentDao = new CommentDAO();
+			for (Map.Entry<Integer, Comment> entry : commentDao.getComments().entrySet()) {
+					commentList.add( entry.getValue());
+			}
+			return gsonReg.toJson(commentList);
+						
 		});
 		
 	}

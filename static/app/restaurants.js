@@ -10,6 +10,7 @@ Vue.component("restaurants", {
 			restaurantName:"",
 			restaurantType:"",
 			grade:"",
+			grades: [],
 			searchingName:"",
 			searchingLocation:"",
 			orderedFromRestaurants:[],
@@ -68,9 +69,16 @@ Vue.component("restaurants", {
 		            }
 		         
 		        });
-
-			
-		}
+			}
+			axios.get('/grades')
+				.then(response => {
+		            for(var i =0;i< response.data.length;i++){
+		                var grade = {};
+		                grade.restaurantName = response.data[i].restaurantName;
+						grade.mark = response.data[i].grade;
+					    this.grades.push(grade);
+		            }
+		        });
 		},
 		findLocation:function(id){
 			axios.get('/location?id='+id).then(response => {
@@ -86,6 +94,13 @@ Vue.component("restaurants", {
 		newRestaurant(event){
 		    router.push({ path: `/addRestaurant` })
 
+		},
+		deleteRestaurant: function(id){
+			axios.post('/deleteRestaurant', {rName: id},{params:{rName:  id}})
+        .then(response =>{
+          		alert("Uspešno izbrisan restoran");
+
+            });
 		},
 		selectRestaurant: function(id){
 			router.push({ path: `/selectedRestaurant/${id}` })
@@ -228,8 +243,8 @@ Vue.component("restaurants", {
         <a href="#/basket" v-if="this.role==='kupac'">Korpa</a>
 
         <a href="#" v-if="this.role==='kupac'">Utisci i komentari</a>
-		<a href="#" v-if="this.role==='administrator'">Utisci i komentari</a>
-		<a href="#/comments" v-if="this.role==='manager'">Utisci i komentari</a>
+		<a href="#/allComments" v-if="this.role==='administrator'">Utisci i komentari</a>
+		<a href="#/allComments" v-if="this.role==='manager'">Utisci i komentari</a>
  
 	</div>
 	</div>
@@ -296,9 +311,19 @@ Vue.component("restaurants", {
 						<li><i>{{restaurant.restaurantType}}</i></li>
 						<li v-for="location in locations" v-if="location.idLocation === restaurant.locationId">
 						<i>{{location.street}} {{location.houseNumber}}, {{location.city}} </i></li>
+						
+						<div readonly v-for="grade in grades" v-if="grade.mark!=0 && grade.restaurantName == restaurant.restaurantName">
+						 <label v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=1)}" >★ </label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=2)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=3)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=4)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=5)}">★</label>
+						</div>
 						<div v-if="role==='kupac' && orderedFromRestaurants">
 						<div v-for="orderedRestaurant in orderedFromRestaurants">
 						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button v-on:click="evaluate(orderedRestaurant.restaurantName)"> Oceni</button</div>
+						<div v-if="role ==='administrator'"><button v-on:click="deleteRestaurant(restaurant.restaurantName)">Obriši restoran</button</div>
+
 						</div>
 						</div>
 					</span>
@@ -315,6 +340,14 @@ Vue.component("restaurants", {
 						<li>{{restaurant.restaurantName}}</li></strong></em>
 						<li class="open">{{restaurant.status}}</li></strong></em>
 						<li><i>{{restaurant.restaurantType}}</i></li>
+						
+						<div readonly v-for="grade in grades" v-if="grade.mark!=0 && grade.restaurantName == restaurant.restaurantName">
+						 <label v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=1)}" >★ </label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=2)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=3)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=4)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=5)}">★</label>
+				</div>
 						<div v-if="role==='kupac' && orderedFromRestaurants">
 						<div v-for="orderedRestaurant in orderedFromRestaurants">
 						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button v-on:click="evaluate(restaurant.restaurantName)"> Oceni</button</div>

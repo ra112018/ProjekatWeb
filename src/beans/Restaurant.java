@@ -11,6 +11,7 @@ public class Restaurant {
 	private int locationId;
 	private String logo;
 	private String managerName;
+	private Boolean deleted;
 
 	public Restaurant() {}
 
@@ -79,6 +80,14 @@ public class Restaurant {
 
 	public void setManagerName(String managerName) {
 		this.managerName = managerName;
+	}
+
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 

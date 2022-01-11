@@ -185,7 +185,7 @@ Vue.component("addRestaurant", {
 		<a href="#/userTableAdmin" v-if="this.role==='administrator'">Korisnici</a>
 		<a href="#/addUser" v-if="this.role==='administrator'">Dodaj korisnika</a>
         <a href="#/suspiciousUsersTable" v-if="this.role==='administrator'">Pregled sumnjivih korisnika</a>
-		<a href="#" v-if="this.role==='administrator'">Utisci i komentari</a>
+		<a href="#/allComments" v-if="this.role==='administrator'">Utisci i komentari</a>
  
 	</div>
        

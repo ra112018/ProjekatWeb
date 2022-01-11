@@ -56,6 +56,7 @@ public class RestaurantDAO {
 	
 
 	public Restaurant addRestaurant(Restaurant restaurant) {
+		restaurant.setDeleted(false);
 		if(restaurant.getLogo()!=null) {
 		String logoName=getNiceImageFormat(restaurant.getLogo(),restaurant.getRestaurantName());
 
@@ -323,5 +324,18 @@ public class RestaurantDAO {
 			restNames.add(entry.getValue().getRestaurantName());
 		}
 		return restNames;
+	}
+	public void deleteRestaurant(String uName) {
+		for (Map.Entry<String, Restaurant> entry : restaurants.entrySet()) {
+	        if(entry.getValue().getRestaurantName().equals(uName) ) {
+	        	entry.getValue().setDeleted(true);
+	        }
+	    }
+		try {
+			addRestaurantInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

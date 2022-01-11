@@ -193,7 +193,7 @@ Vue.component("buyersWhoOrdered", {
 			<a href="#/myRestaurants">Moj restoran</a>
 			<a href="#/orders">Porudžbine</a>
 			<a href="#/buyersWhoOrdered" class='active'>Kupci</a>
-			<a href="#" >Utisci i komentari</a> 
+			<a href="#/allComments" >Utisci i komentari</a> 
 		
 		</div>
 		

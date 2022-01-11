@@ -9,6 +9,8 @@
 		role:localStorage.getItem('role'),
         backup: {},
 		restaurant:null,
+		
+		location:null,
 
 		//decodeVar: null
 		};
@@ -22,6 +24,7 @@
               .get('/restaurantDetails?id='+id,{params:{restaurantName: id}})
 	          .then(response => {
 			this.restaurant=response.data;
+			this.findLocation(this.restaurant.locationId);
 	});	
 		},
 	
@@ -38,7 +41,13 @@
 							router.replace({ path: `/restaurants`})		
 
 					});
-				}
+				},
+	findLocation:function(id){
+			axios.get('/location?id='+id).then(response => {
+				this.location=response.data;
+			});
+		},
+				
 		},
 
 	template: ` 
@@ -69,7 +78,7 @@
 	<div class="restoran">
 		<img class="logo4" :src="restaurant.logo"/>
 		<span class="opisRestorana"><br><br>{{restaurant.restaurantName}}<br><p class="open">{{restaurant.status}}</p><p>{{restaurant.restaurantType}}</p>
-		Bulevar cara Lazara 92		DODATI LOKACIJU
+		<p v-if="location">{{location.street}} {{location.houseNumber}}	,{{location.city}}	</p>
 		</span>
 		</div>
 		<p>Ocena</p> <div class="rate">

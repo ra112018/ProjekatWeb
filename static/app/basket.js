@@ -68,7 +68,7 @@ Vue.component("basket", {
         <a href="#/restaurants">Restorani</a>
         <a href="#/orders">Porudžbine</a>
         <a href="#/basket" class="active">Korpa</a>
-        <a href="#">Utisci i komentari</a> </div>
+        <a href="#/comments">Utisci i komentari</a> </div>
      
  		<p class="naslov"><b>Korpa</b></p>
      
