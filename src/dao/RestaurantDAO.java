@@ -62,9 +62,7 @@ public class RestaurantDAO {
 
         restaurant.setLogo("../img/" + logoName);
 		}
-        boolean exist=checkManager(restaurant.getManagerName());
         boolean alreadyHasRestaurant=checkIfManagerHasRestaurant(restaurant.getManagerName());
-        if(exist==true) {
         	restaurant.setArticles(new ArrayList<Article>());
         	restaurant.setStatus(RestaurantStatus.Open);
         	
@@ -82,12 +80,6 @@ public class RestaurantDAO {
             	restaurant=new Restaurant();
             	restaurant.setManagerName("zauzet");
         	}
-        }
-        else{
-        	restaurant=new Restaurant();
-        	restaurant.setManagerName("nepostojeci");
-        	}
-        	
 		
 		return restaurant;
 	}
@@ -176,12 +168,6 @@ public class RestaurantDAO {
 		return false;
 	}
 
-	public boolean checkManager(String name) {
-		boolean MngExist;
-		ManagerDAO m=new ManagerDAO();
-		MngExist=m.ManagerExist(name);
-		return MngExist;
-		}
 	
 	public static Restaurant findRestaurantByManager(String usname) {
 		ManagerDAO m=new ManagerDAO();

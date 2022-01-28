@@ -67,7 +67,9 @@ Vue.component("addRestaurant", {
 				
 						}
 						else{
-							alert("Dodat menadžer!")							
+							alert("Dodat menadžer!")
+							this.role = localStorage.getItem('role');
+							
 						}
 
 					});
@@ -92,11 +94,17 @@ Vue.component("addRestaurant", {
         .then(response =>{
                 if(response.data){
                     alert("Restoran uspešno kreiran.")
+					//location.reload(true);
+					this.role = localStorage.getItem('role');
+					//alert(this.role);
+
                 }
                 else{
                     alert("Menadžer ne postoji u bazi ili već ima restoran.")
                 }
             })
+		this.role = localStorage.getItem('role');
+
     }
 	}, 
 	    openForm: function(){
@@ -118,6 +126,8 @@ Vue.component("addRestaurant", {
 	
 	},
 	mounted : function() {
+		//this.role = localStorage.getItem('role');
+
 		map = new ol.Map({
             target: 'map',
             layers: [
@@ -170,8 +180,7 @@ Vue.component("addRestaurant", {
 		            }
 
 		         
-		        });
-	},
+		        });	},
 	
 	template: `<div>
 		<div class="maliHeder">

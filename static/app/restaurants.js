@@ -45,7 +45,7 @@ Vue.component("restaurants", {
 						restaurant.restaurantType = response.data[i].restaurantType;
 						restaurant.locationId = response.data[i].locationId;
 						this.findLocation(restaurant.locationId);
-
+												
 					    this.restaurants.push(restaurant);
 		            }
 
@@ -77,6 +77,14 @@ Vue.component("restaurants", {
 		                grade.restaurantName = response.data[i].restaurantName;
 						grade.mark = response.data[i].grade;
 					    this.grades.push(grade);
+						for(var j = 0; j< this.restaurants.length;j++){
+							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
+								this.restaurants[j].avgGrade = grade.mark;
+							}
+							else if(grade.mark == 0){
+								this.restaurants[j].avgGrade = 0;
+							}
+						}
 		            }
 		        });
 		},
@@ -128,7 +136,6 @@ Vue.component("restaurants", {
 				return 0;
 			}
 			
-			
 		},
 		
 		restaurantLocation: function(id){
@@ -140,10 +147,53 @@ Vue.component("restaurants", {
 			}
 		},
 		
-		checkLocations: function(c,d){
-			let a = this.restaurantLocation(c.lokacija);
-			let b = this.restaurantLocation(d.lokacija);
+		checkLocations: function(a,b){
+			let first, second;
+			if(this.sortingCriterion == "lokacija"){
+				first = a.locationId;
+				second = b.locationId;
+			}
+			if(first < second){
+				if(this.sortingType == 'rastuce'){
+					return -1;
+				}else{
+					return 1;
+				}
+			}else if(first > second){
+				if(this.sortingType == 'rastuce'){
+					return 1;
+				}else{
+					return -1;
+				}
+			}else{
+				return 0;
+			}
 			
+		},
+		checkGrade: function(a,b){
+			let first, second;
+			console.log(this.sortingCriterion)
+			if(this.sortingCriterion == "ocena"){
+				first = a.avgGrade;
+				second = b.avgGrade;
+				console.log(a)
+
+			}
+			if(first < second){
+				if(this.sortingType == 'rastuce'){
+					return -1;
+				}else{
+					return 1;
+				}
+			}else if(first > second){
+				if(this.sortingType == 'rastuce'){
+					return 1;
+				}else{
+					return -1;
+				}
+			}else{
+				return 0;
+			}
 		},
 		sortRestaurants: function(){
 			if(this.sortingType != "rastuce" && this.sortingType != "opadajuce"){
@@ -155,7 +205,10 @@ Vue.component("restaurants", {
 				}else if(this.sortingCriterion == "naziv"){
 					this.restaurants.sort(this.checkName);
 				}else if(this.sortingCriterion == "lokacija"){
+
 					this.restaurants.sort(this.checkLocations);
+				}else if(this.sortingCriterion == "ocena"){
+					this.restaurants.sort(this.checkGrade);
 				}
 				
 				
@@ -312,12 +365,12 @@ Vue.component("restaurants", {
 						<li v-for="location in locations" v-if="location.idLocation === restaurant.locationId">
 						<i>{{location.street}} {{location.houseNumber}}, {{location.city}} </i></li>
 						
-						<div readonly v-for="grade in grades" v-if="grade.mark!=0 && grade.restaurantName == restaurant.restaurantName">
-						 <label v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=1)}" >★ </label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=2)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=3)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=4)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=5)}">★</label>
+						<div readonly>
+						 <label v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=1)}" >★ </label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=2)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=3)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=4)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=5)}">★</label>
 						</div>
 						<div v-if="role==='kupac' && orderedFromRestaurants">
 						<div v-for="orderedRestaurant in orderedFromRestaurants">
@@ -341,12 +394,12 @@ Vue.component("restaurants", {
 						<li class="open">{{restaurant.status}}</li></strong></em>
 						<li><i>{{restaurant.restaurantType}}</i></li>
 						
-						<div readonly v-for="grade in grades" v-if="grade.mark!=0 && grade.restaurantName == restaurant.restaurantName">
-						 <label v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=1)}" >★ </label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=2)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=3)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=4)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=5)}">★</label>
+						<div readonly>
+						 <label v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=1)}" >★ </label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=2)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=3)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=4)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=5)}">★</label>
 				</div>
 						<div v-if="role==='kupac' && orderedFromRestaurants">
 						<div v-for="orderedRestaurant in orderedFromRestaurants">

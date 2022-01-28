@@ -59,8 +59,6 @@ Vue.component("orders", {
 			,
 			
 			search(){
-			alert("ajde ispis");
-			alert(this.orders);
 			this.ordersNew = this.orders;
 			console.log(this.ordersNew);
 			this.orders = [];
@@ -181,8 +179,8 @@ Vue.component("orders", {
       <div class="pretraga" v-if="this.role=='deliverer' || this.role=='kupac'">
 			<form @submit="search">
 			<input type="text" id="naziv" name="naziv" v-model="searchingName" placeholder="Naziv restorana">
-	        <input type="text"  v-model="searchingPriceFrom" placeholder="Cena">
-	        <input type="text"  v-model="searchingPriceTo" placeholder="Cena">
+	        <input type="text"  v-model="searchingPriceFrom" placeholder="Cena od">
+	        <input type="text"  v-model="searchingPriceTo" placeholder="Cena do">
 	        <input type="date" v-model="dateOfOrderFrom"  placeholder="Datum od">
 	        <input type="date" v-model="dateOfOrderFrom" placeholder="Datum do">
 	        

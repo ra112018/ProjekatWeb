@@ -81,6 +81,8 @@ public class DelivererDAO {
 	        	entry.getValue().setSurname(deliverer.getSurname());
 	        	entry.getValue().setGender(deliverer.getGender());
 	        	entry.getValue().setPassword(deliverer.getPassword());
+	        	entry.getValue().setBirthDate(deliverer.getBirthDate());
+
 	        }
 	    }
 		try {

@@ -10,19 +10,21 @@ Vue.component("success", {
 		};
 	},
 	methods: {
-		mounted: function(){
+		
+	},
+	mounted: function(){
               this.username = window.localStorage.getItem('username');
               this.role = window.localStorage.getItem('role');
 			  this.stavka1="Moj profil";
-
-			if(this.role="kupac"){
+			if(this.role=="kupac"){
 			}
             },
-	},
 	template: `<div>	 
 	<div class="maliHeder">
 		<a href="#/">
-		<button style="font-size: 100%;">Odjavi se</button></a>
+		<button style="font-size: 100%;" v-if="this.role != 'undefined'">Odjavi se</button></a>
+        <a href="#/login" style="color: white; margin-right:90%" v-if="this.role=='undefined'">Nazad na prijavu</a>
+
 	</div>
 	
 	<div class="vertical-menu">
@@ -52,7 +54,9 @@ Vue.component("success", {
 		<a href="#/allComments" v-if="this.role==='manager'">Utisci i komentari</a> </div>
 
       <p class="naslov"><b>Uloga: {{this.role}} </b></p>
-      <p class="p1">Uspešna prijava</p>
+      <p class="p1" v-if="this.role != 'undefined'">Uspešna prijava</p>
+      <p class="p1" v-if="this.role == 'undefined'">Neuspešna prijava!</p>
+
 		</div>`
 		
 });

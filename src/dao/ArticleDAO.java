@@ -71,7 +71,7 @@ public class ArticleDAO {
 		if(exist==false) {
 		articles.put(r.getArticleName(),r);
 
-		if(r.getArticlePhoto()!=null) {
+		if(r.getArticlePhoto()!=null && r.getArticlePhoto()!="") {
 		String logoName=getNiceImageFormat(r.getArticlePhoto(),r.getRestaurantName());
         r.setArticlePhoto("../img/" + logoName);
 		}
@@ -102,8 +102,16 @@ public class ArticleDAO {
 	        }
 	    }
 		return m;
-
-
+	}
+	public static int getNumberOfArticlesByRestaurant(String rName) {
+		// TODO Auto-generated method stub
+		int i = 0;
+		for (Map.Entry<String, Article> entry : articles.entrySet()) {
+	        if((entry.getValue().getRestaurantName()).equals(rName) ) {
+	        	i++;
+	        }
+	    }
+		return i;
 	}
 	public String getNiceImageFormat(String image,String name) {
 
@@ -124,7 +132,7 @@ public class ArticleDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String imageName= "artikal"  +name+ ".png";
+		String imageName= "artikal"  +(getNumberOfArticlesByRestaurant(name)+1)+name+ ".png";
 		File outputfile = new File(System.getProperty("user.dir")+ "\\static\\img\\" + imageName);
         try {
 			ImageIO.write(bimage, "png", outputfile);

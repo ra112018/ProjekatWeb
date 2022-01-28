@@ -10,9 +10,11 @@ Vue.component("addArticle", {
 			managerName:null,
 			type:"",
 			showLogo:null,
-			image:null,
+			image:"",
 			restaurantName:localStorage.getItem('restaurantName'),
-
+			price:null,
+			quantity:"",
+			description:"",
 			role:localStorage.getItem('role'),
 			user:localStorage.getItem('user'),
 			
@@ -26,7 +28,10 @@ Vue.component("addArticle", {
     add: function (e) {
       e.preventDefault();
       this.errors = null;
-
+		if(this.image==""){
+			alert("Slika artikla je obavezna")
+		}
+		else{
         axios
         .post('/addArticle', {articleName:this.name, articleType:this.type,price:this.price,
 					quantity:this.quantity,articlePhoto:this.image,
@@ -39,7 +44,7 @@ Vue.component("addArticle", {
                 else{
                     alert("U bazi postoji artikal sa istim imenom")
                 }
-            })
+            })}
     
 	}, 
 	addLogo: function(event){
@@ -74,7 +79,7 @@ Vue.component("addArticle", {
 	</div>
        
     <p class="naslov"><b>Dodaj artikal</b></p>
-    <p class="napomena"> *Sva polja su obavezna</p>
+    <p class="napomena"> *Opis i količina su opcioni</p>
         
  		<form @submit="add"  class="registracija">
 				<table>
@@ -101,11 +106,11 @@ Vue.component("addArticle", {
                             </tr>
                             <tr>
                                 <td> Količina: </td>
-                                <td> <input type="text" required v-model="quantity" pattern="[0-9]+"/></td>
+                                <td> <input type="text" v-model="quantity" /></td>
                             </tr>
 						 <tr>
                                 <td> Opis: </td>
-                                <td> <input type="text" required v-model="description" /></td>
+                                <td> <input type="text" v-model="description" /></td>
                             </tr>
 						 <tr><td>Slika: </td>
              				 <td><input type="file" v-on:change="addLogo" > </td>

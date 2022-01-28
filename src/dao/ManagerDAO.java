@@ -74,15 +74,6 @@ public class ManagerDAO {
 		return null;
 	}
 	
-	public boolean ManagerExist(String name) {
-		for (Map.Entry<String, Manager> entry : managers.entrySet()) {
-	        if((entry.getValue().getName()+" "+entry.getValue().getSurname()).equals(name) ) {
-	        	return true;
-	        }
-	    }
-		return false;
-	}
-	
 	public void updateManager(String usname, Manager manager) {
 		for (Map.Entry<String, Manager> entry : managers.entrySet()) {
 	        if(entry.getValue().getUserName().equals(usname) ) {
@@ -90,6 +81,8 @@ public class ManagerDAO {
 	        	entry.getValue().setSurname(manager.getSurname());
 	        	entry.getValue().setGender(manager.getGender());
 	        	entry.getValue().setPassword(manager.getPassword());
+	        	entry.getValue().setBirthDate(manager.getBirthDate());
+	        	
 	        }
 	    }
 		try {

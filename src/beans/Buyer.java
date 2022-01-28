@@ -12,6 +12,15 @@ public class Buyer extends User {
 	private String buyerType;
 	private boolean blocked;
 	private boolean suspicious;
+	private int discount;
+
+	public int getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
 
 	public Buyer() {
 		// TODO Auto-generated constructor stub

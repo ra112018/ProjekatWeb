@@ -131,7 +131,10 @@ public class ProjekatMain {
 			
 			String userName = "exists";
 			ArrayList<String> answers = new ArrayList<String>();
-			if(buyerDAO.findBuyerByUsername(buyerReg.getUserName()) != null) {
+			if(buyerDAO.findBuyerByUsername(buyerReg.getUserName()) != null || 
+					managerDAO.findManagerByUsername(buyerReg.getUserName()) != null || 
+					delivererDAO.findDelivererByUsername(buyerReg.getUserName()) != null|| 
+					adminDAO.findAdminByUsername(buyerReg.getUserName()) != null) { 		//provera da li postoji i menadzer ili dostavljac sa takvim usernameom
 				answers.add(userName);
 				return g.toJson(answers);
 			}else {
@@ -174,6 +177,7 @@ public class ProjekatMain {
 		post("/updateProfile", (req, res)-> {
 			String uName =  req.queryParams("userName");
 			String reqBody = req.body();
+			System.out.print(reqBody);
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			User us = null;
 			us = buyerDAO.findBuyerByUsername(uName);
@@ -675,6 +679,7 @@ public class ProjekatMain {
 			String reqBody = req.body();
 			String uName = req.queryParams("userName");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			//provera id jedinstven
 			boolean orderSuccess;
 			orderSuccess=orderDAO.createOrder(uName);
 			basketDAO.emptyBasketByUsername(uName);
@@ -708,10 +713,10 @@ public class ProjekatMain {
 					Deliverer deliverer=delivererDAO.findDelivererByUsername(uName);
 					if(deliverer != null){
 						for (Map.Entry<String, Order> entry : orderDAO.getOrders().entrySet()) {
-							if(entry.getValue().getOrderStatus().equals(OrderStatus.WaitingDeliverer) ) {
+							if(entry.getValue().getOrderStatus()!=null && entry.getValue().getOrderStatus().equals(OrderStatus.WaitingDeliverer) ) {
 								orders.add( entry.getValue());
 							}
-							else if(entry.getValue().getOrderStatus().equals(OrderStatus.InTransport)) {
+							else if(entry.getValue().getOrderStatus()!=null && entry.getValue().getOrderStatus().equals(OrderStatus.InTransport)) {
 								
 								System.out.println(entry.getValue().getIdOrder()+"  Id porudzbine");
 								for ( Order o : deliverer.getDeliveryOrders()) {

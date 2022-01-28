@@ -57,9 +57,58 @@ Vue.component("home-page", {
 			
 			
 		},
+		
+		checkGrade: function(a,b){
+			let first, second;
+			console.log(this.sortingCriterion)
+			if(this.sortingCriterion == "ocena"){
+				first = a.avgGrade;
+				second = b.avgGrade;
+				console.log(a)
+
+			}
+			if(first < second){
+				if(this.sortingType == 'rastuce'){
+					return -1;
+				}else{
+					return 1;
+				}
+			}else if(first > second){
+				if(this.sortingType == 'rastuce'){
+					return 1;
+				}else{
+					return -1;
+				}
+			}else{
+				return 0;
+			}
+		},
+		checkLocations: function(a,b){
+			let first, second;
+			if(this.sortingCriterion == "lokacija"){
+				first = a.locationId;
+				second = b.locationId;
+			}
+			if(first < second){
+				if(this.sortingType == 'rastuce'){
+					return -1;
+				}else{
+					return 1;
+				}
+			}else if(first > second){
+				if(this.sortingType == 'rastuce'){
+					return 1;
+				}else{
+					return -1;
+				}
+			}else{
+				return 0;
+			}
+			
+		},
 		sortRestaurants: function(){
 			if(this.sortingType != "rastuce" && this.sortingType != "opadajuce"){
-				alert("Potrebno je uneti tip sortianja");
+				alert("Potrebno je uneti tip sortiranja");
 			}else{
 				if(this.sortingCriterion != "naziv" && this.sortingCriterion != "lokacija" && this.sortingCriterion!= "ocena"){
 					alert("Potrebno je uneti kriterijum sortiranja");
@@ -67,6 +116,9 @@ Vue.component("home-page", {
 					this.restaurants.sort(this.checkName);
 				}else if(this.sortingCriterion == "lokacija"){
 					this.restaurants.sort(this.checkLocations);
+				}
+				else if(this.sortingCriterion == "ocena"){
+					this.restaurants.sort(this.checkGrade);
 				}
 			}
 		},
@@ -148,6 +200,15 @@ Vue.component("home-page", {
 		                grade.restaurantName = response.data[i].restaurantName;
 						grade.mark = response.data[i].grade;
 					    this.grades.push(grade);
+	
+						for(var j = 0; j< this.restaurants.length;j++){
+							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
+								this.restaurants[j].avgGrade = grade.mark;
+							}
+							else if(grade.mark == 0){
+								this.restaurants[j].avgGrade = 0;
+							}
+						}
 		            }
 		        });
 	console.log(this.grades);
@@ -220,12 +281,12 @@ Vue.component("home-page", {
 						<li><i>{{restaurant.restaurantType}}</i></li>
 						<div  v-for="location in locations" v-if="location.idLocation == restaurant.locationId">
 						<li >{{location.city}}</li><li >{{location.street}}  {{location.houseNumber}}</li></div>
-						<div readonly v-for="grade in grades" v-if="grade.mark!=0 && grade.restaurantName == restaurant.restaurantName">
-						 <label v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=1)}" >★ </label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=2)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=3)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=4)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(grade.mark>=5)}">★</label>
+						<div readonly>
+						 <label v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=1)}" >★ </label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=2)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=3)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=4)}">★</label>
+					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=5)}">★</label>
 				</div>
 					</span>
 				</ul>

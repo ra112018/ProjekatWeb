@@ -79,6 +79,8 @@ public class AdministratorDAO {
 	        	entry.getValue().setSurname(admin.getSurname());
 	        	entry.getValue().setGender(admin.getGender());
 	        	entry.getValue().setPassword(admin.getPassword());
+	        	entry.getValue().setBirthDate(admin.getBirthDate());
+
 	        }
 	    }
 		try {
