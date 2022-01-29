@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 public class Deliverer extends User{
 
-	private ArrayList<Order> deliveryOrders; //za dostavljaca
+	private ArrayList<String> deliveryOrders; //za dostavljaca
 	private boolean blocked;
 
 	public Deliverer() {}
-	public ArrayList<Order> getDeliveryOrders() {
+	public ArrayList<String> getDeliveryOrders() {
 		return deliveryOrders;
 	}
 
-	public void setDeliveryOrders(ArrayList<Order> deliveryOrders) {
+	public void setDeliveryOrders(ArrayList<String> deliveryOrders) {
 		this.deliveryOrders = deliveryOrders;
 	}
 	

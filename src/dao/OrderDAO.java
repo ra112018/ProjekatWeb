@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 
 import beans.Article;
 import beans.Basket;
+import beans.BasketArticle;
 import beans.Buyer;
 import beans.Manager;
 import beans.Order;
@@ -70,11 +71,10 @@ public class OrderDAO {
 		o.setIdOrder(id);
 		o.setOrderStatus(OrderStatus.Processing);
 		o.setPrice(Integer.parseInt(price));
-		for(Article a : b.getBasketArticles()) {
+		for(BasketArticle a : b.getBasketArticles()) {
 			ArticleDAO articleDAO=new ArticleDAO();
-			a=articleDAO.findArticleByName(a.getArticleName());
-			o.setRestaurantName(a.getRestaurantName());
-			System.out.println("Restoran "+a.getRestaurantName());
+			Article art=articleDAO.findArticleByName(a.getArticleName());
+			o.setRestaurantName(art.getRestaurantName());
 		}
 		LocalDateTime dateTime = LocalDateTime.now(); // Gets the current date and time
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -114,19 +114,25 @@ public class OrderDAO {
 	}
 
 	public HashMap<String, Order> getOrdersByManager(String uName) {
+		
 		// TODO Auto-generated method stub
-		Manager manager = null; 				//ovo sam dodala 
+		Manager manager = null; 
+		ArticleDAO articleDAO = new ArticleDAO();
 		HashMap<String,Order> m=new HashMap<String,Order>();
 		//Manager manager=ManagerDAO.findManagerByUsername(uName);
-		manager = managerDAO.findManagerByUsername(uName);        	//ovo sam dodala
+		manager = managerDAO.findManagerByUsername(uName);        	
 		String mName=manager.getName()+" "+manager.getSurname();
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
-	        if(entry.getValue().getArticles().get(0)!=null && RestaurantDAO.findRestaurant(entry.getValue().getArticles().get(0).getRestaurantName())!=null  && RestaurantDAO.findRestaurant(entry.getValue().getArticles().get(0).getRestaurantName()).getManagerName().equals(mName) ) {
-	        	m.put((entry.getValue().getIdOrder()),entry.getValue());
-
-	        }
+	        if(entry.getValue().getArticles().get(0)!=null) {
+	        		Article article = articleDAO.findArticleByName(entry.getValue().getArticles().get(0).getArticleName());
+	        		if(article.getRestaurantName()!=null ){
+	        			Restaurant rest = RestaurantDAO.findRestaurant(article.getRestaurantName());
+	        		if(rest.getManagerName().equals(mName))	{     
+	    		  		m.put((entry.getValue().getIdOrder()),entry.getValue());
+	      }
+	     }
 	    }
-		System.out.println("GHHR"+m.entrySet().toString());
+	    }
 		return m;
 	}
 
@@ -163,7 +169,7 @@ public class OrderDAO {
 	        			else if(entry.getValue().getOrderStatus()==OrderStatus.WaitingDeliverer) {
 	        				Request r=new Request();
 	        				DelivererDAO delivererDAO = new DelivererDAO();
-							r.setDeliverer(delivererDAO.findDelivererByUsername(usName));
+							r.setDeliverer(delivererDAO.findDelivererByUsername(usName).getUserName());
 							r.setIdOrder(idO);
 							RequestDAO req=new RequestDAO();
 							boolean e=req.addRequest(r);
@@ -249,9 +255,6 @@ public class OrderDAO {
 	        	restList.put((entry.getValue().getRestaurantName()),RestaurantDAO.findRestaurant(entry.getValue().getRestaurantName()));
 	        }
 		}
-	        
-	    
-		
 		return restList;
 	
 		}

@@ -2,14 +2,14 @@ package beans;
 
 public class Request {
 
-	private Deliverer deliverer;
+	private String deliverer;
 	private String idOrder;
 	private int idRequest;
 	boolean approved;
-	public Deliverer getDeliverer() {
+	public String getDeliverer() {
 		return deliverer;
 	}
-	public void setDeliverer(Deliverer deliverer) {
+	public void setDeliverer(String deliverer) {
 		this.deliverer = deliverer;
 	}
 	public String getIdOrder() {

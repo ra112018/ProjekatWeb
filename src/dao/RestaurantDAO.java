@@ -63,7 +63,7 @@ public class RestaurantDAO {
         restaurant.setLogo("../img/" + logoName);
 		}
         boolean alreadyHasRestaurant=checkIfManagerHasRestaurant(restaurant.getManagerName());
-        	restaurant.setArticles(new ArrayList<Article>());
+        	restaurant.setArticles(new ArrayList<String>());
         	restaurant.setStatus(RestaurantStatus.Open);
         	
         	if(alreadyHasRestaurant==false) {

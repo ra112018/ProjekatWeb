@@ -2,15 +2,15 @@ package beans;
 
 public class Manager extends User {
 	
-	private Restaurant restaurant; //za menadzera
+	private String restaurant; //za menadzera
 	private boolean blocked;
 	
 	public Manager() {}
-	public Restaurant getRestaurant() {
+	public String getRestaurant() {
 		return restaurant;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
+	public void setRestaurant(String restaurant) {
 		this.restaurant = restaurant;
 	}
 	

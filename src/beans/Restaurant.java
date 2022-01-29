@@ -6,7 +6,7 @@ public class Restaurant {
 
 	private String restaurantName;
 	private RestaurantType restaurantType;
-	private ArrayList<Article> articles;
+	private ArrayList<String> articles;
 	private RestaurantStatus status;
 	private int locationId;
 	private String logo;
@@ -15,7 +15,7 @@ public class Restaurant {
 
 	public Restaurant() {}
 
-	public Restaurant(String restaurantName, RestaurantType restaurantType, ArrayList<Article> articles,
+	public Restaurant(String restaurantName, RestaurantType restaurantType, ArrayList<String> articles,
 			RestaurantStatus status, int locationId, String logo) {
 		super();
 		this.restaurantName = restaurantName;
@@ -42,11 +42,11 @@ public class Restaurant {
 		this.restaurantType = restaurantType;
 	}
 
-	public ArrayList<Article> getArticles() {
+	public ArrayList<String> getArticles() {
 		return articles;
 	}
 
-	public void setArticles(ArrayList<Article> articles) {
+	public void setArticles(ArrayList<String> articles) {
 		this.articles = articles;
 	}
 

@@ -733,10 +733,10 @@ public class ProjekatMain {
 							else if(entry.getValue().getOrderStatus()!=null && entry.getValue().getOrderStatus().equals(OrderStatus.InTransport)) {
 								
 								System.out.println(entry.getValue().getIdOrder()+"  Id porudzbine");
-								for ( Order o : deliverer.getDeliveryOrders()) {
-									System.out.println(o.getIdOrder()+"  Id porudzbine iz liste");
+								for ( String o : deliverer.getDeliveryOrders()) {
+									System.out.println(o+"  Id porudzbine iz liste");
 
-									if(o.getIdOrder().equals(entry.getValue().getIdOrder())) {
+									if(o.equals(entry.getValue().getIdOrder())) {
 										orders.add( entry.getValue());
 									}
 							}

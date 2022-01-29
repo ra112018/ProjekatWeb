@@ -86,8 +86,9 @@ Vue.component("myRestaurants", {
 			axios.post('/editArticle',{articleName:value,quantity:this.tempValueKolicina, description:this.tempValueOpis,price:this.tempValueCena})
 			.then(response=>{
           		alert("Uspešno izmenjen artikal");
-
             });
+				this.refreshPage();
+
 		},
 		changeStatus:function(){
 			axios.post('/changeStatus',{rName: this.restaurant.restaurantName,status:this.tempValueStatus}, {params: {rName: this.restaurant.restaurantName,status:this.tempValueStatus}})
@@ -95,6 +96,7 @@ Vue.component("myRestaurants", {
           		alert("Uspešno promenjen status restorana");
 
             });
+		this.refreshPage();
 		},
 		changeType:function(){
 			axios.post('/changeType', {rName: this.restaurant.restaurantName,type:this.tempValueType},{params:{rName:  this.restaurant.restaurantName,type:this.tempValueType}})
@@ -102,6 +104,7 @@ Vue.component("myRestaurants", {
           		alert("Uspešno promenjen tip restorana");
 
             });
+		this.refreshPage();
 		},
 		saveAddress:function(){
 			axios
@@ -116,8 +119,8 @@ Vue.component("myRestaurants", {
 						
 					.then(function(response){
 						alert("Lokacija dodata");
-					  // this.refreshPage();
 					});
+					this.refreshPage();
 		},
 		findArticles: function(id){
 				axios.get('/articles?id='+id).then(response => {
@@ -144,8 +147,8 @@ Vue.component("myRestaurants", {
 						
 					.then(function(response){
 						alert("Komentar odobren")
-					  // this.refreshPage();
 					});
+					this.refreshPage();
 		},
 		decline:function(id){
 			axios
@@ -197,10 +200,12 @@ Vue.component("myRestaurants", {
                 if(response.data){
                     alert("Uspešno promenjena slika.")
                 }
+
                 else{
                     alert("Došlo je do greške.")
                 }
-            })
+            });
+		this.refreshPage();
 		},
 		differentArticleimg:function(value){
 			axios.post('/changeArticleImg', {articleName: value, articlePhoto:this.articleImage,
@@ -212,7 +217,9 @@ Vue.component("myRestaurants", {
                 else{
                     alert("Došlo je do greške.")
                 }
-            })
+            });
+					this.refreshPage();
+
 		},
 		
 		
@@ -250,13 +257,8 @@ Vue.component("myRestaurants", {
 	disableEditingArticle: function(){
       this.changingArticle = false;
     },
-	},
-	mounted: function(){
-              this.username = window.localStorage.getItem('username');
-
-              this.role = window.localStorage.getItem('role');
-			  this.user=window.localStorage.getItem('user');
-			axios.get('/findMyRestaurant',{params:{userName: this.username}})
+	refreshPage: function(){
+		axios.get('/findMyRestaurant',{params:{userName: this.username}})
 				.then(response => {
 		           
 		            this.restaurant=response.data;
@@ -269,6 +271,14 @@ Vue.component("myRestaurants", {
 			axios.get('/comments',{params:{restaurantName: window.localStorage.getItem('restaurantName')}}).then(response => {
 				this.comments=response.data;
 				});
+	}
+	},
+	mounted: function(){
+              this.username = window.localStorage.getItem('username');
+
+              this.role = window.localStorage.getItem('role');
+			  this.user=window.localStorage.getItem('user');
+			this.refreshPage();
 	},
 	
 

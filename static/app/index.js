@@ -209,7 +209,7 @@ Vue.component("home-page", {
 			console.log(this.searchingRestGrade);
 			console.log(this.grade)
 		    for(var i =0;i< this.searchingRestGrade.length;i++){
-				if(this.searchingRestGrade[i].avgGrade ==this.grade){
+				if(this.searchingRestGrade[i].avgGrade <=this.grade+0.5 &&this.searchingRestGrade[i].avgGrade >=this.grade-0.5){
 					this.restaurants.push(this.searchingRestGrade[i]);
 				}
 		          }

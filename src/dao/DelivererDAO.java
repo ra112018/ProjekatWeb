@@ -141,16 +141,16 @@ public class DelivererDAO {
 		}
 	}
 
-	public void addOrder(Deliverer deliverer, Order order) {
+	public void addOrder(String deliverer, Order order) {
 		// TODO Auto-generated method stub
 		for (Map.Entry<String, Deliverer> entry : deliverers.entrySet()) {
-	        if(entry.getValue().getUserName().equals(deliverer.getUserName()) ) {
+	        if(entry.getValue().getUserName().equals(deliverer) ) {
 	        	if(entry.getValue().getDeliveryOrders()!=null) {
-	        	entry.getValue().getDeliveryOrders().add(order);
+	        	entry.getValue().getDeliveryOrders().add(order.getIdOrder());
 	        	}
 	        	else {
-	        		ArrayList<Order> orders=new ArrayList<Order>();
-	        		orders.add(order);
+	        		ArrayList<String> orders=new ArrayList<String>();
+	        		orders.add(order.getIdOrder());
 	        		entry.getValue().setDeliveryOrders(orders);
 	        	}
 	        }

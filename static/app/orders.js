@@ -11,9 +11,11 @@ Vue.component("orders", {
 			searchingPriceTo:"",
 			dateOfOrderFrom:"",
 			dateOfOrderTo:"",
+			restaurantType:null,
 			restaurantName:"",
 			orders:[],
 			ordersNew:[],
+			ordersFilter:[],
 			requests:[]
 
 		};
@@ -26,17 +28,14 @@ Vue.component("orders", {
 				.then(response => {
 		            for(var i =0;i< response.data.length;i++){
 		                var order = {};
-		                order.idOrder = response.data[i].idOrder;
-		                order.articles = response.data[i].articles;
-		                order.restaurantName = response.data[i].restaurantName;
-						order.timeOfOrder=response.data[i].timeOfOrder;
-						order.price = response.data[i].price;
-		                order.user = response.data[i].user;
-		                order.orderStatus = response.data[i].orderStatus;
+		                order = response.data[i]
 		                this.orders.push(order);
 		            }
-
 		        });
+
+		    
+		
+		
 		if(this.role=="manager"){
 			axios.get('/requestsForMyRestaurant',{params:{userName: this.username}})
 				.then(response => {
@@ -51,32 +50,109 @@ Vue.component("orders", {
 
 
 		        });
-		}}
-			,
+		}
+		},
+		
+		
+		
+			filterByRestType(){
+				this.ordersNew = this.orders;
+				this.orders = [];
+				alert(this.restaurantType)
+				for(var i=0; i<this.ordersNew.length; i++) {
+				console.log(this.ordersNew[i])
+				if(this.restaurantType!="" && this.restaurantType===this.ordersNew[i].restaurantType ){
+						this.orders.push(this.ordersNew[i]);
+					}
+					}
+			},
+			filterByStatus(){
+				this.ordersNew = this.orders;
+				this.orders = [];
+				for(var i=0; i<this.ordersNew.length; i++) {
+				
+				/*if(this.restaurantType!="" && this.restaurantType===this.ordersNew[i].restaurantType ){
+						this.orders.push(this.ordersNew[i]);
+					}*/
+					}
+				
+			},
+			searchRestName(){
+				
+			this.ordersNew = this.orders;
+			this.orders = [];
+			for(var i=0; i<this.ordersNew.length; i++) {
+				
+				if(this.searchingName!="" && (this.ordersNew[i].restaurantName).includes(this.searchingName) ){
+						this.orders.push(this.ordersNew[i]);
+					}
+					}
+			},
+			searchPriceFrom(){
+				
+			this.ordersNew = this.orders;
+			this.orders = [];
+			for(var i=0; i<this.ordersNew.length; i++) {
+				if(this.searchingPriceFrom!="" && this.ordersNew[i].price >= this.searchingPriceFrom){
+						this.orders.push(this.ordersNew[i]);
+					}
+					}
+			},
+			searchPriceTo(){
+			this.ordersNew = this.orders;
+			this.orders = [];
+			for(var i=0; i<this.ordersNew.length; i++) {
+				if(this.searchingPriceTo!="" && this.ordersNew[i].price <= this.searchingPriceTo){
+						this.orders.push(this.ordersNew[i]);
+					}
+					}
+			},
+			
+			searchDateFrom(){
+				
+				this.ordersNew = this.orders;
+				this.orders = [];
+				for(var i=0; i<this.ordersNew.length; i++) {
+				const partOfDate = (this.ordersNew[i].timeOfOrder).split(" ")[0].split("/");
+				var realDate = partOfDate[2]+"-"+partOfDate[1]+"-"+partOfDate[0];
+				 if(this.dateOfOrderFrom!="" && Date.parse(realDate) >= Date.parse(this.dateOfOrderFrom)){
+						this.orders.push(this.ordersNew[i]);
+					}
+					}
+			},
+			searchDateTo(){
+				this.ordersNew = this.orders;
+				this.orders = [];
+				for(var i=0; i<this.ordersNew.length; i++) {
+				 const partOfDate = (this.ordersNew[i].timeOfOrder).split(" ")[0].split("/");
+					var realDate = partOfDate[2]+"-"+partOfDate[1]+"-"+partOfDate[0];
+				 if(this.dateOfOrderTo!="" && Date.parse(realDate) <= Date.parse(this.dateOfOrderTo)){
+						this.orders.push(this.ordersNew[i]);
+					}
+					}
+			},
 			
 			search(){
 			this.ordersNew = this.orders;
-			console.log(this.ordersNew);
 			this.orders = [];
 			if(this.searchingName == "" && this.searchingPriceFrom == ""  && this.searchingPriceTo == "" && this.dateOfOrderFrom == "" && this.dateOfOrderTo == ""){
 				alert("Potrebno je uneti kriterijum pretrage");
 			}else{
-				for(order in ordersNew){
-					if(this.searchingName!="" && order.restaurantName.includes(this.searchingName) ){
-						alert(this.order);
-						this.orders.push(order);
+			for(var i=0; i<this.ordersNew.length; i++) {
+					if(this.searchingName!="" && this.ordersNew[i].restaurantName.includes(this.searchingName) ){
+						this.orders.push(this.ordersNew[i]);
 					}
-					else if(this.searchingPriceFrom!="" && order.price >= this.searchingPriceFrom){
-						this.orders.push(order);
+					else if(this.searchingPriceFrom!="" && this.ordersNew[i].price >= this.searchingPriceFrom){
+						this.orders.push(this.ordersNew[i]);
 					}
-					else if(this.searchingPriceTo!="" && order.price <= this.searchingPriceTo){
-						this.orders.push(order);
+					else if(this.searchingPriceTo!="" && this.ordersNew[i].price <= this.searchingPriceTo){
+						this.orders.push(this.ordersNew[i]);
 					}
-					else if(this.dateOfOrderFrom!="" && order.timeOfOrder >= this.dateOfOrderFrom){
-						this.orders.push(order);
+					else if(this.dateOfOrderFrom!="" && this.ordersNew[i].timeOfOrder >= this.dateOfOrderFrom){
+						this.orders.push(this.ordersNew[i]);
 					}
-					else if(this.dateOfOrderTo!="" && order.timeOfOrder <= this.dateOfOrderTo){
-						this.orders.push(order);
+					else if(this.dateOfOrderTo!="" && this.ordersNew[i].timeOfOrder <= this.dateOfOrderTo){
+						this.orders.push(this.ordersNew[i]);
 					}
 				}
 		   }
@@ -146,10 +222,6 @@ Vue.component("orders", {
 		<button style="font-size: 100%;">Odjavi se</button></a>
 	</div>
 	
-	
-	
-	
-	
 	 <div class="vertical-menu">
         <a href="#/buyerProfile" v-if="this.role==='kupac'">Moj profil</a>
 		<a href="#/buyerProfile" v-if="this.role==='manager'">Moj profil</a>
@@ -175,30 +247,27 @@ Vue.component("orders", {
      
 
 
-      <div class="pretraga" v-if="this.role=='deliverer' || this.role=='kupac'">
+      <div class="pretraga" >
 			<form @submit="search">
-			<input type="text" id="naziv" name="naziv" v-model="searchingName" placeholder="Naziv restorana">
-	        <input type="text"  v-model="searchingPriceFrom" placeholder="Cena od">
-	        <input type="text"  v-model="searchingPriceTo" placeholder="Cena do">
-	        <input type="date" v-model="dateOfOrderFrom"  placeholder="Datum od">
-	        <input type="date" v-model="dateOfOrderFrom" placeholder="Datum do">
+			<input type="text" v-if="this.role==='deliverer'|| this.role ==='kupac'" id="naziv" name="naziv"
+			 v-model="searchingName" placeholder="Naziv restorana" @change="searchRestName">
+	        <input type="text"  v-model="searchingPriceFrom" @change="searchPriceFrom" placeholder="Cena od">
+	        <input type="text"  v-model="searchingPriceTo"  @change="searchPriceTo" placeholder="Cena do">
+	        <input type="date" v-model="dateOfOrderFrom" @change="searchDateFrom"  placeholder="Datum od">
+	        <input type="date" v-model="dateOfOrderTo" @change="searchDateTo" placeholder="Datum do">
 	        
 	         <input type="submit" value="Pretraži"><br>
 		</form>
 
 			<strong>&nbsp;Filtriraj: </strong>
-	        <label>Tip restorana</label>
-	        <select name="kriterijum" id="kriterijum">
-	            <option value="brza">Brza hrana</option>
-	            <option value="giros">Giros</option>
-	            <option value="kineska">Kineska hrana</option>
-	            <option value="kuvana">Kuvana jela</option>
-	            <option value="palačinke">Palačinke</option>
-	            <option value="pizza">Pizza</option>
-	            <option value="poslasticarnica">Poslastičarnica</option>
-	            <option value="susi">Suši</option>
+	        <label v-if="this.role==='kupac'|| this.role==='deliverer'">Tip restorana</label>
+	        <select v-if="this.role==='kupac'|| this.role==='deliverer'" name="kriterijum" id="kriterijum" v-model="restaurantType" @change="filterByRestType"> 
+				  <option value="Chinese">Kineska hrana</option>
+				  <option value="Italian">Italijanska hrana</option>
+				  <option value="Pancakes">Palačinke</option>
+				  <option value="Barbecue">Roštilj</option>
 	        </select> <label>Status</label>
-	        <select name="status" id="status">
+	        <select name="status" id="status"  @change="filterByStatus">
 	            <option value="brza">Obrada</option>
 	            <option value="giros">U pripremi</option>
 	            <option value="kineska">Čeka dostavljača</option>
@@ -227,6 +296,7 @@ Vue.component("orders", {
 					<th   id="articleList">Artikal i kolicina</th>
 					<th>Cena</th>
 					<th>Status</th>
+					<th>Datum i vreme</th>
 					<th> </th>
 				</tr>
 				<tr v-for="order in orders">
@@ -236,15 +306,14 @@ Vue.component("orders", {
 
 					<td>{{order.price}}</td>
 					<td>{{order.orderStatus}}</td>
-					
+					<td>{{order.timeOfOrder}}</td>
+
 					<td v-if="role =='kupac' && order.orderStatus === 'Processing'"> <button v-on:click="cancel(order.idOrder)"> Otkaži</button></td>
                     <td v-if="role ==='manager' && order.orderStatus === 'Processing'"> <button  v-on:click="prepare(order.idOrder)"> Za pripremu</button></td>
                     <td v-if="role ==='manager' && order.orderStatus === 'InPreparation'"> <button  v-on:click="prepare(order.idOrder)"> Čeka dostavljača</button></td>
                     <td v-if="role ==='deliverer' && order.orderStatus === 'WaitingDeliverer'"> <button  v-on:click="prepare(order.idOrder)"> Zatraži porudžbinu</button></td>
                     <td v-if="role ==='deliverer' && order.orderStatus === 'InTransport'"> <button  v-on:click="delivered(order.idOrder)"> Porudžbina dostavljena</button></td>
 
-                  
-					
 				</tr>
 			
 			</table>

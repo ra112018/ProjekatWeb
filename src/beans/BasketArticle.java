@@ -1,11 +1,22 @@
 package beans;
 
-public class BasketArticle extends Article {
+public class BasketArticle {
 
 	int numberOfArticles;
+	public String articleName;
+	boolean deletedFromBasket;
+	public boolean isDeletedFromBasket() {
+		return deletedFromBasket;
+	}
+
+	public void setDeletedFromBasket(boolean deletedFromBasket) {
+		this.deletedFromBasket = deletedFromBasket;
+	}
+
 	public int getNumberOfArticles() {
 		return numberOfArticles;
 	}
+	
 	public void setNumberOfArticles(int numberOfArticles) {
 		this.numberOfArticles = numberOfArticles;
 	}
@@ -16,12 +27,14 @@ public class BasketArticle extends Article {
 	public BasketArticle(Article a) {
 		// TODO Auto-generated constructor stub
 		this.setArticleName(a.getArticleName());
-		this.setArticlePhoto(a.getArticlePhoto());
-		this.setPrice(a.getPrice());
-		this.setQuantity(a.getQuantity());
-		this.setRestaurantName(a.getRestaurantName());
-		this.setDeleted(a.getDeleted());
-		this.setNumberOfArticles(1);
+	}
+
+	public String getArticleName() {
+		return articleName;
+	}
+
+	public void setArticleName(String articleName) {
+		this.articleName = articleName;
 	}
 	
 

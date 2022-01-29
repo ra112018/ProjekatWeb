@@ -78,7 +78,7 @@ public class BasketDAO {
         				entry.getValue().setBasketArticles(a);
 	        		}
 	        		double totalPrice=entry.getValue().getBasketPrice();
-		        	totalPrice += ba.getPrice();
+		        	totalPrice += article.getPrice();
 		        	entry.getValue().setBasketPrice(totalPrice);
 		        	entry.getValue().setEmpty(false);
 		        	i=1;
@@ -140,7 +140,7 @@ public class BasketDAO {
 		ArrayList<BasketArticle> al=new ArrayList<BasketArticle>();
 		if(b.getBasketArticles()!=null) {
 		for (BasketArticle  entry : b.getBasketArticles()) {
-					if( !entry.getDeleted())
+					if( !entry.isDeletedFromBasket())
 						al.add( entry);
 		}
 		}
@@ -155,16 +155,16 @@ public class BasketDAO {
 
 	public void deleteArticle(String userName, String articleName) {
 		// TODO Auto-generated method stub
+
+		ArticleDAO ad=new ArticleDAO();
 		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
 	        if(entry.getValue().getUserName().equals(userName) ) {
-	        	for(Article a : entry.getValue().getBasketArticles()) {
-
+	        	for(BasketArticle a : entry.getValue().getBasketArticles()) {
+	        		Article article=ad.findArticleByName(articleName);	
 	        		if(a.getArticleName().equals(articleName)) {
-	        			System.out.println("Brisanje3");
-	        			a.setDeleted(true);
-	        			System.out.println(a.getDeleted());
+	        			a.setDeletedFromBasket(true);
 	        			double totalPrice=entry.getValue().getBasketPrice();
-	        			totalPrice = totalPrice-a.getPrice();
+	        			totalPrice = totalPrice-article.getPrice();
 	        			entry.getValue().setBasketPrice(totalPrice);
 	        		}
      
@@ -200,8 +200,7 @@ public class BasketDAO {
 		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
 			for(BasketArticle a: entry.getValue().getBasketArticles())
 				if( a.getArticleName().equals(idC)) {
-					a.setQuantity(quantity);
-					System.out.print(entry.getValue().getBasketArticles());
+					a.setNumberOfArticles(Integer.parseInt(quantity));
 					}
 	    }
 		try {
