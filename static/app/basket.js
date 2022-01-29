@@ -9,6 +9,7 @@ Vue.component("basket", {
 		price:null,
 		newQuantity:null,
 		basket: null,
+		userProf:null
 		};
 	},
 	methods: {
@@ -44,19 +45,20 @@ Vue.component("basket", {
 			console.log(this.price+ "novo")
          } 
 		console.log(this.price)
+		console.log(this.userProf)
 
-       /*  if(this.buyer.type == "zlatni"){
-             this.price = this.price0.9;
-         }else if(this.buyer.type.type == "srebrni"){
-             this.price = this.price0.95;
-         }else if(this.buyer.type.type == "bronzani"){
+         if(this.userProf == "Golden"){
+             this.price = this.price*0.9;
+         }else if(this.userProf == "Silver"){
+             this.price = this.price*0.95;
+         }else if(this.userProf == "Bronze"){
               this.price = this.price*0.97;
-         }*/
+         }
 
     },
 	order: function(){
 
-		axios.post('/order',{userName:this.username},{params:{userName:this.username}})
+		axios.post('/order',{userName:this.username},{params:{userName:this.username,price:this.price}})
 		.then(function(response){
 			alert("Porudžbina je u statusu obrade!");
 			refresh();
@@ -73,24 +75,22 @@ Vue.component("basket", {
 	          .then(response => {
 			this.basket=response.data;   
 		    this.price = this.basket.basketPrice;
+	});
+ 			axios
+              .get('/account',{params:{userName: this.username}})
+	          .then(response => {
+				this.userProf = response.data.buyerType;
+				console.log(this.userProf)
         
-	});	
+			});	
+
+			}
+			
 	
-	},
 	},
 	mounted: function(){
 
-		let id = this.$route.params.id;
-	
-              this.username = window.localStorage.getItem('username');
-              this.role = window.localStorage.getItem('role');
-			  this.user=window.localStorage.getItem('user');
-            axios
-              .get('/userBasket',{params:{userName: this.username}})
-	          .then(response => {
-			this.basket=response.data;  
-			this.price = this.basket.basketPrice;
-				});
+		this.refresh();
 				 
 			},
 	

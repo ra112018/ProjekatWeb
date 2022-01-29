@@ -15,6 +15,7 @@ import java.util.Map;
 import beans.RandomString ;
 import beans.Request;
 import beans.Restaurant;
+import beans.UserTypeName;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -58,7 +59,7 @@ public class OrderDAO {
 
     }
 
-	public boolean createOrder(String uName) {
+	public boolean createOrder(String uName, String price) {
 		// TODO Auto-generated method stub
 		Buyer buyer = null;									//ovo sam dodala
 		Basket b=BasketDAO.findBasketByUsername(uName);
@@ -68,7 +69,7 @@ public class OrderDAO {
 		id = checkUnique(id);
 		o.setIdOrder(id);
 		o.setOrderStatus(OrderStatus.Processing);
-		o.setPrice(b.getBasketPrice());
+		o.setPrice(Integer.parseInt(price));
 		for(Article a : b.getBasketArticles()) {
 			ArticleDAO articleDAO=new ArticleDAO();
 			a=articleDAO.findArticleByName(a.getArticleName());
@@ -79,10 +80,11 @@ public class OrderDAO {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		
 		buyer = buyerDAO.findBuyerByUsername(uName);		//ovo sam dodala
-		buyer.setCustomerPoints(buyer.getCustomerPoints()+b.getBasketPrice()/1000 *133);
+		buyerDAO.changeBuyerPointsByBasketPrice(buyer, b.getBasketPrice());
+		
 		o.setTimeOfOrder(dateTime.format(formatter));
 		//o.setBuyer(BuyerDao.findBuyerByUsername(uName));
-		o.setBuyer(buyer);									//ovo sam dodala
+		o.setBuyer(buyer.getName()+" "+buyer.getSurname());									//ovo sam dodala
 		orders.put(id, o);
 		try {
 			addOrderInFile();
@@ -137,8 +139,10 @@ public class OrderDAO {
 		buyer = buyerDAO.findBuyerByUsername(uName);			//ovo sam dodala
 		
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
+			System.out.println(entry.getValue());
+	        if(entry.getValue().getBuyer()!= null && (entry.getValue().getBuyer()).equals(buyer.getName()+" "+ buyer.getSurname()) ) {
+				System.out.println(entry.getValue().getBuyer());
 
-	        if((entry.getValue().getBuyer().getUserName()).equals(uName) ) {
 	        	m.put((entry.getValue().getIdOrder()),entry.getValue());
 
 	        }
@@ -181,14 +185,8 @@ public class OrderDAO {
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
 	        if(entry.getValue().getIdOrder().equals(idO) ) {
 	        			entry.getValue().setOrderStatus(OrderStatus.Canceled);
-	        			Buyer b=entry.getValue().getBuyer();
-	        			double newPoints=b.getCustomerPoints()- entry.getValue().getPrice()/1000*133*4;
-	        			b.setCustomerPoints(newPoints);
-	        			if(b.getCustomerPoints() < 0.0) {
-	        				b.setCustomerPoints(0.0);
-	        				newPoints=0.0;
-	        			}
-	        			buyerDAO.changeBuyerPoints(b,newPoints);
+	        			String b=entry.getValue().getBuyer();
+	        			buyerDAO.changeBuyerPointsWhenCanceling(b,entry.getValue().getPrice());
 
 	        }
 	    }
@@ -247,7 +245,7 @@ public class OrderDAO {
 		HashMap<String,Restaurant> restList=new HashMap<String,Restaurant>();
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
 
-	        if((entry.getValue().getBuyer().getUserName()).equals(uName) && entry.getValue().getOrderStatus() == OrderStatus.Delivered ) {
+	        if((entry.getValue().getBuyer()).equals(buyer.getName()+" "+buyer.getSurname()) && entry.getValue().getOrderStatus() == OrderStatus.Delivered ) {
 	        	restList.put((entry.getValue().getRestaurantName()),RestaurantDAO.findRestaurant(entry.getValue().getRestaurantName()));
 	        }
 		}
@@ -260,25 +258,26 @@ public class OrderDAO {
 
 	public String findUserByOrder(String idO) {
 		// TODO Auto-generated method stub
-		String usName="";
+		String buyName="";
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
 
 	        if((entry.getValue().getIdOrder()).equals(idO) ) {
-	        	usName=entry.getValue().getBuyer().getUserName();
+	        	buyName=entry.getValue().getBuyer();
 	        }
 		}
+		Buyer buyer = buyerDAO.findBuyerByNameAndSurname(buyName);
 	        
-		return usName;
+		return buyer.getUserName();
 	}
 
 	public ArrayList<String> findUsernameBuyerWhoOrdered(String resName) {
 		// TODO Auto-generated method stub
 		ArrayList usernames=new ArrayList();
 		for (Map.Entry<String, Order> entry : orders.entrySet()) {
-			if(entry.getValue().getRestaurantName()!=null) {
-	        if((entry.getValue().getRestaurantName()).equals(resName) ) {
-	        	usernames.add(entry.getValue().getBuyer().getUserName());
-	        }}
+			if(entry.getValue().getRestaurantName()!=null && (entry.getValue().getRestaurantName()).equals(resName)) {
+				Buyer buyer = buyerDAO.findBuyerByNameAndSurname(entry.getValue().getBuyer());
+	        	usernames.add(buyer.getUserName());
+	        }
 		}
 		return usernames;
 	}

@@ -11,7 +11,7 @@ public class Order {
 	private String restaurantName;
 	private String timeOfOrder; 
 	private double price;
-	private Buyer buyer; //samo ime i prezime treba  // misli se samo na kupca
+	private String buyerNameSurname; //samo ime i prezime treba  // misli se samo na kupca
 	private OrderStatus orderStatus;
 	
 	public Order() {}
@@ -57,12 +57,12 @@ public class Order {
 	}
 
 
-	public Buyer getBuyer() {
-		return buyer;
+	public String getBuyer() {
+		return buyerNameSurname;
 	}
 
-	public void setBuyer(Buyer buyer) {
-		this.buyer = buyer;
+	public void setBuyer(String buyer) {
+		this.buyerNameSurname = buyer;
 	}
 
 	public OrderStatus getOrderStatus() {

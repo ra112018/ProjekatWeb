@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Basket {
 
-
 	private ArrayList<BasketArticle> basketArticles;
 	private String newArticleName;
 	private String userName;

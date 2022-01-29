@@ -211,6 +211,79 @@ public class BuyerDao {
 		}
 		return listOfBuyersOrdered;
 	}
+
+	public void changeBuyerPointsByBasketPrice(Buyer buyer, double basketPrice) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
+	        if(entry.getValue().getUserName().equals(buyer.getUserName()) ) {
+	        	entry.getValue().setCustomerPoints(entry.getValue().getCustomerPoints()+basketPrice/1000 *133);
+	    		if(entry.getValue().getCustomerPoints()> 1000 && entry.getValue().getCustomerPoints()<3000) {
+	    			entry.getValue().setBuyerType("Bronze");
+	    		}
+	    		if(entry.getValue().getCustomerPoints()> 3000 && entry.getValue().getCustomerPoints()<5000) {
+	    			entry.getValue().setBuyerType("Silver");
+	    		}
+	    		if(entry.getValue().getCustomerPoints()>5000) {
+	    			entry.getValue().setBuyerType("Golden");
+	    		}
+	        }
+	    }
+		
+		try {
+			addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void changeBuyerPointsWhenCanceling(String b, double newPoints) {
+		// TODO Auto-generated method stub
+
+		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
+	        if((entry.getValue().getName()+" "+ entry.getValue().getSurname()).equals(b) ) {
+	    		double points=entry.getValue().getCustomerPoints() - newPoints/1000*133*4;
+	    		if(points>0) {
+	        	entry.getValue().setCustomerPoints(points);
+	    		}
+	    		else {
+	    			entry.getValue().setCustomerPoints(0);
+	    		}
+	    		if(entry.getValue().getCustomerPoints()> 1000 && entry.getValue().getCustomerPoints()<3000) {
+	    			entry.getValue().setBuyerType("Bronze");
+	    		}
+	    		if(entry.getValue().getCustomerPoints()> 3000 && entry.getValue().getCustomerPoints()<5000) {
+	    			entry.getValue().setBuyerType("Silver");
+	    		}
+	    		if(entry.getValue().getCustomerPoints()>5000) {
+	    			entry.getValue().setBuyerType("Golden");
+	    		}
+	        }
+	    }
+		
+		try {
+			addAccount();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public Buyer findBuyerByNameAndSurname(String buyName) {
+		// TODO Auto-generated method stub
+		try {
+			for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
+			    if((entry.getValue().getName()+" "+entry.getValue().getSurname()).equals(buyName) ) {
+			    	return entry.getValue();
+			    }
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 
 	

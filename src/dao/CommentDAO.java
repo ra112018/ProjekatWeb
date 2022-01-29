@@ -100,7 +100,7 @@ public class CommentDAO {
 		HashMap<Integer,Comment> c=new HashMap<Integer,Comment>();
 		for (Map.Entry<Integer, Comment> entry : comments.entrySet()) {
 
-	        if((entry.getValue().getRestaurant().getRestaurantName()).equals(rName) ) {
+	        if((entry.getValue().getRestaurant()).equals(rName) ) {
 	        	c.put((entry.getValue().getIdComment()),entry.getValue());
 
 	        }
@@ -149,7 +149,7 @@ public class CommentDAO {
 		int gradeCheck=Integer.parseInt(g);
 		int sum=0;
 		for (Map.Entry<Integer, Comment> entry : comments.entrySet()) {
-	        if(entry.getValue().getRestaurant().getRestaurantName().equals(value.getRestaurantName()) ) {
+	        if(entry.getValue().getRestaurant().equals(value.getRestaurantName()) ) {
 	        	i++;
 	        	sum+=entry.getValue().getMark();
 	        }
@@ -177,9 +177,9 @@ public class CommentDAO {
 		int i=0;
 		int sum=0;
 		for(Map.Entry<Integer, Comment> entry : comments.entrySet()) {
-	        if(entry.getValue().getApproved() == CommentStatus.Approved && entry.getValue().getRestaurant().getRestaurantName().equals(restaurantName) )
+	        if(entry.getValue().getApproved() == CommentStatus.Approved && entry.getValue().getRestaurant().equals(restaurantName) )
 	        {	
-	        	System.out.println("Dosao do ovde"+ entry.getValue().getRestaurant().getRestaurantName()+entry.getValue().getMark());
+	        	System.out.println("Dosao do ovde"+ entry.getValue().getRestaurant()+entry.getValue().getMark());
 	        	i++;
 	        	sum+=entry.getValue().getMark();
 	        }

@@ -162,6 +162,7 @@ public class ProjekatMain {
 			us = buyerDAO.findBuyerByUsername(uName);
 			if(us != null) {
 				return gsonReg.toJson(us);
+				
 			}
 			else {
 				us=adminDAO.findAdminByUsername(uName);
@@ -689,10 +690,12 @@ public class ProjekatMain {
 		post("/order", (req, res) -> {
 			String reqBody = req.body();
 			String uName = req.queryParams("userName");
+			String price = req.queryParams("price");
+
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			//provera id jedinstven
 			boolean orderSuccess;
-			orderSuccess=orderDAO.createOrder(uName);
+			orderSuccess=orderDAO.createOrder(uName,price);
 			basketDAO.emptyBasketByUsername(uName);
 
 			return orderSuccess;
@@ -707,7 +710,7 @@ public class ProjekatMain {
 			us = buyerDAO.findBuyerByUsername(uName);
 			if(us != null) {
 				for (Map.Entry<String, Order> entry : orderDAO.getOrdersByBuyer(uName).entrySet()) {
-					if(!entry.getValue().getOrderStatus().equals(OrderStatus.Canceled)&& !entry.getValue().getOrderStatus().equals(OrderStatus.Delivered))
+					if(!entry.getValue().getOrderStatus().equals(OrderStatus.Canceled))
 						orders.add( entry.getValue());
 			        
 			    }	

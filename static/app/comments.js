@@ -49,7 +49,8 @@ Vue.component("comments", {
                             <td> </td>
                             <td> </td>
                             <td> </td>
-                            <td><button @click="acceptComment">Prihvati</button> <button @click="declineComment">Odbij</button></td>
+                            <td><button v-if="this.role ==='manager'" @click="acceptComment">Prihvati</button>
+								 <button v-if="this.role ==='manager'" @click="declineComment">Odbij</button></td>
    
                             </tr>
 

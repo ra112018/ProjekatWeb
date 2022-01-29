@@ -4,7 +4,7 @@ public class Comment {
 
 	private int idComment;
 	private String customerOfOrder;     //ovde treba kupac porudzbine 
-	private Restaurant restaurant;
+	private String restaurant;
 	private String text;
 	private int mark; //ovde treba od 1 do 5
 	private CommentStatus approved;
@@ -19,11 +19,11 @@ public class Comment {
 		this.customerOfOrder = customerOfOrder;
 	}
 
-	public Restaurant getRestaurant() {
+	public String getRestaurant() {
 		return restaurant;
 	}
 
-	public void setRestaurant(Restaurant restaurant) {
+	public void setRestaurant(String restaurant) {
 		this.restaurant = restaurant;
 	}
 
