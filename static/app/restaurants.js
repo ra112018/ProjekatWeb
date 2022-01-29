@@ -108,6 +108,7 @@ Vue.component("restaurants", {
           		alert("Uspešno izbrisan restoran");
 
             });
+		this.refreshPage();
 		},
 		selectRestaurant: function(id){
 			router.push({ path: `/selectedRestaurant/${id}` })
@@ -449,10 +450,11 @@ Vue.component("restaurants", {
 						</div>
 						<div v-if="role==='kupac' && orderedFromRestaurants">
 						<div v-for="orderedRestaurant in orderedFromRestaurants">
-						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button v-on:click="evaluate(orderedRestaurant.restaurantName)"> Oceni</button</div>
+						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button v-on:click="evaluate(orderedRestaurant.restaurantName)"> Oceni</button></div>
+						</div></div>
 						<div v-if="role ==='administrator'"><button v-on:click="deleteRestaurant(restaurant.restaurantName)">Obriši restoran</button</div>
 
-						</div>
+						
 						</div>
 					</span>
 				</ul>
@@ -478,8 +480,11 @@ Vue.component("restaurants", {
 				</div>
 						<div v-if="role==='kupac' && orderedFromRestaurants">
 						<div v-for="orderedRestaurant in orderedFromRestaurants">
-						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button v-on:click="evaluate(restaurant.restaurantName)"> Oceni</button</div>
-						</div>
+						<div v-if="restaurant.restaurantName === orderedRestaurant.restaurantName"><button v-on:click="evaluate(restaurant.restaurantName)"> Oceni</button></div>
+						</div></div>
+						
+						<div v-if="role ==='administrator'"><button v-on:click="deleteRestaurant(restaurant.restaurantName)">Obriši restoran</button</div>
+
 						</div>
 					</span>
 				</ul>

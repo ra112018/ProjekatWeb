@@ -552,7 +552,12 @@ public class ProjekatMain {
 			Restaurant rs;
 
 			rs = restaurantDAO.findRestaurantByManager(uName);
+			if(rs.getDeleted() == true) {
+				return gsonReg.toJson("deleted");
+			}
+			else {
 			return gsonReg.toJson(rs);
+			}
 			
 		});
 		get("/searchingAdmins", (req, res)->{

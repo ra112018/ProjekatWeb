@@ -20,6 +20,7 @@ Vue.component("allComments", {
 			axios.get('/allComments').then(response => {
 				this.comments=response.data;
 				});
+				console.log(this.comments);
 		},
    
 		acceptComment: function(idComment){
@@ -81,7 +82,7 @@ Vue.component("allComments", {
                             <td> {{comment.customerOfOrder}}</td>
                             <td> {{comment.text}}</td>
                             <td> {{comment.mark}}</td>
-                            <td>{{comment.restaurant.restaurantName}} </td>
+                            <td>{{comment.restaurant}} </td>
                             <td v-if="this.role === 'manager'" v-if="comment.approved==='WaitingForApproval'"><button @click="acceptComment(comment.idComment)">Prihvati</button><button @click="declineComment">Odbij</button></td>
                             <td v-if="comment.approved !=='WaitingForApproval'">{{comment.approved}}</td>
 

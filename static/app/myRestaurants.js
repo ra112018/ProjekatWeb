@@ -27,7 +27,8 @@ Vue.component("myRestaurants", {
 			street:null,
 			houseNumber:null,
 			location:null,
-			artImg:null
+			artImg:null,
+			deleted:false
 	    }
 	},
 	methods:{
@@ -260,17 +261,23 @@ Vue.component("myRestaurants", {
 	refreshPage: function(){
 		axios.get('/findMyRestaurant',{params:{userName: this.username}})
 				.then(response => {
-		           
+		           if(response.data === "deleted"){
+			this.deleted = true;
+			alert("Restoran je obrisan!")
+		}
+			else{
 		            this.restaurant=response.data;
 		         	localStorage.setItem("restaurantName", this.restaurant.restaurantName);
 					this.findLocation(this.restaurant.locationId);
 
-		        });
+		       } });
+			if(!this.deleted){
 			this.findArticles(window.localStorage.getItem('restaurantName'));
 			
 			axios.get('/comments',{params:{restaurantName: window.localStorage.getItem('restaurantName')}}).then(response => {
 				this.comments=response.data;
 				});
+				}
 	}
 	},
 	mounted: function(){
