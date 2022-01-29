@@ -195,4 +195,23 @@ public class BasketDAO {
 		
 	}
 
+	public boolean changeQuantity(String idC, String quantity) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
+			for(BasketArticle a: entry.getValue().getBasketArticles())
+				if( a.getArticleName().equals(idC)) {
+					a.setQuantity(quantity);
+					System.out.print(entry.getValue().getBasketArticles());
+					}
+	    }
+		try {
+			addBasketInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+		}
+	
+
 }

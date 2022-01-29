@@ -20,12 +20,9 @@ Vue.component("orders", {
 	},
 	methods: {
 		refreshPage(){
-			
+			this.orders = [];
 
-              this.username = window.localStorage.getItem('username');
-              this.role = window.localStorage.getItem('role');
-			  this.user=window.localStorage.getItem('user');
-			axios.get('/OrdersFromMyRestaurant',{params:{userName: this.username}})
+             axios.get('/OrdersFromMyRestaurant',{params:{userName: this.username}})
 				.then(response => {
 		            for(var i =0;i< response.data.length;i++){
 		                var order = {};
@@ -38,7 +35,6 @@ Vue.component("orders", {
 		                order.orderStatus = response.data[i].orderStatus;
 		                this.orders.push(order);
 		            }
-
 
 		        });
 		if(this.role=="manager"){
@@ -93,9 +89,10 @@ Vue.component("orders", {
 						
 					.then(function(response){
 						alert("Porudzbina je u pripremi!")
-					   this.refreshPage();
+					   
 
 					});
+					this.refreshPage();
 		},
 		delivered: function(value){
 			axios
@@ -104,9 +101,9 @@ Vue.component("orders", {
 						
 					.then(function(response){
 						alert("Porudzbina dostavljena!")
-					   this.refreshPage();
 
 					});
+					 this.refreshPage();
 		},
 		approve:function(id){
 			axios
@@ -115,9 +112,9 @@ Vue.component("orders", {
 						
 					.then(function(response){
 						alert("Porudzbina odobrena za dostavljača!")
-					   this.refreshPage();
-
+					   
 					});
+					 this.refreshPage();
 		},
 		cancel: function(value){
 			axios
@@ -131,14 +128,16 @@ Vue.component("orders", {
                 else{
                     alert("Otkazali ste porudžbine više od 5 puta u poslednjih 30 dana, te ste ubačeni u listu sumnjivih korisnika.")
                 }
-					    this.refreshPage();
-
 					});
+					this.refreshPage();
 		}
 		
 	},
 	mounted: function(){
-		        		this.refreshPage();	 
+		 this.username = window.localStorage.getItem('username');
+         this.role = window.localStorage.getItem('role');
+		 this.user=window.localStorage.getItem('user');
+		 this.refreshPage();	 
 
 	},
 	template: `<div>	

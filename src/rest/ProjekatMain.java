@@ -84,14 +84,17 @@ public class ProjekatMain {
 
             ArrayList<String> response = new ArrayList<String>();
             if(buyerDAO.findBuyer(name, pass) != null) {
-            	if(!buyerDAO.findBuyer(name, pass).isBlocked()) {
+            	if(!buyerDAO.findBuyer(name, pass).isBlocked() && !buyerDAO.findBuyer(name, pass).isDeleted()) {
             		korisnicko = name;   				
                     response.add(korisnicko);
      			    response.add("kupac");
-            	}else {
+            	}else if(buyerDAO.findBuyer(name, pass).isBlocked()){
             		korisnicko = "blocked";
             		response.add(korisnicko);
-            	}			
+            	}	else if(buyerDAO.findBuyer(name, pass).isDeleted()){
+            		korisnicko = "deleted";
+            		response.add(korisnicko);
+            	}					
 
             }
             else if(adminDAO.findAdmin(name, pass)!=null) {
@@ -99,25 +102,33 @@ public class ProjekatMain {
             	response.add(korisnicko);
             	response.add("administrator");
             } else if(managerDAO.findManager(name, pass)!=null) {
-            	if(!managerDAO.findManager(name, pass).isBlocked()) {
+            	if(!managerDAO.findManager(name, pass).isBlocked() && !managerDAO.findManager(name, pass).isDeleted()) {
             		korisnicko=name;
                 	response.add(korisnicko);
                 	response.add("manager");
-            	}else {
+            	}else if(managerDAO.findManager(name, pass).isBlocked()){
             		korisnicko = "blocked";
             		response.add(korisnicko);
-            	}           	
+            	}   
+            	else if(managerDAO.findManager(name, pass).isDeleted()){
+            		korisnicko = "deleted";
+            		response.add(korisnicko);
+            	}      
             	
             }else if(delivererDAO.findDeliverer(name, pass)!=null) {
             	
-            	if(!delivererDAO.findDeliverer(name, pass).isBlocked()) {
+            	if(!delivererDAO.findDeliverer(name, pass).isBlocked() && !delivererDAO.findDeliverer(name, pass).isDeleted()) {
             		korisnicko=name;
                 	response.add(korisnicko);
                 	response.add("deliverer");
-            	}else {
+            	}else if(delivererDAO.findDeliverer(name, pass).isBlocked()){
             		korisnicko = "blocked";
             		response.add(korisnicko);
-            	}           	
+            	}    
+            	else if(delivererDAO.findDeliverer(name, pass).isDeleted()){
+            		korisnicko = "deleted";
+            		response.add(korisnicko);
+            	}           
             }
             
             return g.toJson(response);
@@ -813,7 +824,7 @@ public class ProjekatMain {
 						
 		});
 		post("/approveComment",(req, res) -> {
-			String idC = req.queryParams("idComment");
+			String idC = req.queryParams("id");
 			boolean approveSuccess;
 			approveSuccess=commentDAO.approveComment(idC);
 			return approveSuccess;
@@ -902,6 +913,14 @@ public class ProjekatMain {
 			}
 			return gsonReg.toJson(commentList);
 						
+		});
+		post("/changeQuantity",(req, res) -> {
+			String idC = req.queryParams("id");
+			String quantity = req.queryParams("quantity");
+
+			boolean success;
+			success = basketDAO.changeQuantity(idC,quantity);
+			return success;
 		});
 		
 	}

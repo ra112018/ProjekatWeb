@@ -16,7 +16,10 @@ Vue.component("home-page", {
 			grades: [],
 			searchingName:"",
 			searchingLocation:"",
+			searchingRestaurants:[],
 			filteringRestaurants:[],
+			searchingRestType:[],
+			searchingRestGrade:[],
 			sortingType:"",
 			sortingCriterion:"",
 			otvoreni:"",
@@ -55,16 +58,49 @@ Vue.component("home-page", {
 				return 0;
 			}
 			
+		},
+		searchRestType: function(){
+			this.searchingRestType = this.restaurants;
+			this.restaurants = [];
 			
+		    for(var i =0;i< this.searchingRestType.length;i++){
+				if(this.searchingRestType[i].restaurantType ===this.restaurantType){
+					this.restaurants.push(this.searchingRestType[i]);
+				}
+		          }
+			axios.get('/grades')
+				.then(response => {
+		            for(var i =0;i< response.data.length;i++){
+		                var grade = {};
+		                grade.restaurantName = response.data[i].restaurantName;
+						grade.mark = response.data[i].grade;
+					    this.grades.push(grade);
+	
+						for(var j = 0; j< this.restaurants.length;j++){
+							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
+								this.restaurants[j].avgGrade = grade.mark;
+							}
+						}
+		            }
+		        });
 		},
 		
 		checkGrade: function(a,b){
 			let first, second;
 			console.log(this.sortingCriterion)
 			if(this.sortingCriterion == "ocena"){
+				if(a.avgGrade){
 				first = a.avgGrade;
+				}
+				else{
+					first = 0;
+				}
+				if(b.avgGrade){
 				second = b.avgGrade;
-				console.log(a)
+				}
+				else{
+					second = 0;
+				}
 
 			}
 			if(first < second){
@@ -148,7 +184,50 @@ Vue.component("home-page", {
 					}
 		         
 		        });
+			
+			axios.get('/grades')
+				.then(response => {
+		            for(var i =0;i< response.data.length;i++){
+		                var grade = {};
+		                grade.restaurantName = response.data[i].restaurantName;
+						grade.mark = response.data[i].grade;
+					    this.grades.push(grade);
+	
+						for(var j = 0; j< this.restaurants.length;j++){
+							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
+								this.restaurants[j].avgGrade = grade.mark;
+							}
+						}
+		            }
+		        });
+			console.log(this.restaurants)
 			}
+		},
+		searchGrade:function(){
+			this.searchingRestGrade = this.restaurants;
+			this.restaurants = [];
+			console.log(this.searchingRestGrade);
+			console.log(this.grade)
+		    for(var i =0;i< this.searchingRestGrade.length;i++){
+				if(this.searchingRestGrade[i].avgGrade ==this.grade){
+					this.restaurants.push(this.searchingRestGrade[i]);
+				}
+		          }
+			axios.get('/grades')
+				.then(response => {
+		            for(var i =0;i< response.data.length;i++){
+		                var grade = {};
+		                grade.restaurantName = response.data[i].restaurantName;
+						grade.mark = response.data[i].grade;
+					    this.grades.push(grade);
+	
+						for(var j = 0; j< this.restaurants.length;j++){
+							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
+								this.restaurants[j].avgGrade = grade.mark;
+							}
+						}
+		            }
+		        });
 		},
 		filter(value){
 			if(this.otvorenoiline){
@@ -205,12 +284,10 @@ Vue.component("home-page", {
 							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
 								this.restaurants[j].avgGrade = grade.mark;
 							}
-							else if(grade.mark == 0){
-								this.restaurants[j].avgGrade = 0;
-							}
 						}
 		            }
 		        });
+	console.log(this.restaurants);
 	console.log(this.grades);
 	},
 	template: ` 
@@ -228,7 +305,7 @@ Vue.component("home-page", {
 				<input type="text" v-model="searchingLocation" placeholder="Lokacija"></input>
 				
 		<strong>Tip restorana: </strong>
-		 <select name="restaurantType" id="restaurantType" @change="search" v-model="restaurantType">
+		 <select name="restaurantType" id="restaurantType" @change="searchRestType" v-model="restaurantType">
 			  <option value="" selected></option>
 			  <option value="Chinese">Kineska hrana</option>
 			  <option value="Italian">Italijanska hrana</option>
@@ -237,7 +314,7 @@ Vue.component("home-page", {
 		</select>  
 		
 		<strong>Ocena: </strong>
-		 <select name="grade" id="grade" @change="search" v-model="grade">
+		 <select name="grade" id="grade" @change="searchGrade" v-model="grade">
 			  <option value="" selected></option>
 			  <option value="1"> <1 </option>
 			  <option value="2">1<=2</option>

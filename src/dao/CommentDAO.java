@@ -60,16 +60,23 @@ public class CommentDAO {
 
 	public boolean addComment(Comment comment) {
 		// TODO Auto-generated method stub
+		CommentDAO commentDAO = new CommentDAO();
+		HashMap<Integer,Comment> comments = commentDAO.getComments();
+
 		comment.setApproved(CommentStatus.WaitingForApproval);
 		int i=0;
 		if(comments!=null) {
 			for(Map.Entry<Integer, Comment> entry : comments.entrySet()) {
-				i+=1;
+				i+=2;
 			}
 		}
 		i+=1;
+		System.out.print(comment.getText());
+		System.out.print(i);
+
         comment.setIdComment(i);
 		comments.put(comment.getIdComment(),comment);
+		commentDAO.setComments(comments);
         try {
     			addCommentInFile();
     		} catch (IOException e) {

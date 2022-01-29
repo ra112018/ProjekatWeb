@@ -12,15 +12,26 @@ Vue.component("allComments", {
 	
     this.username = window.localStorage.getItem('username');
     this.role = window.localStorage.getItem('role');
-	axios.get('/allComments').then(response => {
-				this.comments=response.data;
-				});
+	this.refreshPage();
   
   },
   methods: {
+		refreshPage:function(){
+			axios.get('/allComments').then(response => {
+				this.comments=response.data;
+				});
+		},
    
-		acceptComment: function(event){
-			
+		acceptComment: function(idComment){
+			axios
+					.post('/approveComment',{},{ params:{ id:idComment }})
+						
+					.then(function(response){
+							alert("Odobren komentar!")
+							
+					});
+				this.refreshPage();
+				
 		},
 		
 		declineComment: function(event){
@@ -71,7 +82,7 @@ Vue.component("allComments", {
                             <td> {{comment.text}}</td>
                             <td> {{comment.mark}}</td>
                             <td>{{comment.restaurant.restaurantName}} </td>
-                            <td v-if="comment.approved==='WaitingForApproval'"><button @click="acceptComment">Prihvati</button><button @click="declineComment">Odbij</button></td>
+                            <td v-if="comment.approved==='WaitingForApproval'"><button @click="acceptComment(comment.idComment)">Prihvati</button><button @click="declineComment">Odbij</button></td>
                             <td v-if="comment.approved !=='WaitingForApproval'">{{comment.approved}}</td>
 
                             </tr>

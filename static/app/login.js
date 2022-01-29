@@ -19,6 +19,9 @@ Vue.component("login", {
 						alert("Pogresan unos korisnickog imena ili lozinke");
 					}else if(JSON.parse(JSON.stringify(response.data))[0]==="blocked"){
 						alert("Korisnik je blokiran");
+					}
+					else if(JSON.parse(JSON.stringify(response.data))[0]==="deleted"){
+						alert("Korisnik je obrisan");
 					}else{
 						localStorage.setItem("username", JSON.parse(JSON.stringify(response.data))[0]);
 						localStorage.setItem("role", JSON.parse(JSON.stringify(response.data))[1]);

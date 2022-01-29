@@ -15,6 +15,8 @@ Vue.component("restaurants", {
 			searchingLocation:"",
 			orderedFromRestaurants:[],
 			
+			searchingRestType:[],
+			searchingRestGrade:[],
 			sortRestaurantType:"",
 			sortingType:"",
 			sortingCriterion:"",
@@ -80,9 +82,6 @@ Vue.component("restaurants", {
 						for(var j = 0; j< this.restaurants.length;j++){
 							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
 								this.restaurants[j].avgGrade = grade.mark;
-							}
-							else if(grade.mark == 0){
-								this.restaurants[j].avgGrade = 0;
 							}
 						}
 		            }
@@ -174,10 +173,19 @@ Vue.component("restaurants", {
 			let first, second;
 			console.log(this.sortingCriterion)
 			if(this.sortingCriterion == "ocena"){
+				if(a.avgGrade){
 				first = a.avgGrade;
+				}
+				else{
+					first = 0;
+				}
+				if(b.avgGrade){
 				second = b.avgGrade;
-				console.log(a)
-
+				}
+				else{
+					second = 0;
+				}
+				
 			}
 			if(first < second){
 				if(this.sortingType == 'rastuce'){
@@ -194,6 +202,31 @@ Vue.component("restaurants", {
 			}else{
 				return 0;
 			}
+		},
+		searchRestType: function(){
+			this.searchingRestType = this.restaurants;
+			this.restaurants = [];
+			
+		    for(var i =0;i< this.searchingRestType.length;i++){
+				if(this.searchingRestType[i].restaurantType ===this.restaurantType){
+					this.restaurants.push(this.searchingRestType[i]);
+				}
+		          }
+			axios.get('/grades')
+				.then(response => {
+		            for(var i =0;i< response.data.length;i++){
+		                var grade = {};
+		                grade.restaurantName = response.data[i].restaurantName;
+						grade.mark = response.data[i].grade;
+					    this.grades.push(grade);
+	
+						for(var j = 0; j< this.restaurants.length;j++){
+							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
+								this.restaurants[j].avgGrade = grade.mark;
+							}
+						}
+		            }
+		        });
 		},
 		sortRestaurants: function(){
 			if(this.sortingType != "rastuce" && this.sortingType != "opadajuce"){
@@ -258,8 +291,50 @@ Vue.component("restaurants", {
 		            }
 		         
 		        });
+			axios.get('/grades')
+				.then(response => {
+		            for(var i =0;i< response.data.length;i++){
+		                var grade = {};
+		                grade.restaurantName = response.data[i].restaurantName;
+						grade.mark = response.data[i].grade;
+					    this.grades.push(grade);
+	
+						for(var j = 0; j< this.restaurants.length;j++){
+							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
+								this.restaurants[j].avgGrade = grade.mark;
+							}
+						}
+		            }
+		        });
+
 			}
-		}
+		},
+		searchGrade:function(){
+			this.searchingRestGrade = this.restaurants;
+			this.restaurants = [];
+			console.log(this.searchingRestGrade);
+			console.log(this.grade)
+		    for(var i =0;i< this.searchingRestGrade.length;i++){
+				if(this.searchingRestGrade[i].avgGrade ==this.grade){
+					this.restaurants.push(this.searchingRestGrade[i]);
+				}
+		          }
+			axios.get('/grades')
+				.then(response => {
+		            for(var i =0;i< response.data.length;i++){
+		                var grade = {};
+		                grade.restaurantName = response.data[i].restaurantName;
+						grade.mark = response.data[i].grade;
+					    this.grades.push(grade);
+	
+						for(var j = 0; j< this.restaurants.length;j++){
+							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
+								this.restaurants[j].avgGrade = grade.mark;
+							}
+						}
+		            }
+		        });
+		},
 		
 	},
 	
@@ -309,7 +384,7 @@ Vue.component("restaurants", {
 			<input type="text" v-model="searchingLocation" placeholder="Lokacija"></input>
 					
 			<strong>Tip restorana: </strong>
-			 <select name="restaurantType" id="restaurantType" @change="search" v-model="restaurantType">
+			 <select name="restaurantType" id="restaurantType" @change="searchRestType" v-model="restaurantType">
 				  <option value="" selected></option>
 				  <option value="Chinese">Kineska hrana</option>
 				  <option value="Italian">Italijanska hrana</option>
@@ -318,7 +393,7 @@ Vue.component("restaurants", {
 			</select>  
 			
 			<strong>Ocena: </strong>
-			<select name="grade" id="grade" @change="search" v-model="grade">
+			<select name="grade" id="grade" @change="searchGrade" v-model="grade">
 				  <option value="" selected></option>
 				  <option value="1"> <1 </option>
 				  <option value="2">1<=2</option>
@@ -394,12 +469,12 @@ Vue.component("restaurants", {
 						<li class="open">{{restaurant.status}}</li></strong></em>
 						<li><i>{{restaurant.restaurantType}}</i></li>
 						
-						<div readonly>
-						 <label v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=1)}" >★ </label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=2)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=3)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=4)}">★</label>
-					    <label  v-bind:class="{'normalStarSmall':true, 'activeStarSmall':(restaurant.avgGrade>=5)}">★</label>
+						<div readonly v-for="grade in grades" v-if="grade.mark!=0 && grade.restaurantName == restaurant.restaurantName">
+						 <label v-bind:class="{'normalStar':true, 'activeStar':(grade.mark>=1)}" >★ </label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(grade.mark>=2)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(grade.mark>=3)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(grade.mark>=4)}">★</label>
+					    <label  v-bind:class="{'normalStar':true, 'activeStar':(grade.mark>=5)}">★</label>
 				</div>
 						<div v-if="role==='kupac' && orderedFromRestaurants">
 						<div v-for="orderedRestaurant in orderedFromRestaurants">

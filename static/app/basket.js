@@ -6,6 +6,8 @@ Vue.component("basket", {
         username: localStorage.getItem('username'),
 		user:localStorage.getItem('user'),
 		role:localStorage.getItem('role'),
+		price:null,
+		newQuantity:null,
 		basket: null,
 		};
 	},
@@ -20,6 +22,38 @@ Vue.component("basket", {
 						alert("Uspešno izbrisano!")
 					});
 		},
+		changeQuantity(idB){
+        for(let i=0; i <this.basket.basketArticles.length; i++){
+            if(this.basket.basketArticles[i].articleName == idB){
+                this.newQuantity = this.basket.basketArticles[i].numberOfArticles;
+            }
+        }
+			console.log(this.newQuantity)
+
+
+         axios
+         .post('/changeQuantity',{},{params:{id: idB, quantity: this.newQuantity }}
+         )
+
+        this.changePrice();
+    },
+    changePrice: function() {
+         this.price = 0;
+         for(i = 0; i < this.basket.basketArticles.length; i++) {
+             this.price += this.basket.basketArticles[i].price * this.basket.basketArticles[i].numberOfArticles;
+			console.log(this.price+ "novo")
+         } 
+		console.log(this.price)
+
+       /*  if(this.buyer.type == "zlatni"){
+             this.price = this.price0.9;
+         }else if(this.buyer.type.type == "srebrni"){
+             this.price = this.price0.95;
+         }else if(this.buyer.type.type == "bronzani"){
+              this.price = this.price*0.97;
+         }*/
+
+    },
 	order: function(){
 
 		axios.post('/order',{userName:this.username},{params:{userName:this.username}})
@@ -37,7 +71,9 @@ Vue.component("basket", {
             axios
               .get('/userBasket',{params:{userName: this.username}})
 	          .then(response => {
-			this.basket=response.data;           
+			this.basket=response.data;   
+		    this.price = this.basket.basketPrice;
+        
 	});	
 	
 	},
@@ -53,7 +89,7 @@ Vue.component("basket", {
               .get('/userBasket',{params:{userName: this.username}})
 	          .then(response => {
 			this.basket=response.data;  
-			
+			this.price = this.basket.basketPrice;
 				});
 				 
 			},
@@ -83,13 +119,13 @@ Vue.component("basket", {
 				<td><img :src="article.articlePhoto" class="articleBasket" alt="articleBasket"></td>
                 <td> {{article.articleName}}</td>
                 <td>
-					<input type="number" v-model="article.numberOfArticles" min="1">
+					<input type="number" v-model="article.numberOfArticles" min="1" v-on:click.exact="changeQuantity(article.articleName)">
 
                 </td>
                 <td>{{article.price}}</td>
                 <td> <button v-on:click="inTrash(article.articleName)">Obriši</button></td>
             </tr>
-			<tr><td>Ukupna cena porudžbine: <input v-model="basket.basketPrice"></td></tr>
+			<tr><td>Ukupna cena porudžbine: <input v-model="this.price"></td></tr>
                 
             </tr>
         </table>
