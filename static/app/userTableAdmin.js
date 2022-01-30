@@ -125,7 +125,7 @@ Vue.component("userTableAdmin", {
 			}else {
 				if(this.searchingName != "" ){
 					for(var i =0;i< usersForSearch.length;i++){
-		                    if(usersForSearch[i].name.includes(this.searchingName))
+		                    if((usersForSearch[i].name).includes(this.searchingName))
 							{
 								this.users.push(usersForSearch[i]);
 							}
@@ -133,15 +133,16 @@ Vue.component("userTableAdmin", {
 				}
 				if(this.searchingSurname!=""){
 					for(var i =0;i< usersForSearch.length;i++){
-		                    if(usersForSearch[i].surname.includes(this.searchingSurname))
+		                    if((usersForSearch[i].lastName).includes(this.searchingSurname))
 							{
 								this.users.push(usersForSearch[i]);
+								console.log("prezimeee");
 							}
 		                }
 				}
 				if(this.searchingUsername != ""){
 					for(var i =0;i< usersForSearch.length;i++){
-		                    if(usersForSearch[i].username.includes(this.searchingUsername))
+		                    if((usersForSearch[i].username).includes(this.searchingUsername))
 							{
 								this.users.push(usersForSearch[i]);
 							}
