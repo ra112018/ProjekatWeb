@@ -217,13 +217,13 @@ public class BuyerDao {
 		for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
 	        if(entry.getValue().getUserName().equals(buyer.getUserName()) ) {
 	        	entry.getValue().setCustomerPoints(entry.getValue().getCustomerPoints()+basketPrice/1000 *133);
-	    		if(entry.getValue().getCustomerPoints()> 1000 && entry.getValue().getCustomerPoints()<3000) {
+	    		if(entry.getValue().getCustomerPoints()> 300 && entry.getValue().getCustomerPoints() < 500) {
 	    			entry.getValue().setBuyerType("Bronze");
 	    		}
-	    		if(entry.getValue().getCustomerPoints()> 3000 && entry.getValue().getCustomerPoints()<5000) {
+	    		if(entry.getValue().getCustomerPoints()> 500 && entry.getValue().getCustomerPoints() < 1000) {
 	    			entry.getValue().setBuyerType("Silver");
 	    		}
-	    		if(entry.getValue().getCustomerPoints()>5000) {
+	    		if(entry.getValue().getCustomerPoints()> 1000) {
 	    			entry.getValue().setBuyerType("Golden");
 	    		}
 	        }
@@ -250,13 +250,13 @@ public class BuyerDao {
 	    		else {
 	    			entry.getValue().setCustomerPoints(0);
 	    		}
-	    		if(entry.getValue().getCustomerPoints()> 1000 && entry.getValue().getCustomerPoints()<3000) {
+	    		if(entry.getValue().getCustomerPoints()> 300 && entry.getValue().getCustomerPoints() < 500) {
 	    			entry.getValue().setBuyerType("Bronze");
 	    		}
-	    		if(entry.getValue().getCustomerPoints()> 3000 && entry.getValue().getCustomerPoints()<5000) {
+	    		if(entry.getValue().getCustomerPoints()> 500 && entry.getValue().getCustomerPoints() < 1000) {
 	    			entry.getValue().setBuyerType("Silver");
 	    		}
-	    		if(entry.getValue().getCustomerPoints()>5000) {
+	    		if(entry.getValue().getCustomerPoints() > 1000) {
 	    			entry.getValue().setBuyerType("Golden");
 	    		}
 	        }
