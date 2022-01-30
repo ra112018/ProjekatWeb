@@ -171,10 +171,6 @@ Vue.component("home-page", {
 		            for(var i =0;i< response.data.length;i++){
 		                var restaurant = {};
 		                restaurant = response.data[i];
-						restaurant.restaurantName = response.data[i].restaurantName;
-						restaurant.status = response.data[i].status;
-						restaurant.restaurantType = response.data[i].restaurantType;
-						restaurant.locationId = response.data[i].locationId;
 					    this.restaurants.push(restaurant);
 
 		            }
@@ -206,10 +202,8 @@ Vue.component("home-page", {
 		searchGrade:function(){
 			this.searchingRestGrade = this.restaurants;
 			this.restaurants = [];
-			console.log(this.searchingRestGrade);
-			console.log(this.grade)
 		    for(var i =0;i< this.searchingRestGrade.length;i++){
-				if(this.searchingRestGrade[i].avgGrade <=this.grade+0.5 &&this.searchingRestGrade[i].avgGrade >=this.grade-0.5){
+				if(this.searchingRestGrade[i].avgGrade < (parseInt(this.grade)+0.1) &&this.searchingRestGrade[i].avgGrade >(parseInt(this.grade)-1.1)){
 					this.restaurants.push(this.searchingRestGrade[i]);
 				}
 		          }
@@ -224,6 +218,7 @@ Vue.component("home-page", {
 						for(var j = 0; j< this.restaurants.length;j++){
 							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
 								this.restaurants[j].avgGrade = grade.mark;
+								console.log(grade)
 							}
 						}
 		            }
@@ -258,10 +253,7 @@ Vue.component("home-page", {
 		                var restaurant = {};
 		                restaurant = response.data[i];
 					     this.restaurants.push(restaurant);
-
 		            }
-
-		         
 		        });
 		axios.get('/allLocations')
 				.then(response => {
@@ -287,8 +279,6 @@ Vue.component("home-page", {
 						}
 		            }
 		        });
-	console.log(this.restaurants);
-	console.log(this.grades);
 	},
 	template: ` 
 	<div>

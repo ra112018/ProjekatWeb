@@ -177,15 +177,15 @@ public class CommentDAO {
 		int i=0;
 		int sum=0;
 		for(Map.Entry<Integer, Comment> entry : comments.entrySet()) {
-	        if(entry.getValue().getApproved() == CommentStatus.Approved && entry.getValue().getRestaurant().equals(restaurantName) )
+	        if(entry.getValue().getApproved().equals(CommentStatus.Approved) && entry.getValue().getRestaurant().equals(restaurantName) )
 	        {	
-	        	System.out.println("Dosao do ovde"+ entry.getValue().getRestaurant()+entry.getValue().getMark());
 	        	i++;
 	        	sum+=entry.getValue().getMark();
 	        }
 	    }
 		if(i!=0) {
-			double avg=sum/i;
+			double avg=(double)sum/(double)i;
+
 			return avg;
 		}
 		return 0;

@@ -146,8 +146,10 @@ public class DelivererDAO {
 		for (Map.Entry<String, Deliverer> entry : deliverers.entrySet()) {
 	        if(entry.getValue().getUserName().equals(deliverer) ) {
 	        	if(entry.getValue().getDeliveryOrders()!=null) {
-	        	entry.getValue().getDeliveryOrders().add(order.getIdOrder());
-	        	}
+		        		ArrayList<String> orders=entry.getValue().getDeliveryOrders();
+		        		orders.add(order.getIdOrder());
+		        		entry.getValue().setDeliveryOrders(orders);
+		        	}
 	        	else {
 	        		ArrayList<String> orders=new ArrayList<String>();
 	        		orders.add(order.getIdOrder());

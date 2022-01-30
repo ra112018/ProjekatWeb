@@ -155,24 +155,55 @@ Vue.component("restaurants", {
 		checkLocations: function(a,b){
 			let first, second;
 			if(this.sortingCriterion == "lokacija"){
-				first = a.locationId;
-				second = b.locationId;
+				for(var i=0;i<this.locations.length;i++){
+				if(this.locations[i].idLocation == a.locationId){
+					first = this.locations[i];
+				}
+				if(this.locations[i].idLocation == b.locationId){
+					second = this.locations[i];
+				}
 			}
-			if(first < second){
+			}
+			if(first.street < second.street){
 				if(this.sortingType == 'rastuce'){
 					return -1;
 				}else{
 					return 1;
 				}
-			}else if(first > second){
+			}else if(first.street > second.street){
 				if(this.sortingType == 'rastuce'){
 					return 1;
 				}else{
 					return -1;
 				}
 			}else{
-				return 0;
-			}
+ 			if(first.city > second.city)
+                {
+                    if(this.sortType == 'rastuce')
+                    {
+                        return 1;
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+                }
+                else if(first.city < second.city)
+                {
+                    if(this.sortType == 'rastuce')
+                    {
+                        return -1;
+                    }
+                    else
+                    {
+                        return 1;
+                    }
+                }
+                else
+                {
+                    return 0;
+                }			}
+			
 			
 		},
 		checkGrade: function(a,b){
@@ -256,19 +287,12 @@ Vue.component("restaurants", {
 
 			this.filteringRestaurants=this.restaurants;
 			this.restaurants=[];
-			
-			
 			for(restaurant in this.filteringRestaurants){
-				
-			
 						if(this.filteringRestaurants[restaurant].status=="Open")
 						{
 					    this.restaurants.push(this.filteringRestaurants[restaurant]);
 						}
-						
-
 		            }
-			
 				}
 			else{
 				this.restaurants=this.filteringRestaurants;
@@ -317,10 +341,8 @@ Vue.component("restaurants", {
 		searchGrade:function(){
 			this.searchingRestGrade = this.restaurants;
 			this.restaurants = [];
-			console.log(this.searchingRestGrade);
-			console.log(this.grade)
 		    for(var i =0;i< this.searchingRestGrade.length;i++){
-				if(this.searchingRestGrade[i].avgGrade <=this.grade+0.5 &&this.searchingRestGrade[i].avgGrade >=this.grade-0.5){
+				if(this.searchingRestGrade[i].avgGrade < (parseInt(this.grade)+0.1) &&this.searchingRestGrade[i].avgGrade >(parseInt(this.grade)-1.1)){
 					this.restaurants.push(this.searchingRestGrade[i]);
 				}
 		          }
