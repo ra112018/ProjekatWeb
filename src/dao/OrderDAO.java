@@ -71,10 +71,12 @@ public class OrderDAO {
 		o.setIdOrder(id);
 		o.setOrderStatus(OrderStatus.Processing);
 		o.setPrice(Integer.parseInt(price));
+		RestaurantDAO rDao = new RestaurantDAO();
 		for(BasketArticle a : b.getBasketArticles()) {
 			ArticleDAO articleDAO=new ArticleDAO();
 			Article art=articleDAO.findArticleByName(a.getArticleName());
 			o.setRestaurantName(art.getRestaurantName());
+			o.setRestaurantType(rDao.findRestaurant(art.getRestaurantName()).getRestaurantType());
 		}
 		LocalDateTime dateTime = LocalDateTime.now(); // Gets the current date and time
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -193,7 +195,6 @@ public class OrderDAO {
 	        			entry.getValue().setOrderStatus(OrderStatus.Canceled);
 	        			String b=entry.getValue().getBuyer();
 	        			buyerDAO.changeBuyerPointsWhenCanceling(b,entry.getValue().getPrice());
-
 	        }
 	    }
 		try {

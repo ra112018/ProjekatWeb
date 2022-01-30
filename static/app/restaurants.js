@@ -244,8 +244,6 @@ Vue.component("restaurants", {
 				}else if(this.sortingCriterion == "ocena"){
 					this.restaurants.sort(this.checkGrade);
 				}
-				
-				
 			}
 		},
 		filter(value){

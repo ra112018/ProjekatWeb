@@ -107,4 +107,14 @@ public class RequestDAO {
         return null;
 	}
 
+	public boolean delivererRequestedOrder(String uName, String idOrder) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<Integer, Request> entry : requests.entrySet()) {
+            if(entry.getValue().getIdOrder().equals(idOrder) && entry.getValue().getDeliverer().equals(uName)) {
+                return true;
+            }
+        }
+		return false;
+	}
+
 }

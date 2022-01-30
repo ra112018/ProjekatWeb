@@ -11,6 +11,15 @@ public class Order {
 	private String restaurantName;
 	private String timeOfOrder; 
 	private double price;
+	private RestaurantType restaurantType;
+	public RestaurantType getRestaurantType() {
+		return restaurantType;
+	}
+
+	public void setRestaurantType(RestaurantType restaurantType) {
+		this.restaurantType = restaurantType;
+	}
+
 	private String buyerNameSurname; //samo ime i prezime treba  // misli se samo na kupca
 	private OrderStatus orderStatus;
 	

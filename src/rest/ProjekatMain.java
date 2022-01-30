@@ -733,7 +733,9 @@ public class ProjekatMain {
 					if(deliverer != null){
 						for (Map.Entry<String, Order> entry : orderDAO.getOrders().entrySet()) {
 							if(entry.getValue().getOrderStatus()!=null && entry.getValue().getOrderStatus().equals(OrderStatus.WaitingDeliverer) ) {
-								orders.add( entry.getValue());
+								if(!requestDAO.delivererRequestedOrder(uName,entry.getValue().getIdOrder())) {
+									orders.add( entry.getValue());
+								}
 							}
 							else if(entry.getValue().getOrderStatus()!=null && entry.getValue().getOrderStatus().equals(OrderStatus.InTransport)) {
 								
@@ -793,17 +795,16 @@ public class ProjekatMain {
 		});
 		post("/buyerCancelOrder",(req, res) -> {
 			String idO = req.queryParams("idOrder");
+			String uName = req.queryParams("userName");
+
 			boolean orderSuccess;
 			boolean niceBuyer;
-
-			String userName=orderDAO.findUserByOrder(idO);
-
 			orderSuccess=orderDAO.cancelOrder(idO);
-			niceBuyer=canceledOrdersDAO.addOrder(idO,userName);
-			if(niceBuyer == false) {
+			niceBuyer=canceledOrdersDAO.addOrder(idO,uName);
+			if(niceBuyer == true) {
 				return niceBuyer;
 			}
-			else return true;
+			else return false;
 		});
 		post("/approveOrder" ,(req, res) -> {
 			String idR = req.queryParams("idRequest");

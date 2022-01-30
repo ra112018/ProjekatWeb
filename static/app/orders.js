@@ -6,6 +6,8 @@ Vue.component("orders", {
 		    user:localStorage.getItem('user'),
 		    username:localStorage.getItem('username'),
 
+			sortingType:"",
+			sortingCriterion:"",
 			searchingName:"",
 			searchingPriceFrom:"",
 			searchingPriceTo:"",
@@ -16,7 +18,8 @@ Vue.component("orders", {
 			orders:[],
 			ordersNew:[],
 			ordersFilter:[],
-			requests:[]
+			requests:[],
+			orderStatus:null
 
 		};
 	},
@@ -58,7 +61,6 @@ Vue.component("orders", {
 			filterByRestType(){
 				this.ordersNew = this.orders;
 				this.orders = [];
-				alert(this.restaurantType)
 				for(var i=0; i<this.ordersNew.length; i++) {
 				console.log(this.ordersNew[i])
 				if(this.restaurantType!="" && this.restaurantType===this.ordersNew[i].restaurantType ){
@@ -71,9 +73,9 @@ Vue.component("orders", {
 				this.orders = [];
 				for(var i=0; i<this.ordersNew.length; i++) {
 				
-				/*if(this.restaurantType!="" && this.restaurantType===this.ordersNew[i].restaurantType ){
+				if(this.orderStatus!="" && this.orderStatus===this.ordersNew[i].orderStatus ){
 						this.orders.push(this.ordersNew[i]);
-					}*/
+					}
 					}
 				
 			},
@@ -107,6 +109,79 @@ Vue.component("orders", {
 					}
 					}
 			},
+			checkName: function(a,b){
+			let first, second;
+			if(this.sortingCriterion == "naziv"){
+				first = a.restaurantName;
+				second = b.restaurantName;
+			}
+			if(first < second){
+				if(this.sortingType == 'rastuce'){
+					return -1;
+				}else{
+					return 1;
+				}
+			}else if(first > second){
+				if(this.sortingType == 'rastuce'){
+					return 1;
+				}else{
+					return -1;
+				}
+			}else{
+				return 0;
+			}
+			
+		},
+		checkDate: function(a,b){
+			let first, second;
+			if(this.sortingCriterion == "date"){
+				const partOfDatea = (a.timeOfOrder).split(" ")[0].split("/");
+				var realDatea = partOfDatea[2]+"-"+partOfDatea[1]+"-"+partOfDatea[0];
+				const partOfDateb = (b.timeOfOrder).split(" ")[0].split("/");
+				var realDateb = partOfDateb[2]+"-"+partOfDateb[1]+"-"+partOfDateb[0];
+				first = Date.parse(realDatea);
+				second = Date.parse(realDateb);
+			}
+			if(first < second){
+				if(this.sortingType == 'rastuce'){
+					return -1;
+				}else{
+					return 1;
+				}
+			}else if(first > second){
+				if(this.sortingType == 'rastuce'){
+					return 1;
+				}else{
+					return -1;
+				}
+			}else{
+				return 0;
+			}
+			
+		},
+		checkPrice: function(a,b){
+			let first, second;
+			if(this.sortingCriterion == "price"){
+				first = a.price;
+				second = b.price;
+			}
+			if(first < second){
+				if(this.sortingType == 'rastuce'){
+					return -1;
+				}else{
+					return 1;
+				}
+			}else if(first > second){
+				if(this.sortingType == 'rastuce'){
+					return 1;
+				}else{
+					return -1;
+				}
+			}else{
+				return 0;
+			}
+			
+		},
 			
 			searchDateFrom(){
 				
@@ -131,6 +206,24 @@ Vue.component("orders", {
 					}
 					}
 			},
+			
+			sortOrders: function(){
+			if(this.sortingType != "rastuce" && this.sortingType != "opadajuce"){
+				alert("Potrebno je uneti tip sortiranja");
+				
+			}else{
+				if(this.sortingCriterion != "naziv" && this.sortingCriterion != "date" && this.sortingCriterion!= "price"){
+					alert("Potrebno je uneti kriterijum sortiranja");
+				}else if(this.sortingCriterion == "naziv"){
+					this.orders.sort(this.checkName);
+				}else if(this.sortingCriterion == "date"){
+
+					this.orders.sort(this.checkDate);
+				}else if(this.sortingCriterion == "price"){
+					this.orders.sort(this.checkPrice);
+				}
+			}
+		},
 			
 			search(){
 			this.ordersNew = this.orders;
@@ -166,7 +259,6 @@ Vue.component("orders", {
 					.then(function(response){
 						alert("Porudzbina je u pripremi!")
 					   
-
 					});
 					this.refreshPage();
 		},
@@ -202,7 +294,10 @@ Vue.component("orders", {
 						alert("Uspešno otkazana porudžbina!")
                 }
                 else{
-                    alert("Otkazali ste porudžbine više od 5 puta u poslednjih 30 dana, te ste ubačeni u listu sumnjivih korisnika.")
+						if(respose.data ==false){
+							alert("Otkazali ste porudžbine više od 5 puta u poslednjih 30 dana, te ste ubačeni u listu sumnjivih korisnika.")
+
+						}
                 }
 					});
 					this.refreshPage();
@@ -267,25 +362,25 @@ Vue.component("orders", {
 				  <option value="Pancakes">Palačinke</option>
 				  <option value="Barbecue">Roštilj</option>
 	        </select> <label>Status</label>
-	        <select name="status" id="status"  @change="filterByStatus">
-	            <option value="brza">Obrada</option>
-	            <option value="giros">U pripremi</option>
-	            <option value="kineska">Čeka dostavljača</option>
-	            <option value="kuvana">U transportu</option>
-	            <option value="palačinke">Dostavljena</option>
-	            <option value="pizza">Otkazana</option>
+	        <select name="status" id="status" v-model="orderStatus"  @change="filterByStatus">
+	            <option value="Processing">Obrada</option>
+	            <option value="InPreparation">U pripremi</option>
+	            <option value="WaitingDeliverer">Čeka dostavljača</option>
+	            <option value="InTransport">U transportu</option>
+	            <option value="Delivered">Dostavljena</option>
+	            <option value="Canceled">Otkazana</option>
 	        </select>
 	        &nbsp;
-	        <strong>Sortiraj prema: </strong> <select name="sortiranje" id="sort">
-	        <option value="naziv">Naziv restorana</option>
-	        <option value="lokacija">Cena porudžbine</option>
-	        <option value="ocena">Datum porudžbine</option>
-	        </select>  <select name="kriterijum" id="kriterijum">
-	        <option value="rastuće">Rastuće</option>
-	        <option value="opadajuće">Opadajuće</option>
-		
+	        <strong>Sortiraj prema: </strong>
+			<select name="sortiranje" id="sort" v-model="sortingCriterion">
+		        <option v-if="role==='kupac'|| role==='deliverer'" value="naziv">Naziv restorana</option>
+		        <option value="price">Cena porudžbine</option>
+		        <option value="date">Datum porudžbine</option>
+	        </select>  <select name="kriterijum" id="kriterijum" v-model="sortingType">
+		        <option value="rastuce">Rastuće</option>
+		        <option value="opadajuce">Opadajuće</option>
 	        </select>
-	         <button> Sortiraj</button></td>
+	         <button v-on:click="sortOrders"> Sortiraj</button></td>
     	</div>
 		
 		<br><br><br>
@@ -301,7 +396,7 @@ Vue.component("orders", {
 				</tr>
 				<tr v-for="order in orders">
 					<td>{{order.idOrder}}</td>
-					<td>{{order.articles[0].restaurantName}}</td><div v-for="article in order.articles">
+					<td>{{order.restaurantName}}</td><div v-for="article in order.articles">
 					<td colspan="2">{{article.articleName}}   {{article.numberOfArticles}}</td></div>
 
 					<td>{{order.price}}</td>
@@ -322,7 +417,7 @@ Vue.component("orders", {
 			<tr v-for="request in requests">
 			<td>{{request.idRequest}}</td>
 			<td>{{request.idOrder}}</td>
-			<td>{{request.deliverer.userName}}</td>
+			<td>{{request.deliverer}}</td>
 			<td><button v-on:click="approve(request.idRequest)">Odobri</button></td>
 			</tr>
 			
