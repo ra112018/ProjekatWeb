@@ -158,6 +158,28 @@ Vue.component("home-page", {
 				}
 			}
 		},
+		searchingByName(){
+			this.searchingRestaurants = this.restaurants;
+			this.restaurants = [];
+			for(var i = 0; i< this.searchingRestaurants.length;i++){
+				if((this.searchingRestaurants[i].restaurantName).includes(this.searchingName)){
+					this.restaurants.push(this.searchingRestaurants[i]);
+				}
+			}
+		},
+		searchingByLocation(){
+			this.searchingRestaurants = this.restaurants;
+			this.restaurants = [];
+			for(var i = 0; i< this.searchingRestaurants.length;i++){
+				for(var j = 0; j< this.locations.length;j++){
+					if(this.searchingRestaurants[i].locationId === this.locations[j].idLocation){
+						if((this.locations[j].city).includes(this.searchingLocation)){
+							this.restaurants.push(this.searchingRestaurants[i]);
+					}
+					}
+				}
+			}
+		},
 		search(){
 			this.restaurants = [];
 			if(((this.searchingName == "" && this.searchingLocation == "") && this.restaurantType == "")&& this.grade == ""){
@@ -291,8 +313,8 @@ Vue.component("home-page", {
 		<br><br>
 		<div class="pretraga">
 			<form @submit="search">
-				<input type="text" v-model="searchingName" placeholder="Naziv"></input>
-				<input type="text" v-model="searchingLocation" placeholder="Lokacija"></input>
+				<input type="text" v-model="searchingName" placeholder="Naziv" @change="searchingByName"></input>
+				<input type="text" v-model="searchingLocation" placeholder="Lokacija" @change="searchingByLocation"></input>
 				
 		<strong>Tip restorana: </strong>
 		 <select name="restaurantType" id="restaurantType" @change="searchRestType" v-model="restaurantType">
