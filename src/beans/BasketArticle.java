@@ -4,9 +4,27 @@ public class BasketArticle {
 
 	int numberOfArticles;
 	public String articleName;
+	public String articlePhoto;
+	private double price;
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	boolean deletedFromBasket;
 	public boolean isDeletedFromBasket() {
 		return deletedFromBasket;
+	}
+
+	public String getArticlePhoto() {
+		return articlePhoto;
+	}
+
+	public void setArticlePhoto(String articlePhoto) {
+		this.articlePhoto = articlePhoto;
 	}
 
 	public void setDeletedFromBasket(boolean deletedFromBasket) {

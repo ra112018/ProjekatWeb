@@ -250,6 +250,7 @@ public class ProjekatMain {
 				else 
 				{
 					deliverer.setDeleted(false);
+					deliverer.setDeliveryOrders(new ArrayList<String>());
 					delivererDAO.addDeliverer(deliverer);
 					return true;
 				}
@@ -419,7 +420,6 @@ public class ProjekatMain {
 
 			l = locationDAO.findLocation(Integer.valueOf(locationId));
 			return gsonReg.toJson(l);
-
 						
 		});
 		
@@ -738,15 +738,12 @@ public class ProjekatMain {
 								}
 							}
 							else if(entry.getValue().getOrderStatus()!=null && entry.getValue().getOrderStatus().equals(OrderStatus.InTransport)) {
-								
-								System.out.println(entry.getValue().getIdOrder()+"  Id porudzbine");
-								for ( String o : deliverer.getDeliveryOrders()) {
-									System.out.println(o+"  Id porudzbine iz liste");
-
-									if(o.equals(entry.getValue().getIdOrder())) {
-										orders.add( entry.getValue());
+								for(int i = 0;i< deliverer.getDeliveryOrders().size();i++) {
+									if(deliverer.getDeliveryOrders().get(i).equals(entry.getValue().getIdOrder())) {
+											orders.add( entry.getValue());
 									}
-							}
+								}
+							
 						}
 					}
 					}

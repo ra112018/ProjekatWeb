@@ -123,7 +123,9 @@ Vue.component("myRestaurants", {
 					});
 					this.refreshPage();
 		},
-		findArticles: function(id){
+		findArticles: function(){
+				console.log(this.restaurant);
+				var id = this.restaurant.restaurantName;
 				axios.get('/articles?id='+id).then(response => {
 				this.articles=response.data;
 			});
@@ -269,10 +271,11 @@ Vue.component("myRestaurants", {
 		            this.restaurant=response.data;
 		         	localStorage.setItem("restaurantName", this.restaurant.restaurantName);
 					this.findLocation(this.restaurant.locationId);
+					this.findArticles();
+
 
 		       } });
 			if(!this.deleted){
-			this.findArticles(window.localStorage.getItem('restaurantName'));
 			
 			axios.get('/comments',{params:{restaurantName: window.localStorage.getItem('restaurantName')}}).then(response => {
 				this.comments=response.data;

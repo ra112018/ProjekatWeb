@@ -67,7 +67,6 @@ Vue.component("restaurants", {
 						orderedRestaurant.restaurantType = response.data[i].restaurantType;
 						
 					    this.orderedFromRestaurants.push(orderedRestaurant);
-
 		            }
 		         
 		        });

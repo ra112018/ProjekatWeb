@@ -32,7 +32,7 @@
  	addComment: function(){
 					axios
 					.post('/addComment', {customerOfOrder: this.username, 
-										restaurant: this.restaurant, 
+										restaurant: this.restaurant.restaurantName, 
 										text: this.text, 
 										mark: this.mark})
 						

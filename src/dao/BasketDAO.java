@@ -60,6 +60,9 @@ public class BasketDAO {
 		ArticleDAO ad=new ArticleDAO();
 		Article article=ad.findArticleByName(articleName);				
 		BasketArticle ba=new BasketArticle(article);
+		ba.setPrice(article.getPrice());
+		ba.setArticlePhoto(article.getArticlePhoto());
+
 		for (Map.Entry<String, Basket> entry : baskets.entrySet()) {
 			
 	        if(entry.getValue().getUserName().equals(username) && entry.getValue().isEmpty()!=true ) {
