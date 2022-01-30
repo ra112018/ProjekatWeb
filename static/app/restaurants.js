@@ -35,24 +35,29 @@ Vue.component("restaurants", {
 	
 	methods: {
 		refreshPage(){
-
+			this.restaurants = [];
 			axios.get('/restaurants')
 				.then(response => {
-		           
+		           	
 		            for(var i =0;i< response.data.length;i++){
-		                var restaurant = {};
+		                 var restaurant = {};
 		                restaurant = response.data[i];
-						restaurant.restaurantName = response.data[i].restaurantName;
-						restaurant.status = response.data[i].status;
-						restaurant.restaurantType = response.data[i].restaurantType;
-						restaurant.locationId = response.data[i].locationId;
-						this.findLocation(restaurant.locationId);
-												
-					    this.restaurants.push(restaurant);
+					     this.restaurants.push(restaurant);
+
 		            }
 
 		         
 		        });
+		axios.get('/allLocations')
+				.then(response => {
+		           
+		            for(var i =0;i< response.data.length;i++){
+		                var locationTemp = {};
+		                 locationTemp = response.data[i];
+					     this.locations.push(locationTemp);
+		            }
+		        });
+
 
 				if(this.role==='kupac'){
 			 this.username = window.localStorage.getItem('username');
@@ -81,6 +86,7 @@ Vue.component("restaurants", {
 						for(var j = 0; j< this.restaurants.length;j++){
 							if(grade.mark!=0 && grade.restaurantName == this.restaurants[j].restaurantName){
 								this.restaurants[j].avgGrade = grade.mark;
+								console.log("ocenaaa");
 							}
 						}
 		            }
@@ -105,9 +111,9 @@ Vue.component("restaurants", {
 			axios.post('/deleteRestaurant', {rName: id},{params:{rName:  id}})
         .then(response =>{
           		alert("Uspešno izbrisan restoran");
-
+				this.refreshPage();
             });
-		this.refreshPage();
+		
 		},
 		selectRestaurant: function(id){
 			router.push({ path: `/selectedRestaurant/${id}` })
@@ -302,6 +308,7 @@ Vue.component("restaurants", {
 								this.restaurants[j].avgGrade = grade.mark;
 							}
 						}
+						console.log(this.restaurants);
 		            }
 		        });
 
