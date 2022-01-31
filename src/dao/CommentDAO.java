@@ -100,7 +100,7 @@ public class CommentDAO {
 		HashMap<Integer,Comment> c=new HashMap<Integer,Comment>();
 		for (Map.Entry<Integer, Comment> entry : comments.entrySet()) {
 
-	        if((entry.getValue().getRestaurant()).equals(rName) ) {
+	        if((entry.getValue().getRestaurant()).equals(rName) &&  !entry.getValue().getApproved().equals(CommentStatus.Deleted)) {
 	        	c.put((entry.getValue().getIdComment()),entry.getValue());
 
 	        }
@@ -114,6 +114,23 @@ public class CommentDAO {
 		for (Map.Entry<Integer, Comment> entry : comments.entrySet()) {
 	        if(entry.getValue().getIdComment()==Integer.parseInt(idC) ) {
 	        	entry.getValue().setApproved(CommentStatus.Approved);
+	        }
+	    }
+		try {
+			addCommentInFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return true;
+	}
+	
+	public boolean deleteComment(String idC) {
+		// TODO Auto-generated method stub
+		for (Map.Entry<Integer, Comment> entry : comments.entrySet()) {
+	        if(entry.getValue().getIdComment()==Integer.parseInt(idC) ) {
+	        	entry.getValue().setApproved(CommentStatus.Deleted);
 	        }
 	    }
 		try {

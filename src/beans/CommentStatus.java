@@ -4,5 +4,6 @@ public enum CommentStatus {
 
 	WaitingForApproval,
 	Approved,
-	Rejected
+	Rejected,
+	Deleted
 }

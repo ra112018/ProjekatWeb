@@ -34,6 +34,17 @@ Vue.component("allComments", {
 				this.refreshPage();
 				
 		},
+		deleteComment: function(idComment){
+			axios
+					.post('/deleteComment',{},{ params:{ id:idComment }})
+						
+					.then(function(response){
+							alert("Obrisan komentar!")
+					});
+				this.refreshPage();
+
+				
+		},
 		
 		declineComment: function(event){
 			
@@ -77,6 +88,7 @@ Vue.component("allComments", {
                             <th>Ocena</th>
                             <th>Restoran</th>
                             <th>Odobravanje</th>
+							<th v-if="this.role ==='administrator'"> Brisanje</th>
                         </tr>
                         <tr v-for="comment in comments">
                             <td> {{comment.customerOfOrder}}</td>
@@ -85,6 +97,7 @@ Vue.component("allComments", {
                             <td>{{comment.restaurant}} </td>
                             <td v-if="this.role === 'manager'" v-if="comment.approved==='WaitingForApproval'"><button @click="acceptComment(comment.idComment)">Prihvati</button><button @click="declineComment">Odbij</button></td>
                             <td v-if="comment.approved !=='WaitingForApproval'">{{comment.approved}}</td>
+                            <td><button v-if="role === 'administrator'" @click="deleteComment(comment.idComment)">Obriši</button></td>
 
                             </tr>
                     </table>

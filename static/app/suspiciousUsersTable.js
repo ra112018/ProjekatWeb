@@ -56,6 +56,23 @@ Vue.component("suspiciousUsersTable", {
           }
 			
 		},
+		blockUser(event){
+            
+            username = event.target.id;
+             for(var i =0;i<this.users.length;i++){
+              if(this.users[i].username == username){
+                    axios
+                .post('/blockUser',{}, {params:{userName:username}})
+                .then((response)=> {
+                    alert("Korisnik je blokiran");
+                    this.users = [];
+                    this.refreshPage();
+                })
+                
+              }
+          }                    
+        
+        },
 		
 		search(){
 			this.users = [];
@@ -233,7 +250,7 @@ Vue.component("suspiciousUsersTable", {
 					<td>{{user.points}}</td>
 					
 					<td> <button @click="deleteUser" :id="user.username"> Obrisi</button></td>             
-					<td v-if="user.blocked == false"> <button  :id="user.username"> Blokiraj</button></td>
+					<td v-if="user.blocked == false"> <button  :id="user.username" @click="blockUser"> Blokiraj</button></td>
                     <td v-if="user.blocked == true"> <button :disabled=true  :id="user.username"> Blokiraj</button></td>
                                  
 				</tr>

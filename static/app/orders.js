@@ -35,10 +35,6 @@ Vue.component("orders", {
 		                this.orders.push(order);
 		            }
 		        });
-
-		    
-		
-		
 		if(this.role=="manager"){
 			axios.get('/requestsForMyRestaurant',{params:{userName: this.username}})
 				.then(response => {
@@ -50,12 +46,9 @@ Vue.component("orders", {
 
 		                this.requests.push(request);
 		            }
-
-
 		        });
 		}
 		},
-		
 		
 		
 			filterByRestType(){
@@ -77,7 +70,6 @@ Vue.component("orders", {
 						this.orders.push(this.ordersNew[i]);
 					}
 					}
-				
 			},
 			searchRestName(){
 				
@@ -288,17 +280,16 @@ Vue.component("orders", {
 			axios
 					.post('/buyerCancelOrder', {userName: this.username,idOrder:value
                     },{params:{userName: this.username,idOrder:value}})
-						
 					.then(function(response){
-						 if(response.data){
-						alert("Uspešno otkazana porudžbina!")
-                }
-                else{
-						if(respose.data ==false){
-							alert("Otkazali ste porudžbine više od 5 puta u poslednjih 30 dana, te ste ubačeni u listu sumnjivih korisnika.")
+							console.log("1")
+							console.log(response.data)
+							alert("Uspešno otkazana porudžbina!");
+							if(response.data == false){
+								console.log("2")
 
-						}
-                }
+								alert("Otkazali ste porudžbine više od 5 puta u poslednjih 30 dana, te ste ubačeni u listu sumnjivih korisnika.");
+							}
+							
 					});
 					this.refreshPage();
 		}

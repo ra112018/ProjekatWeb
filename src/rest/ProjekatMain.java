@@ -835,6 +835,12 @@ public class ProjekatMain {
 			approveSuccess=commentDAO.approveComment(idC);
 			return approveSuccess;
 		});
+		post("/deleteComment",(req, res) -> {
+			String idC = req.queryParams("id");
+			boolean deleteSuccess;
+			deleteSuccess=commentDAO.deleteComment(idC);
+			return deleteSuccess;
+		});
 		post("/declineComment",(req, res) -> {
 			String idC = req.queryParams("idComment");
 			boolean approveSuccess;
@@ -913,9 +919,10 @@ public class ProjekatMain {
 			String rName =  req.queryParams("restaurantName");
 			Gson gsonReg = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			ArrayList<Comment> commentList = new ArrayList<Comment>();
-			CommentDAO commentDao = new CommentDAO();
-			for (Map.Entry<Integer, Comment> entry : commentDao.getComments().entrySet()) {
+			for (Map.Entry<Integer, Comment> entry : commentDAO.getComments().entrySet()) {
+				if(entry.getValue().getApproved() != CommentStatus.Rejected && entry.getValue().getApproved() != CommentStatus.Deleted) {
 					commentList.add( entry.getValue());
+				}
 			}
 			return gsonReg.toJson(commentList);
 						

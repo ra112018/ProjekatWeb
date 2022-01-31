@@ -61,8 +61,8 @@ Vue.component("basket", {
 		axios.post('/order',{userName:this.username},{params:{userName:this.username,price:this.price}})
 		.then(function(response){
 			alert("Porudžbina je u statusu obrade!");
-			refresh();
 		});
+		this.refresh();
 	},
 	refresh: function(){
 		let id = this.$route.params.id;
