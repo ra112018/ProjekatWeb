@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,9 +71,14 @@ public class CanceledOrdersDAO {
 		for(int i = 0; i < canceledOrders.size(); i++) {
 
 			for (Map.Entry<Integer, CanceledOrders> entry : canceledOrders.entrySet()) {
-		        if(entry.getValue().getUserName().equals(userName)) {
+				
+				Calendar cal = new GregorianCalendar();
+				cal.setTime(new Date());
+				cal.add(Calendar.DAY_OF_MONTH, -31);
+				Date today30 = cal.getTime();
+		        if(entry.getValue().getUserName().equals(userName) && entry.getValue().getDate().after(today30)) {
 		        	 numberOfCancelings ++;
-		        }
+		        	 }
 		    }			
 		
 		}	
